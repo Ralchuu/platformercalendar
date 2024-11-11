@@ -1,1 +1,1 @@
-kuvat
+Tänne kuvat, audio jne
