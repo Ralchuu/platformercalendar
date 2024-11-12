@@ -1,1 +1,0 @@
-Tänne kuvat, audio jne
