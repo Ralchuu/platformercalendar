@@ -1,7 +1,7 @@
 const config = {
   type: Phaser.AUTO,
-  width: 64*16,
-  height: 64*9,
+  width: 64 * 16, // Canvas width
+  height: 64 * 9, // Canvas height
   physics: {
     default: "arcade",
     arcade: {
@@ -30,31 +30,60 @@ let coyoteTimer = 0;
 let jumpBufferTime = 20;
 let jumpBufferTimer = 0;
 let platforms;
+let doors = [];
+let openedDoors = Array(24).fill(false); // Tracks whether each door is opened
 
 function preload() {
   this.load.image("player", "assets/player.png");
   this.load.image("platform", "assets/platform.png");
+  this.load.image("door", "assets/door.png"); // Placeholder for doors
 }
 
 function create() {
+  // Extend world bounds (making it wider than the canvas width)
+  this.physics.world.setBounds(0, 0, config.width * 4, config.height);
+
+  // Add platforms
   platforms = this.physics.add.staticGroup();
 
-  const platform1 = platforms.create(400, 600, "platform").setScale(100, 2);
-  platform1.refreshBody();
+  // Ground platform
+  platforms.create(config.width * 2, 600, "platform").setScale(400, 2).refreshBody();
 
-  const platform2 = platforms.create(300, 500, "platform").setScale(1.5, 0.5);
-  platform2.refreshBody();
-  const platform3 = platforms.create(400, 500, "platform").setScale(1.5, 0.5);
-  platform3.refreshBody();
+  // The platform will be at position (400, 568)
+  platforms.create(300, 530, "platform").setScale(2, 3).refreshBody();
+  platforms.create(400, 450, "platform").setScale(3, 1).refreshBody();  
 
-  player = this.physics.add.sprite(400, 300, "player");
+  // Additional platforms and doors
+  for (let i = 1; i <= 24; i++) {
+    // Position doors and platforms incrementally further to the right
+    const x = i * 500; // Position doors every 500px to the right
+    const y = Phaser.Math.Between(400, 400); // Random platform height
+
+    // Platform under each door
+    platforms.create(x, y, "platform").setScale(1.5, 0.5).refreshBody();
+
+    // Door positioned slightly above the platform
+    const door = this.physics.add.sprite(x, y - 60, "door");
+    door.setImmovable(true);
+    door.body.allowGravity = false;
+    doors.push(door);
+  }
+
+  // Add player
+  player = this.physics.add.sprite(100, 300, "player");
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
+  // Camera follows the player
+  this.cameras.main.startFollow(player);
+  this.cameras.main.setBounds(0, 0, config.width * 4, config.height);
+
+  // Collide player with platforms
   this.physics.add.collider(player, platforms, () => {
-    if(player.body.touching.down)
-{    canJump = true;
-    coyoteTimer = 0;}
+    if (player.body.touching.down) {
+      canJump = true;
+      coyoteTimer = 0;
+    }
 
     if (jumpBufferTimer > 0 && jumpButtonPressed) {
       player.setVelocityY(-330);
@@ -63,6 +92,12 @@ function create() {
     }
   });
 
+  // Add overlap for doors
+  doors.forEach((door, index) => {
+    this.physics.add.overlap(player, door, () => openDoor(index), null, this);
+  });
+
+  // Add controls
   cursors = this.input.keyboard.createCursorKeys();
   wasd = {
     up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -70,7 +105,6 @@ function create() {
     down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
     right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
   };
-
   spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 }
 
@@ -122,7 +156,14 @@ function update(time, delta) {
     !wasd.up.isDown &&
     !spaceBar.isDown
   ) {
-
     jumpButtonPressed = false;
+  }
+}
+
+// Function to open a door
+function openDoor(index) {
+  if (!openedDoors[index]) {
+    openedDoors[index] = true;
+    console.log(`Door ${index + 1} opened!`);
   }
 }
