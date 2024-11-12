@@ -32,11 +32,17 @@ let jumpBufferTimer = 0;
 let platforms;
 let doors = [];
 let openedDoors = Array(24).fill(false); // Tracks whether each door is opened
+let hazard;
+
+// Player starting position
+const playerStartX = 100;
+const playerStartY = 300;
 
 function preload() {
   this.load.image("player", "assets/player.png");
   this.load.image("platform", "assets/platform.png");
   this.load.image("door", "assets/door.png"); // Placeholder for doors
+  this.load.image("hazard", "assets/bomb.png"); // Placeholder for hazard object
 }
 
 function create() {
@@ -55,14 +61,9 @@ function create() {
 
   // Additional platforms and doors
   for (let i = 1; i <= 24; i++) {
-    // Position doors and platforms incrementally further to the right
     const x = i * 500; // Position doors every 500px to the right
     const y = Phaser.Math.Between(400, 405); // Random platform height
-
-    // Platform under each door
     platforms.create(x, y, "platform").setScale(1.5, 0.5).refreshBody();
-
-    // Door positioned slightly above the platform
     const door = this.physics.add.sprite(x, y - 60, "door");
     door.setImmovable(true);
     door.body.allowGravity = false;
@@ -70,7 +71,7 @@ function create() {
   }
 
   // Add player
-  player = this.physics.add.sprite(100, 300, "player");
+  player = this.physics.add.sprite(playerStartX, playerStartY, "player");
   player.setBounce(0);
   player.setCollideWorldBounds(true);
 
@@ -84,13 +85,16 @@ function create() {
       canJump = true;
       coyoteTimer = 0;
     }
-
     if (jumpBufferTimer > 0 && jumpButtonPressed) {
       player.setVelocityY(-330);
       jumpBufferTimer = 0;
       jumpButtonPressed = false;
     }
   });
+
+  // Hazard mechanic
+  hazard = this.physics.add.staticSprite(650, 400, "hazard");
+  this.physics.add.overlap(player, hazard, resetPlayerPosition, null, this);
 
   // Add overlap for doors
   doors.forEach((door, index) => {
@@ -158,6 +162,12 @@ function update(time, delta) {
   ) {
     jumpButtonPressed = false;
   }
+}
+
+// Function to reset player position upon collision with hazard
+function resetPlayerPosition() {
+  player.setPosition(playerStartX, playerStartY);
+  player.setVelocity(0, 0); // Stop any momentum
 }
 
 // Function to open a door
