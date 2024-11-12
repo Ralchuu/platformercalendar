@@ -41,7 +41,7 @@ function preload() {
 
 function create() {
   // Extend world bounds (making it wider than the canvas width)
-  this.physics.world.setBounds(0, 0, config.width * 4, config.height);
+  this.physics.world.setBounds(0, 0, config.width * 2, config.height);
 
   // Add platforms
   platforms = this.physics.add.staticGroup();
@@ -57,7 +57,7 @@ function create() {
   for (let i = 1; i <= 24; i++) {
     // Position doors and platforms incrementally further to the right
     const x = i * 500; // Position doors every 500px to the right
-    const y = Phaser.Math.Between(400, 400); // Random platform height
+    const y = Phaser.Math.Between(400, 405); // Random platform height
 
     // Platform under each door
     platforms.create(x, y, "platform").setScale(1.5, 0.5).refreshBody();
@@ -76,7 +76,7 @@ function create() {
 
   // Camera follows the player
   this.cameras.main.startFollow(player);
-  this.cameras.main.setBounds(0, 0, config.width * 4, config.height);
+  this.cameras.main.setBounds(0, 0, config.width * 2, config.height);
 
   // Collide player with platforms
   this.physics.add.collider(player, platforms, () => {
