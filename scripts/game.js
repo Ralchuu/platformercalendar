@@ -39,13 +39,20 @@ const playerStartX = 100;
 const playerStartY = 300;
 
 function preload() {
-  this.load.image("player", "assets/player.png");
-  this.load.image("platform", "assets/platform.png");
-  this.load.image("door", "assets/door.png"); // Placeholder for doors
+  this.load.image("background", "assets/2testbackground.png"); // Replace with your actual background path
+  this.load.image("player", "assets/elf1.png");
+  this.load.image("platform", "assets/ground1.png");
+  this.load.image("door", "assets/castledoors.png"); // Placeholder for doors
   this.load.image("hazard", "assets/bomb.png"); // Placeholder for hazard object
 }
 
 function create() {
+    // Add the background as a repeating tile
+  const bg = this.add.tileSprite(0, 0, config.width * 2, config.height, "background").setOrigin(0, 0);
+  
+   // Set the background size to match the world bounds (make it scroll with the camera)
+   bg.setDisplaySize(config.width * 2, config.height);
+
   // Extend world bounds (making it wider than the canvas width)
   this.physics.world.setBounds(0, 0, config.width * 2, config.height);
 
@@ -53,17 +60,17 @@ function create() {
   platforms = this.physics.add.staticGroup();
 
   // Ground platform
-  platforms.create(config.width * 2, 600, "platform").setScale(400, 2).refreshBody();
+  platforms.create(config.width * 2, 600, "platform").setScale(400, 1).refreshBody();
 
   // The platform will be at position (400, 568)
-  platforms.create(300, 530, "platform").setScale(2, 3).refreshBody();
-  platforms.create(400, 450, "platform").setScale(3, 1).refreshBody();  
+  platforms.create(200, 505, "platform").setScale(1, 0.5).refreshBody();
+  platforms.create(400, 470, "platform").setScale(1, 1).refreshBody();  
 
   // Additional platforms and doors
   for (let i = 1; i <= 24; i++) {
-    const x = i * 500; // Position doors every 500px to the right
-    const y = Phaser.Math.Between(400, 405); // Random platform height
-    platforms.create(x, y, "platform").setScale(1.5, 0.5).refreshBody();
+    const x = i * 600; // Position doors every 500px to the right
+    const y = Phaser.Math.Between(330, 330); // Random platform height
+    platforms.create(x, y, "platform").setScale(1.5, 0.2).refreshBody();
     const door = this.physics.add.sprite(x, y - 60, "door");
     door.setImmovable(true);
     door.body.allowGravity = false;
@@ -93,8 +100,12 @@ function create() {
   });
 
   // Hazard mechanic
-  hazard = this.physics.add.staticSprite(650, 400, "hazard");
+  hazard = this.physics.add.staticSprite(300, 280, "hazard").setScale(0.5, 0.5).refreshBody();;
   this.physics.add.overlap(player, hazard, resetPlayerPosition, null, this);
+
+  hazard = this.physics.add.staticSprite(700, 400, "hazard").setScale(0.5, 0.5).refreshBody();;
+  this.physics.add.overlap(player, hazard, resetPlayerPosition, null, this);
+
 
   // Add overlap for doors
   doors.forEach((door, index) => {
