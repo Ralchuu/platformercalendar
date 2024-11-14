@@ -79,11 +79,6 @@ function create() {
       player.canJump = true;
       player.coyoteTimer = 0;
     }
-    if (player.jumpBufferTimer > 0 && player.jumpButtonPressed) {
-      player.setVelocityY(-330);
-      player.jumpBufferTimer = 0;
-      player.jumpButtonPressed = false;
-    }
   });
 
   // Hazard mechanics
