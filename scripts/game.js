@@ -25,8 +25,8 @@ let player;
 let cursors;
 let wasd;
 let spaceBar;
-let walls; // Now using "platform" assets
-let platforms; // Now using "wall" assets
+let walls;
+let platforms;
 let doors = [];
 let openedDoors = Array(24).fill(false);
 
