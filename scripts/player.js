@@ -1,8 +1,11 @@
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, texture) {
+  constructor(scene, x, y, texture, platforms) {
     super(scene, x, y, texture);
     scene.add.existing(this);
     scene.physics.add.existing(this);
+
+    // Save reference to non-wall-jumpable platforms
+    this.platforms = platforms;
 
     // Physics properties
     this.setBounce(0);
@@ -26,14 +29,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(cursors, wasd, spaceBar, delta) {
-    // Lock inputs during wall jump
     if (this.isWallJumping) {
       this.wallJumpTimer -= delta;
       if (this.wallJumpTimer <= 0) {
         this.wallJumpTimer = 0;
-        this.isWallJumping = false; // Unlock input
+        this.isWallJumping = false;
       }
-      return; // Skip further input handling during wall jump
+      return;
     }
 
     this.setVelocityX(0);
@@ -44,7 +46,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.setVelocityX(250);
     }
 
-    // Handle ground and coyote time logic
     if (this.body.touching.down) {
       this.canJump = true;
       this.coyoteTimer = this.coyoteTime;
@@ -57,16 +58,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    // Wall detection
-    const touchingLeftWall = this.body.blocked.left;
-    const touchingRightWall = this.body.blocked.right;
+    const touchingLeftWall = this.body.blocked.left && !this.isTouchingPlatform(-1);
+    const touchingRightWall = this.body.blocked.right && !this.isTouchingPlatform(1);
 
-    // Jump button released state
     if (!cursors.up.isDown && !wasd.up.isDown && !spaceBar.isDown) {
       this.jumpButtonReleased = true;
     }
 
-    // Handle jumping logic
     if (
       (cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
       this.jumpButtonReleased &&
@@ -79,11 +77,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.jumpButtonReleased = false;
         this.coyoteTimer = 0;
       } else if (touchingLeftWall || touchingRightWall) {
-        // Wall jump logic
         this.isWallJumping = true;
         this.wallJumpTimer = this.wallJumpLockTime;
-
-        // Determine jump direction away from wall
         const jumpDirection = touchingLeftWall ? 1 : -1;
         this.setVelocityX(300 * jumpDirection);
         this.setVelocityY(-700);
@@ -92,7 +87,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    // Process jump buffer
     if (this.jumpBufferTimer > 0) {
       this.jumpBufferTimer -= delta;
       if (this.jumpBufferTimer > 0 && this.coyoteTimer > 0) {
@@ -104,7 +98,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    // Reset jump button states if released
     if (
       this.jumpButtonPressed &&
       !cursors.up.isDown &&
@@ -114,6 +107,31 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.jumpButtonPressed = false;
       this.jumpButtonReleased = true;
     }
+  }
+
+  isTouchingPlatform(direction) {
+    const platforms = this.platforms.getChildren();
+    return platforms.some(platform => {
+      const platformBounds = platform.getBounds();
+      const playerBounds = this.getBounds();
+
+      if (direction === -1) {
+        return (
+          playerBounds.left <= platformBounds.right &&
+          playerBounds.right > platformBounds.left &&
+          playerBounds.bottom > platformBounds.top &&
+          playerBounds.top < platformBounds.bottom
+        );
+      } else if (direction === 1) {
+        return (
+          playerBounds.right >= platformBounds.left &&
+          playerBounds.left < platformBounds.right &&
+          playerBounds.bottom > platformBounds.top &&
+          playerBounds.top < platformBounds.bottom
+        );
+      }
+      return false;
+    });
   }
 
   resetPosition(startX, startY) {
