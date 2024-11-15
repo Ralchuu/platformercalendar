@@ -15,12 +15,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.coyoteTime = 100; // Coyote time window in milliseconds
     this.coyoteTimer = 0;
 
+    // Wall jump state
+    this.isWallJumping = false;
+    this.wallJumpLockTime = 300; // Lock time after wall jump
+    this.wallJumpTimer = 0;
+
     // Jump buffer settings
     this.jumpBufferTime = 100; // Buffer window in milliseconds
     this.jumpBufferTimer = 0;
   }
 
   update(cursors, wasd, spaceBar, delta) {
+    // Lock inputs during wall jump
+    if (this.isWallJumping) {
+      this.wallJumpTimer -= delta;
+      if (this.wallJumpTimer <= 0) {
+        this.wallJumpTimer = 0;
+        this.isWallJumping = false; // Unlock input
+      }
+      return; // Skip further input handling during wall jump
+    }
+
     this.setVelocityX(0);
 
     if (cursors.left.isDown || wasd.left.isDown) {
@@ -31,51 +46,59 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     // Handle ground and coyote time logic
     if (this.body.touching.down) {
-      // On the ground: reset coyote and buffer timers, allow jumping
       this.canJump = true;
-      this.coyoteTimer = this.coyoteTime; // Reset coyote time
-      this.jumpBufferTimer = 0;           // Reset jump buffer
+      this.coyoteTimer = this.coyoteTime;
+      this.jumpBufferTimer = 0;
     } else {
-      // In the air: decrease coyote timer
       this.coyoteTimer -= delta;
       if (this.coyoteTimer <= 0) {
-        this.coyoteTimer = 0; // Coyote time ends
-        this.canJump = false; // Disable further jumps once coyote time ends
+        this.coyoteTimer = 0;
+        this.canJump = false;
       }
     }
 
-    // Track if jump button is released
+    // Wall detection
+    const touchingLeftWall = this.body.blocked.left;
+    const touchingRightWall = this.body.blocked.right;
+
+    // Jump button released state
     if (!cursors.up.isDown && !wasd.up.isDown && !spaceBar.isDown) {
       this.jumpButtonReleased = true;
     }
 
-    // Start jump buffer when jump button is pressed in the air
+    // Handle jumping logic
     if (
       (cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
       this.jumpButtonReleased &&
       !this.jumpButtonPressed
     ) {
       if (this.body.touching.down || this.coyoteTimer > 0) {
-        // Jump only if on ground or within coyote time
         this.setVelocityY(-700);
         this.canJump = false;
         this.jumpButtonPressed = true;
         this.jumpButtonReleased = false;
-        this.coyoteTimer = 0; // Reset coyote timer after jumping
+        this.coyoteTimer = 0;
+      } else if (touchingLeftWall || touchingRightWall) {
+        // Wall jump logic
+        this.isWallJumping = true;
+        this.wallJumpTimer = this.wallJumpLockTime;
+
+        // Determine jump direction away from wall
+        const jumpDirection = touchingLeftWall ? 1 : -1;
+        this.setVelocityX(300 * jumpDirection);
+        this.setVelocityY(-700);
       } else {
-        // If not grounded or in coyote time, start jump buffer
         this.jumpBufferTimer = this.jumpBufferTime;
       }
     }
 
-    // Process jump buffer if active
+    // Process jump buffer
     if (this.jumpBufferTimer > 0) {
       this.jumpBufferTimer -= delta;
-      // Execute jump if the buffer is active and coyote time permits
       if (this.jumpBufferTimer > 0 && this.coyoteTimer > 0) {
         this.setVelocityY(-700);
-        this.jumpBufferTimer = 0;  // Reset buffer timer after jump
-        this.coyoteTimer = 0;      // Reset coyote time
+        this.jumpBufferTimer = 0;
+        this.coyoteTimer = 0;
         this.jumpButtonPressed = true;
         this.jumpButtonReleased = false;
       }
@@ -95,6 +118,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   resetPosition(startX, startY) {
     this.setPosition(startX, startY);
-    this.setVelocity(0, 0); // Stop any momentum
+    this.setVelocity(0, 0);
   }
 }
