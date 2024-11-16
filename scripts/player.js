@@ -48,7 +48,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     // Horizontal movement logic
-    const acceleration = 10;
+    const acceleration = 2;
     const deceleration = 10;
     const maxSpeed = 300;
 
