@@ -29,12 +29,62 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.jumpBufferTimer = 0;
 
     // Wall sliding settings
-    this.wallSlideSpeed = 30; // Slower slide speed, adjust this value to make it slower
+    this.wallSlideSpeed = 30; // Slide speed, adjust this value to make it slower
     this.wallSlideMaxSpeed = 30; // Max speed at which the player can slide down the wall
     this.isWallSliding = false; // Flag to check if the player is wall sliding
+
+    // Dash settings
+    this.dashSpeed = 1000; // Dash speed
+    this.dashTime = 170;  // Duration of the dash in milliseconds
+    this.dashCooldown = 1500; // Cooldown time between dashes in milliseconds
+    this.isDashing = false; // Whether the player is currently dashing
+    this.dashTimer = 0; // Dash timer
+    this.dashCooldownTimer = 0; // Cooldown timer
   }
 
-  update(cursors, wasd, spaceBar, delta) {
+  update(cursors, wasd, spaceBar, shiftKey, delta) {
+    // Dash cooldown timer logic
+    if (this.dashCooldownTimer > 0) {
+      this.dashCooldownTimer -= delta;
+    }
+  
+    // Handle dash
+    if (!this.isDashing && this.dashCooldownTimer <= 0 && (shiftKey.isDown)) {
+      // Initiate the dash in the direction the player is facing
+      this.isDashing = true;
+      this.dashTimer = this.dashTime;
+      this.dashCooldownTimer = this.dashCooldown; // Start cooldown
+      this.setVelocityX(this.flipX ? -this.dashSpeed : this.dashSpeed); // Dash direction based on facing
+  
+      // Reset vertical velocity to keep the player's height the same
+      this.setVelocityY(0);
+  
+      // Temporarily stop any movement to ensure dash consistency
+      this.body.allowGravity = false;  // Disable gravity during the dash
+    }
+  
+    // Dash behavior logic
+    if (this.isDashing) {
+      // Check for wall collisions during the dash
+      const touchingLeftWall = this.body.blocked.left && !this.isTouchingPlatform(-1);
+      const touchingRightWall = this.body.blocked.right && !this.isTouchingPlatform(1);
+  
+      if (touchingLeftWall || touchingRightWall) {
+        // Stop dash if player hits a wall
+        this.isDashing = false;
+        this.setVelocityX(0);  // Stop horizontal dash movement
+        this.body.allowGravity = true;  // Re-enable gravity
+      }
+  
+      // Decrease dash timer
+      this.dashTimer -= delta;
+      if (this.dashTimer <= 0) {
+        this.isDashing = false; // End the dash
+        this.setVelocityX(0);  // Stop horizontal dash movement
+        this.body.allowGravity = true;  // Re-enable gravity
+      }
+    }
+  
     // Wall jumping cooldown timer logic
     if (this.isWallJumping) {
       this.wallJumpTimer -= delta;
@@ -46,85 +96,73 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
       return;
     }
-
+  
     // Horizontal movement logic
-    const acceleration = 2;
+    const acceleration = 5;
     const deceleration = 10;
-    const maxSpeed = 300;
-
-    // Move left
-    if (cursors.left.isDown || wasd.left.isDown) {
-      if (this.body.velocity.x > -maxSpeed) {
-        this.setVelocityX(Math.max(this.body.velocity.x - acceleration * delta, -maxSpeed));
-      }
-      this.setFlipX(true);  // Flip the sprite to face left
-    }
-    // Move right
-    else if (cursors.right.isDown || wasd.right.isDown) {
-      if (this.body.velocity.x < maxSpeed) {
-        this.setVelocityX(Math.min(this.body.velocity.x + acceleration * delta, maxSpeed));
-      }
-      this.setFlipX(false); // Flip the sprite to face right
-    }
-    // Deceleration when no movement
-    else {
-      if (this.body.velocity.x > 0) {
-        this.setVelocityX(Math.max(this.body.velocity.x - deceleration * delta, 0));
-      } else if (this.body.velocity.x < 0) {
-        this.setVelocityX(Math.min(this.body.velocity.x + deceleration * delta, 0));
+    const maxSpeed = 270;
+  
+    if (!this.isDashing) {
+      if (cursors.left.isDown || wasd.left.isDown) {
+        if (this.body.velocity.x > -maxSpeed) {
+          this.setVelocityX(Math.max(this.body.velocity.x - acceleration * delta, -maxSpeed));
+        }
+        this.setFlipX(true);
+      } else if (cursors.right.isDown || wasd.right.isDown) {
+        if (this.body.velocity.x < maxSpeed) {
+          this.setVelocityX(Math.min(this.body.velocity.x + acceleration * delta, maxSpeed));
+        }
+        this.setFlipX(false);
+      } else {
+        if (this.body.velocity.x > 0) {
+          this.setVelocityX(Math.max(this.body.velocity.x - deceleration * delta, 0));
+        } else if (this.body.velocity.x < 0) {
+          this.setVelocityX(Math.min(this.body.velocity.x + deceleration * delta, 0));
+        }
       }
     }
-
+  
     // Wall sticking and sliding logic
     const touchingLeftWall = this.body.blocked.left && !this.isTouchingPlatform(-1);
     const touchingRightWall = this.body.blocked.right && !this.isTouchingPlatform(1);
-
+  
     if (touchingLeftWall || touchingRightWall) {
-      this.setVelocityX(0);  // Stop horizontal movement when touching a wall
+      this.setVelocityX(0);
       this.isWallSliding = true;
-
+  
       if (this.body.velocity.y < 0) {
-        this.setVelocityY(0);  // Stop upward movement when sliding
+        this.setVelocityY(0);
       }
-
-      // Apply a small downward velocity to simulate wall sliding
+  
       this.setVelocityY(Math.min(this.body.velocity.y + this.wallSlideSpeed, this.wallSlideMaxSpeed));
-
-      // Wall jump logic: Prevent continuous wall jumps
-      if (
-        (cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
-        this.jumpButtonReleased && // Only jump if button was just released
-        !this.jumpButtonPressed  // Only jump if button is just pressed
-      ) {
+  
+      if ((cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
+        this.jumpButtonReleased && !this.jumpButtonPressed) {
         if (touchingLeftWall) {
-          // Wall jump to the right
           this.isWallJumping = true;
-          this.wallJumpDirection = 1;  // Direction of wall jump (right)
+          this.wallJumpDirection = 1;
           this.wallJumpTimer = this.wallJumpLockTime;
-          this.setVelocityX(300);  // Wall jump direction (towards the right)
-          this.setVelocityY(-700); // Wall jump height
+          this.setVelocityX(300);
+          this.setVelocityY(-700);
         } else if (touchingRightWall) {
-          // Wall jump to the left
           this.isWallJumping = true;
-          this.wallJumpDirection = -1; // Direction of wall jump (left)
+          this.wallJumpDirection = -1;
           this.wallJumpTimer = this.wallJumpLockTime;
-          this.setVelocityX(-300); // Wall jump direction (towards the left)
-          this.setVelocityY(-700); // Wall jump height
+          this.setVelocityX(-300);
+          this.setVelocityY(-700);
         }
-
-        // Stop sliding when wall jumping
+  
         this.isWallSliding = false;
-        this.jumpButtonPressed = true; // Mark jump button as pressed to prevent continuous jumps
-        this.jumpButtonReleased = false; // Mark the button as not released
-
-        // Flip the sprite based on the wall jump direction
-        this.setFlipX(this.wallJumpDirection === -1);  // Flip the sprite during the wall jump
+        this.jumpButtonPressed = true;
+        this.jumpButtonReleased = false;
+  
+        this.setFlipX(this.wallJumpDirection === -1);
       }
     } else {
       this.isWallSliding = false;
     }
-
-    // Regular jumping and coyote time logic
+  
+    // Regular jumping and coyote time logicc
     if (this.body.touching.down) {
       this.canJump = true;
       this.coyoteTimer = this.coyoteTime;
@@ -136,51 +174,42 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.canJump = false;
       }
     }
-
-    // Update jump buffer logic
+  
     if (this.body.velocity.y > 0 && this.coyoteTimer > 0 && this.jumpBufferTimer > 0) {
-      // If falling and close to the ground, allow the jump buffer to trigger
       this.jumpBufferTimer -= delta;
-
+  
       if (this.jumpBufferTimer > 0) {
-        this.setVelocityY(-700);  // Perform the jump
-        this.jumpBufferTimer = 0;  // Reset the jump buffer timer
-        this.coyoteTimer = 0;     // Reset coyote time
+        this.setVelocityY(-700);
+        this.jumpBufferTimer = 0;
+        this.coyoteTimer = 0;
         this.jumpButtonPressed = true;
         this.jumpButtonReleased = false;
       }
     }
-
-    // Regular jump logic
-    if (
-      (cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
-      this.jumpButtonReleased && // Only jump if the jump button was just released
-      !this.jumpButtonPressed // Only jump if the jump button is just pressed
-    ) {
+  
+    if ((cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
+      this.jumpButtonReleased && !this.jumpButtonPressed) {
       if (this.body.touching.down || this.coyoteTimer > 0) {
-        this.setVelocityY(-700);  // Regular jump
+        this.setVelocityY(-700);
         this.canJump = false;
-        this.jumpButtonPressed = true;  // Mark jump button as pressed
-        this.jumpButtonReleased = false;  // Prevent continuous jump
+        this.jumpButtonPressed = true;
+        this.jumpButtonReleased = false;
         this.coyoteTimer = 0;
       } else if (!touchingLeftWall && !touchingRightWall) {
-        this.jumpBufferTimer = this.jumpBufferTime; // Buffer jump if not on ground or wall
+        this.jumpBufferTimer = this.jumpBufferTime;
       }
     }
-
-    // Reset jump button states when button is released
-    if (
-      this.jumpButtonPressed &&
+  
+    if (this.jumpButtonPressed &&
       !cursors.up.isDown &&
       !wasd.up.isDown &&
-      !spaceBar.isDown
-    ) {
-      this.jumpButtonPressed = false; // Mark button as released
-      this.jumpButtonReleased = true; // Allow the next jump press
+      !spaceBar.isDown) {
+      this.jumpButtonPressed = false;
+      this.jumpButtonReleased = true;
     }
   }
+  
 
-  // Helper method to check if the player is touching a platform in a given direction
   isTouchingPlatform(direction) {
     const platforms = this.platforms.getChildren();
     return platforms.some(platform => {

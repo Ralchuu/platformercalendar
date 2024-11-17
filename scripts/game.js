@@ -37,8 +37,8 @@ const playerStartY = 500;
 function preload() {
   this.load.image("background", "assets/2testbackground.png");
   this.load.image("player", "assets/elf1.png");
-  this.load.image("wall", "assets/ground1.png"); // Formerly used for walls
-  this.load.image("platform", "assets/ground2.png"); // Formerly used for platforms
+  this.load.image("wall", "assets/ground1.png");
+  this.load.image("platform", "assets/ground2.png");
   this.load.image("door", "assets/castledoors.png");
 }
 
@@ -48,18 +48,20 @@ function create() {
 
   this.physics.world.setBounds(0, 0, config.width * 2, config.height);
 
-  // Walls group (now using the "platform" asset and its configurations)
+  // Walls group
   walls = this.physics.add.staticGroup();
   walls.create(200, 200, "platform").setScale(0.5, 10).refreshBody();
   walls.create(100, 250, "platform").setScale(0.5, 10).refreshBody();
+  walls.create(750, 300, "platform").setScale(0.5, 10).refreshBody();
+  walls.create(950, 350, "platform").setScale(0.5, 10).refreshBody();
 
-  // Platforms group (now using the "wall" asset and its configurations)
+  // Platforms group
   platforms = this.physics.add.staticGroup();
   platforms.create(200, 505, "wall").setScale(1, 0.5).refreshBody();
   platforms.create(400, 470, "wall").setScale(1, 1).refreshBody();
   platforms.create(500, 600, "wall").setScale(1000, 1).refreshBody();
 
-  // Adding multiple doors for testing
+  // Adding multiple doors
   for (let i = 1; i <= 24; i++) {
     const x = i * 600;
     const y = Phaser.Math.Between(330, 330);
@@ -70,10 +72,12 @@ function create() {
     doors.push(door);
   }
 
+  // Create player
   player = new Player(this, playerStartX, playerStartY, "player", platforms);
 
+  // Camera setup
   this.cameras.main.startFollow(player);
-  this.cameras.main.setBounds(0, 0, config.width * 2, config.height);
+  this.cameras.main.setBounds(0, 0, config.width * 2, config.height);  // Set world bounds
 
   // Colliders
   this.physics.add.collider(player, walls);
@@ -91,5 +95,6 @@ function create() {
 }
 
 function update(time, delta) {
-  player.update(cursors, wasd, spaceBar, delta);
+  // Update player movements
+  player.update(cursors, wasd, spaceBar, cursors.shift, delta);
 }
