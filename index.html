@@ -6,27 +6,96 @@
   <title>Phaser Game</title>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script> 
   <link rel="stylesheet" href="">
+  <style>
+    /* Basic reset for body */
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* Full screen pop-up window */
+    .popup-window {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 60%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      display: none;
+      z-index: 10; /* Ensure it's above the game canvas */
+      padding: 20px;
+      font-size: 20px;
+    }
+
+    /* Optional: Style for the close button */
+    .popup-close-btn {
+      padding: 10px;
+      margin-top: 20px;
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>Joulukalenteripeli:D</h1> <!-- Testikommentti -->
+
+  <!-- Pop-up window HTML -->
+  <div class="popup-window" id="popup-room">
+    <h2>Room Popup</h2>
+    <p>Press "O" to close the window and return to the game!</p>
+    <button class="popup-close-btn" id="popup-close-btn">Close</button>
+  </div>
+
   <script type="module" src="scripts/game.js"></script>
   <audio id="background-music" autoplay loop>
     <source src="assets/sounds/Joulukalenteri_taustamusademo_1.0.mp3" type="audio/mpeg">
   </audio> 
+  
   <script>
     const audio = document.getElementById("background-music");
-    
+    const popupRoom = document.getElementById("popup-room");
+    const closeBtn = document.getElementById("popup-close-btn");
+
     function playBackgroundMusic() {
       if (audio.paused) {  // Only play if it's not already playing
         audio.play();
       }
     }
     audio.volume = 0.05;
+    
     // Event listener for arrow keys or WASD keys
     window.addEventListener("keydown", (event) => {
       const key = event.key.toLowerCase();
       if (["arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"].includes(key)) {
         playBackgroundMusic();
+      }
+
+      // Check for "O" key press to close the popup
+      if (key === "o") {
+        closePopup();
+      }
+    });
+
+    // Close the pop-up window when clicking the button
+    closeBtn.addEventListener("click", () => {
+      closePopup();
+    });
+
+    function closePopup() {
+      popupRoom.style.display = "none"; // Hide the pop-up window
+    }
+
+    // Event listener for opening the pop-up room (for example, using a key like "P" or a game interaction)
+    window.addEventListener("keydown", (event) => {
+      const key = event.key.toLowerCase();
+      if (key === "p") {  // Example: Press "P" to open the room
+        popupRoom.style.display = "block";  // Show the pop-up room
       }
     });
   </script>
