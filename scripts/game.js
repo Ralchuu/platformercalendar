@@ -3,7 +3,7 @@ import Player from './player.js';
 // Game configuration
 const config = {
   type: Phaser.AUTO,
-  width: 1800, // Canvas width
+  width: 1900, // Canvas width
   height: 800, // Canvas height
   physics: {
     default: "arcade",
@@ -31,8 +31,8 @@ let door;
 let oKey;
 
 // Player starting position
-const playerStartX = 100;
-const playerStartY = 300;
+const playerStartX = 500;
+const playerStartY = 200;
 
 // Flags for door interaction
 let doorOpened = false;
@@ -62,7 +62,9 @@ function create() {
   platforms.create(60, 720, "platform").setScale(1, 0.5).refreshBody();
   platforms.create(190, 690, "platform").setScale(1, 1).refreshBody();
   platforms.create(320, 660, "platform").setScale(1, 1.5).refreshBody();
-
+  platforms.create(620, 660, "platform").setScale(1, 1.5).refreshBody();
+  platforms.create(920, 260, "platform").setScale(1, 1.5).refreshBody();
+  
   // Door
   door = this.physics.add.staticSprite(320, 500, "door");
   door.setImmovable(true);
@@ -79,7 +81,7 @@ function create() {
   this.physics.add.collider(player, platforms);
 
   // Hazard mechanics
-  hazard = this.physics.add.staticSprite(300, 280, "hazard").setScale(0.5, 0.5).refreshBody();
+  hazard = this.physics.add.staticSprite(400, 280, "hazard").setScale(0.5, 0.5).refreshBody();
   this.physics.add.overlap(player, hazard, resetPlayerPosition, null, this);
 
   hazard = this.physics.add.staticSprite(700, 400, "hazard").setScale(0.5, 0.5).refreshBody();
