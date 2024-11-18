@@ -1,4 +1,4 @@
-import Player from './player.js';
+import Player from "./player.js";
 
 // Game configuration
 const config = {
@@ -15,7 +15,7 @@ const config = {
   scene: {
     preload,
     create,
-    update,
+    update
   },
 };
 
@@ -43,7 +43,9 @@ function preload() {
 }
 
 function create() {
-  const bg = this.add.tileSprite(0, 0, config.width * 2, config.height, "background").setOrigin(0, 0);
+  const bg = this.add
+    .tileSprite(0, 0, config.width * 2, config.height, "background")
+    .setOrigin(0, 0);
   bg.setDisplaySize(config.width * 2, config.height);
 
   this.physics.world.setBounds(0, 0, config.width * 2, config.height);
@@ -77,7 +79,7 @@ function create() {
 
   // Camera setup
   this.cameras.main.startFollow(player);
-  this.cameras.main.setBounds(0, 0, config.width * 2, config.height);  // Set world bounds
+  this.cameras.main.setBounds(0, 0, config.width * 2, config.height); // Set world bounds
 
   // Colliders
   this.physics.add.collider(player, walls);
@@ -92,9 +94,28 @@ function create() {
     right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
   };
   spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+  // Load the previous save
+  load();
 }
 
 function update(time, delta) {
   // Update player movements
   player.update(cursors, wasd, spaceBar, cursors.shift, delta);
+}
+
+// Save & load the game
+function save() {
+  let saveObject = {
+    //test values
+    x: 400,
+    y: 100,
+  };
+  localStorage.setItem("save", JSON.stringify(saveObject));
+}
+
+function load() {
+  let saveObject = JSON.parse(localStorage.getItem("save"));
+  console.log("x: " + saveObject.x + ", y: " + saveObject.y);
+  player.setPosition(saveObject.x, saveObject.y);
 }
