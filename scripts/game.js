@@ -4,8 +4,13 @@ import Player from './player.js';
 const config = {
   type: Phaser.AUTO,
   width: 1900,
+<<<<<<< HEAD
   height: 850,
    physics: {
+=======
+  height: 900,
+  physics: {
+>>>>>>> c1b8786 (asd)
     default: "arcade",
     arcade: {
       gravity: { y: 500 },
@@ -108,6 +113,17 @@ function update(time, delta) {
   if (isNearDoor && Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O))) {
     openDoor();  // Call the door open function if 'O' is pressed
   }
+<<<<<<< HEAD
+}
+
+// Function to simulate the player opening the door
+function openDoor() {
+  console.log("You opened the door! Transitioning to another scene or location...");
+  // You can either load a new scene or change the game state
+  // Example: this.scene.start('newRoom');  // Uncomment if you create a new scene
+  // For now, we simply log the action
+=======
+>>>>>>> c1b8786 (asd)
 }
 
 // Function to simulate the player opening the door
