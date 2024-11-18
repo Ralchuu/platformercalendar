@@ -4,8 +4,8 @@ import Player from './player.js';
 const config = {
   type: Phaser.AUTO,
   width: 1900,
-  height: 800,
-  physics: {
+  height: 850,
+   physics: {
     default: "arcade",
     arcade: {
       gravity: { y: 500 },
