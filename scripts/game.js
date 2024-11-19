@@ -27,8 +27,11 @@ let wasd;
 let spaceBar;
 let walls;
 let platforms;
-let doors = [];
+let savepoint1;
+let savepoint2;
+let isNearSavepoint = false;
 let savepoints = [];
+let doors = [];
 let openedDoors = Array(24).fill(false);
 
 // Player starting position
@@ -77,10 +80,10 @@ function create() {
   }
 
   //Adding two savepoints
-  var savepoint1 = this.physics.add.sprite(207, 455, "savepoint");
+  savepoint1 = this.physics.add.sprite(207, 455, "savepoint");
   savepoint1.setImmovable(true);
   savepoint1.body.allowGravity = false;
-  var savepoint2 = this.physics.add.sprite(407, 392 , "savepoint");
+  savepoint2 = this.physics.add.sprite(407, 392 , "savepoint");
   savepoint2.setImmovable(true);
   savepoint2.body.allowGravity = false;
   savepoints.push(savepoint2);
@@ -114,6 +117,14 @@ function create() {
 function update(time, delta) {
   // Update player movements
   player.update(cursors, wasd, spaceBar, cursors.shift, delta);
+
+  // Check if the player is near the savepoint
+  isNearSavepoint = Phaser.Math.Distance.Between(player.x, player.y, savepoint1.x, savepoint1.y) < 50;
+
+  // If near the door, allow the player to interact
+  if (isNearSavepoint && Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E))) {
+    save(savepoint1.x, savepoint1.y);
+  }
 }
 
 // Save & load the game
@@ -121,7 +132,7 @@ function save(x, y) {
   let saveObject = {
     //test values
     x: x,
-    y: y,
+    y: y-20,
   };
   console.log("Saved coordinates x: " + x + ", y: " + y);
   localStorage.setItem("save", JSON.stringify(saveObject));
