@@ -28,6 +28,7 @@ let spaceBar;
 let walls;
 let platforms;
 let doors = [];
+let savepoints = [];
 let openedDoors = Array(24).fill(false);
 
 // Player starting position
@@ -40,6 +41,7 @@ function preload() {
   this.load.image("wall", "assets/ground1.png");
   this.load.image("platform", "assets/ground2.png");
   this.load.image("door", "assets/castledoors.png");
+  this.load.image("savepoint", "assets/savepoint.png");
 }
 
 function create() {
@@ -74,6 +76,16 @@ function create() {
     doors.push(door);
   }
 
+  //Adding two savepoints
+  var savepoint1 = this.physics.add.sprite(207, 455, "savepoint");
+  savepoint1.setImmovable(true);
+  savepoint1.body.allowGravity = false;
+  var savepoint2 = this.physics.add.sprite(407, 392 , "savepoint");
+  savepoint2.setImmovable(true);
+  savepoint2.body.allowGravity = false;
+  savepoints.push(savepoint2);
+  savepoints.push(savepoint1, savepoint2);
+
   // Create player
   player = new Player(this, playerStartX, playerStartY, "player", platforms);
 
@@ -105,12 +117,13 @@ function update(time, delta) {
 }
 
 // Save & load the game
-function save() {
+function save(x, y) {
   let saveObject = {
     //test values
-    x: 400,
-    y: 100,
+    x: x,
+    y: y,
   };
+  console.log("Saved coordinates x: " + x + ", y: " + y);
   localStorage.setItem("save", JSON.stringify(saveObject));
 }
 
