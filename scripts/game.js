@@ -15,7 +15,7 @@ const config = {
   scene: {
     preload,
     create,
-    update
+    update,
   },
 };
 
@@ -116,6 +116,9 @@ function save() {
 
 function load() {
   let saveObject = JSON.parse(localStorage.getItem("save"));
-  console.log("x: " + saveObject.x + ", y: " + saveObject.y);
-  player.setPosition(saveObject.x, saveObject.y);
+  try {
+    player.setPosition(saveObject.x, saveObject.y);
+  } catch (error) {
+    console.log("No save file to load");
+  }
 }
