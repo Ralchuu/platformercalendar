@@ -65,14 +65,18 @@ function create() {
   platforms = this.physics.add.staticGroup();
   platforms.create(200, 505, "wall").setScale(1, 0.5).refreshBody();
   platforms.create(400, 470, "wall").setScale(1, 1).refreshBody();
-  platforms.create(500, 1000, "wall").setScale(1000, 1).refreshBody();
-  platforms.create(800, 400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+  platforms.create(500, 600, "wall").setScale(1000, 1).refreshBody();
 
-  // Create a door at a new position (optional)
-  door = this.physics.add.sprite(2000, 490, "door");
-  door.setImmovable(true);
-  door.body.allowGravity = false;
+  // Adding multiple doors
+  for (let i = 1; i <= 24; i++) {
+    const x = i * 600;
+    const y = Phaser.Math.Between(330, 330);
+    walls.create(x, y, "platform").setScale(1.5, 0.2).refreshBody();
+    const door = this.physics.add.sprite(x, y - 60, "door");
+    door.setImmovable(true);
+    door.body.allowGravity = false;
+    doors.push(door);
+  }
 
   // Create player
   player = new Player(this, playerStartX, playerStartY, "player", platforms);
