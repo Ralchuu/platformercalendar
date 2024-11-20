@@ -1,5 +1,5 @@
 import Player from './player.js';
-// kommentti2
+// kommentti3
 // Game configuration
 const config = {
   type: Phaser.AUTO,
