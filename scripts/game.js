@@ -48,23 +48,33 @@ class MainGameScene extends Phaser.Scene {
 
     // Platforms group
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody();     //lattia 
+    this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia
 
     // luukku 1
     this.platforms.create(300, 2245, "platform").setScale(1, 0.5).refreshBody();
     this.platforms.create(400, 2210, "platform").setScale(1, 1).refreshBody();
 
-
     //luukku 1 - 2
     this.platforms.create(650, 2210, "platform").setScale(1, 1).refreshBody();
-    this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();    
+    this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();
 
-    
     //luukku 2 - 3
-    this.platforms.create(1100, 2100, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1300, 2030, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1500, 1960, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1700, 1890, "platform").setScale(1, 0.2).refreshBody(); 
+    this.platforms
+      .create(1100, 2100, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1300, 2030, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1500, 1960, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1700, 1890, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
@@ -75,24 +85,23 @@ class MainGameScene extends Phaser.Scene {
       this.createDoor(903, 2100, "Room1"),
       this.createDoor(1100, 2230, "Room2"),
       this.createDoor(1000, 2230, "Room3"),
-      
     ];
-    
-      // List of all savepoint coordinates
-  let savepointCoordinates = [
-    { x: 207, y: 455 },
-    { x: 407, y: 392 },
-  ];
 
-  // Adding savepoints to listed coordinates
-  for (let i = 0; i < savepointCoordinates.length; i++) {
-    let x = savepointCoordinates[i].x;
-    let y = savepointCoordinates[i].y;
-    let savepoint = this.physics.add.sprite(x, y, "savepoint");
-    savepoint.setImmovable(true);
-    savepoint.body.allowGravity = false;
-    savepoints.push(savepoint);
-  }
+    // List of all savepoint coordinates
+    let savepointCoordinates = [
+      { x: 207, y: 455 },
+      { x: 407, y: 392 },
+    ];
+
+    // Adding savepoints to listed coordinates
+    for (let i = 0; i < savepointCoordinates.length; i++) {
+      let x = savepointCoordinates[i].x;
+      let y = savepointCoordinates[i].y;
+      let savepoint = this.physics.add.sprite(x, y, "savepoint");
+      savepoint.setImmovable(true);
+      savepoint.body.allowGravity = false;
+      this.savepoints.push(savepoint);
+    }
 
     // Create player at the starting position
     this.player = new Player(
@@ -128,6 +137,8 @@ class MainGameScene extends Phaser.Scene {
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+
+    load();
   }
 
   createDoor(x, y, targetRoom) {
@@ -137,9 +148,6 @@ class MainGameScene extends Phaser.Scene {
     door.setData("targetRoom", targetRoom); // Store the target room name
     return door;
   }
-  
-    // Load the previous save
-  load();
 
   update(time, delta) {
     // Update player movements
@@ -172,22 +180,23 @@ class MainGameScene extends Phaser.Scene {
         }
       }
     });
-    
-      // Save coordinates of savepoint if close and pressing E
-  savepoints.forEach((savepoint) => {
-    if (
-      Phaser.Math.Distance.Between(
-        player.x,
-        player.y,
-        savepoint.x,
-        savepoint.y
-      ) < 50 &&
-      Phaser.Input.Keyboard.JustDown(
-        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
-      )
-    ) {
-      save(savepoint.x, savepoint.y);
-    }});
+
+    // Save coordinates of savepoint if close and pressing E
+    this.savepoints.forEach((savepoint) => {
+      if (
+        Phaser.Math.Distance.Between(
+          this.player.x,
+          this.player.y,
+          savepoint.x,
+          savepoint.y
+        ) < 50 &&
+        Phaser.Input.Keyboard.JustDown(
+          this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+        )
+      ) {
+        save(savepoint.x, savepoint.y);
+      }
+    });
   }
 }
 
