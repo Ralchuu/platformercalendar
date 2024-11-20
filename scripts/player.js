@@ -43,14 +43,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update(cursors, wasd, spaceBar, shiftKey, delta) {
+    // Safely handle null inputs
+    const isLeftPressed = cursors?.left?.isDown || wasd?.left?.isDown || false;
+    const isRightPressed = cursors?.right?.isDown || wasd?.right?.isDown || false;
+    const isUpPressed = cursors?.up?.isDown || wasd?.up?.isDown || spaceBar?.isDown || false;
+    const isDashPressed = shiftKey?.isDown || false;
+  
     // Dash cooldown timer logic
     if (this.dashCooldownTimer > 0) {
       this.dashCooldownTimer -= delta;
     }
   
     // Handle dash
-    if (!this.isDashing && this.dashCooldownTimer <= 0 && (shiftKey.isDown)) {
-      // Initiate the dash in the direction the player is facing
+    if (!this.isDashing && this.dashCooldownTimer <= 0 && isDashPressed) {
       this.isDashing = true;
       this.dashTimer = this.dashTime;
       this.dashCooldownTimer = this.dashCooldown; // Start cooldown
@@ -60,7 +65,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.setVelocityY(0);
   
       // Temporarily stop any movement to ensure dash consistency
-      this.body.allowGravity = false;  // Disable gravity during the dash
+      this.body.allowGravity = false; // Disable gravity during the dash
     }
   
     // Dash behavior logic
@@ -72,16 +77,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       if (touchingLeftWall || touchingRightWall) {
         // Stop dash if player hits a wall
         this.isDashing = false;
-        this.setVelocityX(0);  // Stop horizontal dash movement
-        this.body.allowGravity = true;  // Re-enable gravity
+        this.setVelocityX(0); // Stop horizontal dash movement
+        this.body.allowGravity = true; // Re-enable gravity
       }
   
       // Decrease dash timer
       this.dashTimer -= delta;
       if (this.dashTimer <= 0) {
         this.isDashing = false; // End the dash
-        this.setVelocityX(0);  // Stop horizontal dash movement
-        this.body.allowGravity = true;  // Re-enable gravity
+        this.setVelocityX(0); // Stop horizontal dash movement
+        this.body.allowGravity = true; // Re-enable gravity
       }
     }
   
@@ -92,7 +97,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.wallJumpTimer = 0;
         this.isWallJumping = false;
         // Reset image flip after wall jump lock time ends
-        this.setFlipX(this.wallJumpDirection === -1);  // Keep flip in the wall jump direction
+        this.setFlipX(this.wallJumpDirection === -1); // Keep flip in the wall jump direction
       }
       return;
     }
@@ -103,12 +108,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const maxSpeed = 270;
   
     if (!this.isDashing) {
-      if (cursors.left.isDown || wasd.left.isDown) {
+      if (isLeftPressed) {
         if (this.body.velocity.x > -maxSpeed) {
           this.setVelocityX(Math.max(this.body.velocity.x - acceleration * delta, -maxSpeed));
         }
         this.setFlipX(true);
-      } else if (cursors.right.isDown || wasd.right.isDown) {
+      } else if (isRightPressed) {
         if (this.body.velocity.x < maxSpeed) {
           this.setVelocityX(Math.min(this.body.velocity.x + acceleration * delta, maxSpeed));
         }
@@ -136,8 +141,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   
       this.setVelocityY(Math.min(this.body.velocity.y + this.wallSlideSpeed, this.wallSlideMaxSpeed));
   
-      if ((cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
-        this.jumpButtonReleased && !this.jumpButtonPressed) {
+      if (isUpPressed && this.jumpButtonReleased && !this.jumpButtonPressed) {
         if (touchingLeftWall) {
           this.isWallJumping = true;
           this.wallJumpDirection = 1;
@@ -162,7 +166,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.isWallSliding = false;
     }
   
-    // Regular jumping and coyote time logicc
+    // Regular jumping and coyote time logic
     if (this.body.touching.down) {
       this.canJump = true;
       this.coyoteTimer = this.coyoteTime;
@@ -187,8 +191,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
   
-    if ((cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
-      this.jumpButtonReleased && !this.jumpButtonPressed) {
+    if (isUpPressed && this.jumpButtonReleased && !this.jumpButtonPressed) {
       if (this.body.touching.down || this.coyoteTimer > 0) {
         this.setVelocityY(-700);
         this.canJump = false;
@@ -200,14 +203,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
   
-    if (this.jumpButtonPressed &&
-      !cursors.up.isDown &&
-      !wasd.up.isDown &&
-      !spaceBar.isDown) {
+    if (this.jumpButtonPressed && !isUpPressed) {
       this.jumpButtonPressed = false;
       this.jumpButtonReleased = true;
     }
   }
+  
   
 
   isTouchingPlatform(direction) {

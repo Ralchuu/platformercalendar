@@ -1,82 +1,84 @@
 import Player from "./player.js";
 
-// Game configuration
-const config = {
-  type: Phaser.AUTO,
-  width: 64 * 16,
-  height: 64 * 9,
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: { y: 2500 },
-      debug: false,
-    },
-  },
-  scene: {
-    preload,
-    create,
-    update,
-  },
-};
+import Room1 from "./rooms/room1.js";
+import Room2 from "./rooms/room2.js";
+import Room3 from "./rooms/room3.js";
 
-const game = new Phaser.Game(config);
+// Main game scene class
+class MainGameScene extends Phaser.Scene {
+  constructor() {
+    super("MainGameScene");
 
-let player;
-let cursors;
-let wasd;
-let spaceBar;
-let walls;
-let platforms;
-let savepoints = [];
-let doors = [];
-let openedDoors = Array(24).fill(false);
-
-// Player starting position
-const playerStartX = 100;
-const playerStartY = 500;
-
-function preload() {
-  this.load.image("background", "assets/2testbackground.png");
-  this.load.image("player", "assets/elf1.png");
-  this.load.image("wall", "assets/ground1.png");
-  this.load.image("platform", "assets/ground2.png");
-  this.load.image("door", "assets/castledoors.png");
-  this.load.image("savepoint", "assets/savepoint.png");
-}
-
-function create() {
-  const bg = this.add
-    .tileSprite(0, 0, config.width * 2, config.height, "background")
-    .setOrigin(0, 0);
-  bg.setDisplaySize(config.width * 2, config.height);
-
-  this.physics.world.setBounds(0, 0, config.width * 2, config.height);
-
-  // Walls group
-  walls = this.physics.add.staticGroup();
-  walls.create(200, 200, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(100, 250, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(750, 300, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(950, 350, "platform").setScale(0.5, 10).refreshBody();
-
-  // Platforms group
-  platforms = this.physics.add.staticGroup();
-  platforms.create(200, 505, "wall").setScale(1, 0.5).refreshBody();
-  platforms.create(400, 470, "wall").setScale(1, 1).refreshBody();
-  platforms.create(500, 600, "wall").setScale(1000, 1).refreshBody();
-
-  // Adding multiple doors
-  for (let i = 1; i <= 24; i++) {
-    const x = i * 600;
-    const y = Phaser.Math.Between(330, 330);
-    walls.create(x, y, "platform").setScale(1.5, 0.2).refreshBody();
-    const door = this.physics.add.sprite(x, y - 60, "door");
-    door.setImmovable(true);
-    door.body.allowGravity = false;
-    doors.push(door);
+    // Declare game objects and state variables
+    this.walls = null;
+    this.platforms = null;
+    this.hazards = null;
+    this.doors = [];
+    this.savepoints = [];
+    this.player = null;
+    this.cursors = null;
+    this.wasd = null;
+    this.spaceBar = null;
+    this.eKey = null;
   }
 
-  // List of all savepoint coordinates
+  preload() {
+    this.load.image("background", "assets/2testbackground.png");
+    this.load.image("player", "assets/elf1.png");
+    this.load.image("platform", "assets/ground1.png");
+    this.load.image("wall", "assets/wall.png");
+    this.load.image("hazard", "assets/bomb.png");
+    this.load.image("door", "assets/castledoors.png");
+    this.load.image("savepoint", "assets/savepoint.png");
+  }
+
+  create() {
+    const bg = this.add
+      .tileSprite(0, 0, worldWidth, worldHeight, "background") // Background covering world
+      .setOrigin(0, 0);
+    bg.setDisplaySize(worldWidth, worldHeight);
+
+    // Set the new world bounds
+    this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
+
+    // Walls group
+    this.walls = this.physics.add.staticGroup();
+    this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
+    this.walls.create(20, 2050, "wall").setScale(0.5, 10).refreshBody();
+
+    // Platforms group
+    this.platforms = this.physics.add.staticGroup();
+    this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody();     //lattia 
+
+    // luukku 1
+    this.platforms.create(300, 2245, "platform").setScale(1, 0.5).refreshBody();
+    this.platforms.create(400, 2210, "platform").setScale(1, 1).refreshBody();
+
+
+    //luukku 1 - 2
+    this.platforms.create(650, 2210, "platform").setScale(1, 1).refreshBody();
+    this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();    
+
+    
+    //luukku 2 - 3
+    this.platforms.create(1100, 2100, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1300, 2030, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1500, 1960, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1700, 1890, "platform").setScale(1, 0.2).refreshBody(); 
+
+    // Hazards group
+    this.hazards = this.physics.add.staticGroup();
+    this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
+
+    // Create individual doors
+    this.doors = [
+      this.createDoor(903, 2100, "Room1"),
+      this.createDoor(1100, 2230, "Room2"),
+      this.createDoor(1000, 2230, "Room3"),
+      
+    ];
+    
+      // List of all savepoint coordinates
   let savepointCoordinates = [
     { x: 207, y: 455 },
     { x: 407, y: 392 },
@@ -92,36 +94,86 @@ function create() {
     savepoints.push(savepoint);
   }
 
-  // Create player
-  player = new Player(this, playerStartX, playerStartY, "player", platforms);
+    // Create player at the starting position
+    this.player = new Player(
+      this,
+      playerStartX,
+      playerStartY,
+      "player",
+      this.platforms
+    );
 
-  // Camera setup
-  this.cameras.main.startFollow(player);
-  this.cameras.main.setBounds(0, 0, config.width * 2, config.height); // Set world bounds
+    // Camera setup
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
-  // Colliders
-  this.physics.add.collider(player, walls);
-  this.physics.add.collider(player, platforms);
+    // Colliders for the player
+    this.physics.add.collider(this.player, this.walls);
+    this.physics.add.collider(this.player, this.platforms);
 
-  // Input configuration
-  cursors = this.input.keyboard.createCursorKeys();
-  wasd = {
-    up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
-    left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-    down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-    right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-  };
-  spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    // Reset player on touching hazards
+    this.physics.add.collider(this.player, this.hazards, () => {
+      this.player.resetPosition(playerStartX, playerStartY);
+    });
 
-  // Load the previous save
+    // Input configuration
+    this.cursors = this.input.keyboard.createCursorKeys();
+    this.wasd = {
+      up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+      left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+      down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+    };
+    this.spaceBar = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
+    this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+  }
+
+  createDoor(x, y, targetRoom) {
+    const door = this.physics.add.sprite(x, y, "door");
+    door.setImmovable(true);
+    door.body.allowGravity = false;
+    door.setData("targetRoom", targetRoom); // Store the target room name
+    return door;
+  }
+  
+    // Load the previous save
   load();
-}
 
-function update(time, delta) {
-  // Update player movements
-  player.update(cursors, wasd, spaceBar, cursors.shift, delta);
+  update(time, delta) {
+    // Update player movements
+    this.player.update(
+      this.cursors,
+      this.wasd,
+      this.spaceBar,
+      this.cursors.shift,
+      delta
+    );
 
-  // Save coordinates of savepoint if close and pressing E
+    // Check if the player is interacting with any door
+    this.doors.forEach((door) => {
+      if (
+        Phaser.Math.Distance.Between(
+          this.player.x,
+          this.player.y,
+          door.x,
+          door.y
+        ) < 50 &&
+        Phaser.Input.Keyboard.JustDown(this.eKey) // Check for "E" key press
+      ) {
+        const targetRoom = door.getData("targetRoom"); // Get the target room name
+        if (targetRoom) {
+          // Transition to the target room
+          this.scene.start(targetRoom, {
+            playerStartX: this.player.x,
+            playerStartY: this.player.y,
+          });
+        }
+      }
+    });
+    
+      // Save coordinates of savepoint if close and pressing E
   savepoints.forEach((savepoint) => {
     if (
       Phaser.Math.Distance.Between(
@@ -136,7 +188,32 @@ function update(time, delta) {
     ) {
       save(savepoint.x, savepoint.y);
     }});
+  }
 }
+
+// Game initialization
+const worldWidth = 64 * (16 * 4); //expanded width
+const worldHeight = 64 * (9 * 4); //expanded height
+
+const config = {
+  type: Phaser.AUTO,
+  width: 64 * 16, // Camera size
+  height: 64 * 9, // Camera size
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 2500 },
+      debug: false,
+    },
+  },
+  scene: [MainGameScene, Room1, Room2, Room3], // Keep the scenes as they are
+};
+
+// Initialize the game
+const game = new Phaser.Game(config);
+
+const playerStartX = 100;
+const playerStartY = 500 + 1700;
 
 // Save & load the game
 function save(x, y) {
