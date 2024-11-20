@@ -1,11 +1,11 @@
 import Player from './player.js';
-
+// kommentti2
 // Game configuration
 const config = {
   type: Phaser.AUTO,
   width: 1900,
-  height: 900,
-  physics: {
+  height: 850,
+   physics: {
     default: "arcade",
     arcade: {
       gravity: { y: 500 },
@@ -67,7 +67,7 @@ function create() {
   platforms.create(400, 470, "wall").setScale(1, 1).refreshBody();
   platforms.create(500, 1000, "wall").setScale(1000, 1).refreshBody();
   platforms.create(800, 400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 200, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
 
   // Create a door at a new position (optional)
   door = this.physics.add.sprite(2000, 490, "door");
