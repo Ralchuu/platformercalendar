@@ -232,11 +232,16 @@ function save(x, y) {
     y: y - 20,
   };
   console.log("Saved coordinates x: " + x + ", y: " + y);
+  let testi = JSON.stringify(saveObject);
+  console.log("LocalStoreen tallennettava objekti: " + testi);
   localStorage.setItem("save", JSON.stringify(saveObject));
+  console.log("LoacaStorage tallentaessa: " + JSON.parse(localStorage.getItem("save")));
+  load();
 }
 
 function load() {
   let saveObject = JSON.parse(localStorage.getItem("save"));
+  console.log("LocalStoragesta haettu objekti: " + saveObject);
   try {
     this.player.setPosition(saveObject.x, saveObject.y);
   } catch (error) {
