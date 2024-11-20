@@ -31,44 +31,64 @@ class MainGameScene extends Phaser.Scene {
 
   create() {
     const bg = this.add
-      .tileSprite(0, 0, config.width * 2, config.height, "background")
+      .tileSprite(0, 0, worldWidth, worldHeight, "background") // Background covering world
       .setOrigin(0, 0);
-    bg.setDisplaySize(config.width * 2, config.height);
+    bg.setDisplaySize(worldWidth, worldHeight);
 
-    this.physics.world.setBounds(0, 0, config.width * 2, config.height);
+    // Set the new world bounds
+    this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
 
     // Walls group
     this.walls = this.physics.add.staticGroup();
-    this.walls.create(250, 180, "wall").setScale(0.5, 0.6).refreshBody();
-    this.walls.create(50, 250, "wall").setScale(0.7, 0.6).refreshBody();
-    this.walls.create(750, 300, "wall").setScale(0.5, 0.5).refreshBody();
-    this.walls.create(1050, 350, "wall").setScale(0.5, 0.5).refreshBody();
+    this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
+    this.walls.create(20, 2050, "wall").setScale(0.5, 10).refreshBody();
 
     // Platforms group
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(200, 505, "platform").setScale(1, 0.5).refreshBody();
-    this.platforms.create(400, 470, "platform").setScale(1, 1).refreshBody();
-    this.platforms.create(500, 600, "platform").setScale(1000, 1).refreshBody();
+    this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody();     //lattia 
+
+    // luukku 1
+    this.platforms.create(300, 2245, "platform").setScale(1, 0.5).refreshBody();
+    this.platforms.create(400, 2210, "platform").setScale(1, 1).refreshBody();
+
+
+    //luukku 1 - 2
+    this.platforms.create(650, 2210, "platform").setScale(1, 1).refreshBody();
+    this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();    
+
+    
+    //luukku 2 - 3
+    this.platforms.create(1100, 2100, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1300, 2030, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1500, 1960, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1700, 1890, "platform").setScale(1, 0.2).refreshBody(); 
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
-    this.hazards.create(400, 250, "hazard").setScale(0.5).refreshBody();
+    this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
 
-    // Create individual doors with unique locations and target rooms
+    // Create individual doors
     this.doors = [
-      this.createDoor(200, 425, "Room1"),
-      this.createDoor(800, 400, "Room2"),
-      this.createDoor(1400, 400, "Room3"),
+      this.createDoor(903, 2100, "Room1"),
+      this.createDoor(1100, 2230, "Room2"),
+      this.createDoor(1000, 2230, "Room3"),
+      
     ];
 
-    // Create player
-    this.player = new Player(this, playerStartX, playerStartY, "player", this.platforms);
+    // Create player at the starting position
+    this.player = new Player(
+      this,
+      playerStartX,
+      playerStartY,
+      "player",
+      this.platforms
+    );
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBounds(0, 0, config.width * 2, config.height); // Set world bounds
+    this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
 
-    // Colliders
+    // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
     this.physics.add.collider(this.player, this.platforms);
 
@@ -85,7 +105,9 @@ class MainGameScene extends Phaser.Scene {
       down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
       right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
     };
-    this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.spaceBar = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
   }
 
@@ -99,12 +121,23 @@ class MainGameScene extends Phaser.Scene {
 
   update(time, delta) {
     // Update player movements
-    this.player.update(this.cursors, this.wasd, this.spaceBar, this.cursors.shift, delta);
+    this.player.update(
+      this.cursors,
+      this.wasd,
+      this.spaceBar,
+      this.cursors.shift,
+      delta
+    );
 
     // Check if the player is interacting with any door
     this.doors.forEach((door) => {
       if (
-        Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
+        Phaser.Math.Distance.Between(
+          this.player.x,
+          this.player.y,
+          door.x,
+          door.y
+        ) < 50 &&
         Phaser.Input.Keyboard.JustDown(this.eKey) // Check for "E" key press
       ) {
         const targetRoom = door.getData("targetRoom"); // Get the target room name
@@ -120,11 +153,14 @@ class MainGameScene extends Phaser.Scene {
   }
 }
 
-// Game configuration
+// Game initialization
+const worldWidth = 64 * (16 * 4); //expanded width
+const worldHeight = 64 * (9 * 4); //expanded height
+
 const config = {
   type: Phaser.AUTO,
-  width: 64 * 16,
-  height: 64 * 9,
+  width: 64 * 16, // Camera size
+  height: 64 * 9, // Camera size
   physics: {
     default: "arcade",
     arcade: {
@@ -132,10 +168,11 @@ const config = {
       debug: false,
     },
   },
-  scene: [MainGameScene, Room1, Room2, Room3],
+  scene: [MainGameScene, Room1, Room2, Room3], // Keep the scenes as they are
 };
 
+// Initialize the game
 const game = new Phaser.Game(config);
 
 const playerStartX = 100;
-const playerStartY = 500;
+const playerStartY = 500 + 1700;
