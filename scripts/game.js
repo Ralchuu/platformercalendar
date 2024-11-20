@@ -86,10 +86,10 @@ function create() {
   for (let i = 0; i < savepointCoordinates.length; i++) {
     let x = savepointCoordinates[i].x;
     let y = savepointCoordinates[i].y;
-    let sp = this.physics.add.sprite(x, y, "savepoint");
-    sp.setImmovable(true);
-    sp.body.allowGravity = false;
-    savepoints.push(sp);
+    let savepoint = this.physics.add.sprite(x, y, "savepoint");
+    savepoint.setImmovable(true);
+    savepoint.body.allowGravity = false;
+    savepoints.push(savepoint);
   }
 
   // Create player
