@@ -8,7 +8,7 @@ const config = {
    physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 500 },
+      gravity: { y: 1000 },
       debug: false,
     },
   },
@@ -32,7 +32,7 @@ let isNearDoor = false;  // Flag to check if the player is near the door
 
 // Player starting position
 const playerStartX = 100;
-const playerStartY = 500;
+const playerStartY = 2400;
 
 function preload() {
   this.load.image("background", "assets/2testbackground.png");
@@ -41,11 +41,11 @@ function preload() {
   this.load.image("platform", "assets/ground2.png");
   this.load.image("door", "assets/castledoors.png");
 }
-
+// asd
 function create() {
   // Expand the world by a factor of 5
-  const expandedWidth = config.width * 5;  // 5 times the original width
-  const expandedHeight = config.height * 5;  // 5 times the original height
+  const expandedWidth = config.width * 4;  // 2 times the original width
+  const expandedHeight = config.height * 3;  // 2 times the original height
 
   // Create a larger background to cover the expanded world
   const bg = this.add.tileSprite(0, 0, expandedWidth, expandedHeight, "background").setOrigin(0, 0);
@@ -56,18 +56,18 @@ function create() {
 
   // Create walls group
   walls = this.physics.add.staticGroup();
-  walls.create(200, 200, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(100, 250, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(750, 300, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(950, 350, "platform").setScale(0.5, 1).refreshBody();
+  walls.create(300, 2300, "platform").setScale(0.5, 10).refreshBody();
+  walls.create(200, 2300, "platform").setScale(0.5, 10).refreshBody();
+  walls.create(750, 2300, "platform").setScale(0.5, 10).refreshBody();
+  walls.create(950, 2300, "platform").setScale(0.5, 1).refreshBody();
   
   // Platforms group (added more platforms to fill the expanded space)
   platforms = this.physics.add.staticGroup();
-  platforms.create(200, 505, "wall").setScale(1, 0.5).refreshBody();
-  platforms.create(400, 470, "wall").setScale(1, 1).refreshBody();
-  platforms.create(500, 1000, "wall").setScale(1000, 1).refreshBody();
-  platforms.create(800, 400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+  platforms.create(200, 2400, "wall").setScale(1, 0.5).refreshBody();
+  platforms.create(400, 2400, "wall").setScale(1, 1).refreshBody();
+  platforms.create(500, 2570, "wall").setScale(1000, 1).refreshBody();
+  platforms.create(800, 2400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+  platforms.create(1200, 2400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
 
   // Create a door at a new position (optional)
   door = this.physics.add.sprite(2000, 490, "door");
