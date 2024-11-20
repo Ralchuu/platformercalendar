@@ -8,7 +8,7 @@ const config = {
    physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 1000 },
+      gravity: { y: 2500 },
       debug: false,
     },
   },
@@ -54,24 +54,36 @@ function create() {
   // Set the physics world bounds to the new dimensions
   this.physics.world.setBounds(0, 0, expandedWidth, expandedHeight);
 
-  // Create walls group
+  //WALLS GROUP
+  // X = HORIZONTAL. lower number = left
+  // Y = VERTICAL. lower number = higher up
+
   walls = this.physics.add.staticGroup();
-  walls.create(300, 2300, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(200, 2300, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(750, 2300, "platform").setScale(0.5, 10).refreshBody();
-  walls.create(950, 2300, "platform").setScale(0.5, 1).refreshBody();
+  walls.create(1775, 2200, "platform").setScale(0.5, 10).refreshBody();   //eka kiipeilyseinä
   
-  // Platforms group (added more platforms to fill the expanded space)
+  
+  // PLATFORMS GROUP
+  // X = HORIZONTAL. lower number = left
+  // Y = VERTICAL. lower number = higher up
+
   platforms = this.physics.add.staticGroup();
-  platforms.create(200, 2450, "wall").setScale(1, 0.5).refreshBody();
-  platforms.create(400, 2450, "wall").setScale(1, 1).refreshBody();
-  platforms.create(500, 2580, "wall").setScale(1000, 1).refreshBody();
-  platforms.create(800, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
-  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+
+  platforms.create(10, 2580, "wall").setScale(1000, 1).refreshBody();     //lattia 
+
+  // luukku 1
+  platforms.create(300, 2485, "wall").setScale(1, 0.5).refreshBody();
+  platforms.create(400, 2453, "wall").setScale(1, 1).refreshBody();       //tähän ovi
+  
+  //luukku 1 - 2
+  platforms.create(650, 2453, "wall").setScale(1, 1).refreshBody();
+  platforms.create(900, 2453, "wall").setScale(1, 1).refreshBody();       // tähän ovi
+  
+  //luukku 2 - 3
+  platforms.create(1100, 2350, "wall").setScale(1, 0.2).refreshBody();
+  platforms.create(1300, 2280, "wall").setScale(1, 0.2).refreshBody();
+  platforms.create(1500, 2210, "wall").setScale(1, 0.2).refreshBody();
+  platforms.create(1700, 2140, "wall").setScale(1, 0.2).refreshBody();    //tähän ovi
+  
 
   // Create a door at a new position (optional)
   door = this.physics.add.sprite(2000, 490, "door");
