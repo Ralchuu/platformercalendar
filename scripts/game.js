@@ -89,8 +89,8 @@ class MainGameScene extends Phaser.Scene {
 
     // List of all savepoint coordinates
     let savepointCoordinates = [
-      { x: 207, y: 455 },
-      { x: 407, y: 392 },
+      {x: 400, y: 2125},
+      {x: 650, y: 2125}
     ];
 
     // Adding savepoints to listed coordinates
@@ -238,7 +238,7 @@ function save(x, y) {
 function load() {
   let saveObject = JSON.parse(localStorage.getItem("save"));
   try {
-    player.setPosition(saveObject.x, saveObject.y);
+    this.player.setPosition(saveObject.x, saveObject.y);
   } catch (error) {
     console.log("No save file to load");
   }
