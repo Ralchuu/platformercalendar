@@ -78,6 +78,7 @@ function create() {
   // Platforms group (added more platforms to fill the expanded space)
   platforms = this.physics.add.staticGroup();
 <<<<<<< HEAD
+<<<<<<< HEAD
   platforms.create(200, 505, "wall").setScale(1, 0.5).refreshBody();
   platforms.create(400, 470, "wall").setScale(1, 1).refreshBody();
   platforms.create(500, 1000, "wall").setScale(1000, 1).refreshBody();
@@ -91,6 +92,13 @@ function create() {
   platforms.create(800, 2400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
   platforms.create(1200, 2400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
 >>>>>>> 52a3800 (asd3)
+=======
+  platforms.create(200, 2450, "wall").setScale(1, 0.5).refreshBody();
+  platforms.create(400, 2450, "wall").setScale(1, 1).refreshBody();
+  platforms.create(500, 2580, "wall").setScale(1000, 1).refreshBody();
+  platforms.create(800, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+  platforms.create(1200, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+>>>>>>> 9873c4a (korjaus)
 
   // Create a door at a new position (optional)
   door = this.physics.add.sprite(2000, 490, "door");
