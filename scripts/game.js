@@ -27,9 +27,6 @@ let wasd;
 let spaceBar;
 let walls;
 let platforms;
-let savepoint1;
-let savepoint2;
-let isNearSavepoint = false;
 let savepoints = [];
 let doors = [];
 let openedDoors = Array(24).fill(false);
@@ -79,15 +76,21 @@ function create() {
     doors.push(door);
   }
 
-  //Adding two savepoints
-  savepoint1 = this.physics.add.sprite(207, 455, "savepoint");
-  savepoint1.setImmovable(true);
-  savepoint1.body.allowGravity = false;
-  savepoint2 = this.physics.add.sprite(407, 392 , "savepoint");
-  savepoint2.setImmovable(true);
-  savepoint2.body.allowGravity = false;
-  savepoints.push(savepoint2);
-  savepoints.push(savepoint1, savepoint2);
+  // List of all savepoint coordinates
+  let savepointCoordinates = [
+    { x: 207, y: 455 },
+    { x: 407, y: 392 },
+  ];
+
+  // Adding savepoints to listed coordinates
+  for (let i = 0; i < savepointCoordinates.length; i++) {
+    let x = savepointCoordinates[i].x;
+    let y = savepointCoordinates[i].y;
+    let sp = this.physics.add.sprite(x, y, "savepoint");
+    sp.setImmovable(true);
+    sp.body.allowGravity = false;
+    savepoints.push(sp);
+  }
 
   // Create player
   player = new Player(this, playerStartX, playerStartY, "player", platforms);
@@ -118,12 +121,17 @@ function update(time, delta) {
   // Update player movements
   player.update(cursors, wasd, spaceBar, cursors.shift, delta);
 
-  // Check if the player is near the savepoint
-  isNearSavepoint = Phaser.Math.Distance.Between(player.x, player.y, savepoint1.x, savepoint1.y) < 50;
-
-  // If near the door, allow the player to interact
-  if (isNearSavepoint && Phaser.Input.Keyboard.JustDown(this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E))) {
-    save(savepoint1.x, savepoint1.y);
+  // Save coordinates of savepoint if close and pressing E
+  for (let i = 0; i < savepoints.length; i++) {
+    let sp = savepoints[i];
+    let isNear =
+      Phaser.Math.Distance.Between(player.x, player.y, sp.x, sp.y) < 50;
+    let savePointUsed = Phaser.Input.Keyboard.JustDown(
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+    );
+    if (isNear && savePointUsed) {
+      save(sp.x, sp.y);
+    }
   }
 }
 
@@ -132,7 +140,7 @@ function save(x, y) {
   let saveObject = {
     //test values
     x: x,
-    y: y-20,
+    y: y - 20,
   };
   console.log("Saved coordinates x: " + x + ", y: " + y);
   localStorage.setItem("save", JSON.stringify(saveObject));
