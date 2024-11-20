@@ -1,4 +1,5 @@
 import Player from "./player.js";
+
 import Room1 from "./rooms/room1.js";
 import Room2 from "./rooms/room2.js";
 import Room3 from "./rooms/room3.js";
@@ -13,6 +14,7 @@ class MainGameScene extends Phaser.Scene {
     this.platforms = null;
     this.hazards = null;
     this.doors = [];
+    this.savepoints = [];
     this.player = null;
     this.cursors = null;
     this.wasd = null;
@@ -27,6 +29,7 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("wall", "assets/wall.png");
     this.load.image("hazard", "assets/bomb.png");
     this.load.image("door", "assets/castledoors.png");
+    this.load.image("savepoint", "assets/savepoint.png");
   }
 
   create() {
@@ -74,6 +77,22 @@ class MainGameScene extends Phaser.Scene {
       this.createDoor(1000, 2230, "Room3"),
       
     ];
+    
+      // List of all savepoint coordinates
+  let savepointCoordinates = [
+    { x: 207, y: 455 },
+    { x: 407, y: 392 },
+  ];
+
+  // Adding savepoints to listed coordinates
+  for (let i = 0; i < savepointCoordinates.length; i++) {
+    let x = savepointCoordinates[i].x;
+    let y = savepointCoordinates[i].y;
+    let savepoint = this.physics.add.sprite(x, y, "savepoint");
+    savepoint.setImmovable(true);
+    savepoint.body.allowGravity = false;
+    savepoints.push(savepoint);
+  }
 
     // Create player at the starting position
     this.player = new Player(
@@ -118,6 +137,9 @@ class MainGameScene extends Phaser.Scene {
     door.setData("targetRoom", targetRoom); // Store the target room name
     return door;
   }
+  
+    // Load the previous save
+  load();
 
   update(time, delta) {
     // Update player movements
@@ -150,6 +172,22 @@ class MainGameScene extends Phaser.Scene {
         }
       }
     });
+    
+      // Save coordinates of savepoint if close and pressing E
+  savepoints.forEach((savepoint) => {
+    if (
+      Phaser.Math.Distance.Between(
+        player.x,
+        player.y,
+        savepoint.x,
+        savepoint.y
+      ) < 50 &&
+      Phaser.Input.Keyboard.JustDown(
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+      )
+    ) {
+      save(savepoint.x, savepoint.y);
+    }});
   }
 }
 
@@ -176,3 +214,23 @@ const game = new Phaser.Game(config);
 
 const playerStartX = 100;
 const playerStartY = 500 + 1700;
+
+// Save & load the game
+function save(x, y) {
+  let saveObject = {
+    //test values
+    x: x,
+    y: y - 20,
+  };
+  console.log("Saved coordinates x: " + x + ", y: " + y);
+  localStorage.setItem("save", JSON.stringify(saveObject));
+}
+
+function load() {
+  let saveObject = JSON.parse(localStorage.getItem("save"));
+  try {
+    player.setPosition(saveObject.x, saveObject.y);
+  } catch (error) {
+    console.log("No save file to load");
+  }
+}
