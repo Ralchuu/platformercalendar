@@ -68,6 +68,8 @@ function create() {
   platforms.create(500, 2580, "wall").setScale(1000, 1).refreshBody();
   platforms.create(800, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
   platforms.create(1200, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+  platforms.create(1200, 300, "wall").setScale(1, 0.5).refreshBody();  // New platform added
 
   // Create a door at a new position (optional)
   door = this.physics.add.sprite(2000, 490, "door");
