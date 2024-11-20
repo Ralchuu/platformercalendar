@@ -122,17 +122,20 @@ function update(time, delta) {
   player.update(cursors, wasd, spaceBar, cursors.shift, delta);
 
   // Save coordinates of savepoint if close and pressing E
-  for (let i = 0; i < savepoints.length; i++) {
-    let sp = savepoints[i];
-    let isNear =
-      Phaser.Math.Distance.Between(player.x, player.y, sp.x, sp.y) < 50;
-    let savePointUsed = Phaser.Input.Keyboard.JustDown(
-      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
-    );
-    if (isNear && savePointUsed) {
-      save(sp.x, sp.y);
-    }
-  }
+  savepoints.forEach((savepoint) => {
+    if (
+      Phaser.Math.Distance.Between(
+        player.x,
+        player.y,
+        savepoint.x,
+        savepoint.y
+      ) < 50 &&
+      Phaser.Input.Keyboard.JustDown(
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+      )
+    ) {
+      save(savepoint.x, savepoint.y);
+    }});
 }
 
 // Save & load the game
