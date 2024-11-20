@@ -59,8 +59,8 @@ function create() {
   // Y = VERTICAL. lower number = higher up
 
   walls = this.physics.add.staticGroup();
-  walls.create(1775, 2200, "platform").setScale(0.5, 10).refreshBody();   //eka kiipeilyseinä
-  
+  walls.create(1775, 2200, "platform").setScale(0.5, 10).refreshBody();   //eka kiipeilyseinä :)
+
   
   // PLATFORMS GROUP
   // X = HORIZONTAL. lower number = left
