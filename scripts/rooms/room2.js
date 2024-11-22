@@ -16,8 +16,8 @@ class Room2 extends Phaser.Scene {
     this.width = 1024;
     this.height = 576;
 
-    const playerStartX = data?.playerStartX || 100;
-    const playerStartY = data?.playerStartY || 500;
+    const playerStartX = 300;
+    const playerStartY = 445;
 
     const bg = this.add
       .tileSprite(0, 0, this.width * 2, this.height, "background")
@@ -27,13 +27,13 @@ class Room2 extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, this.width * 2, this.height);
 
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(300, 500, "platform").setScale(1, 0.5).refreshBody();
-    this.platforms.create(450, 470, "platform").setScale(1, 1).refreshBody();
+    this.platforms.create(300, 505, "platform").setScale(1, 0.5).refreshBody();
+    this.platforms.create(400, 470, "platform").setScale(1, 1).refreshBody();
     this.platforms.create(500, 600, "platform").setScale(1000, 1).refreshBody();
 
     this.player = new Player(this, playerStartX, playerStartY, "player", this.platforms);
-
-    this.returnDoor = this.physics.add.sprite(200, 400, "door");
+    this.player.setDepth(1);
+    this.returnDoor = this.physics.add.sprite(300, 437, "door").setScale(0.3).setDepth(0);
     this.returnDoor.setImmovable(true);
     this.returnDoor.body.allowGravity = false;
 
@@ -51,12 +51,15 @@ class Room2 extends Phaser.Scene {
       right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
     };
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+
     this.shiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
+
     this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
   }
 
   update(time, delta) {
-    // Update player movement and dash input
+    // Update player movement, dash, and jump input
     this.player.update(this.cursors, this.wasd, this.spaceBar, this.shiftKey, delta);
 
     // Check if the player is near the door and presses 'E' to transition
@@ -64,7 +67,7 @@ class Room2 extends Phaser.Scene {
       Phaser.Math.Distance.Between(this.player.x, this.player.y, this.returnDoor.x, this.returnDoor.y) < 50 &&
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
-      this.scene.start("MainGameScene");  // Transition to main scene
+      this.scene.start("MainGameScene");  // Transition to another scene
     }
   }
 }
