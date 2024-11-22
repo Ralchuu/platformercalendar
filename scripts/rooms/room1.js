@@ -16,8 +16,8 @@ class Room1 extends Phaser.Scene {
     this.width = 1024;
     this.height = 576;
 
-    const playerStartX = data?.playerStartX || 100;
-    const playerStartY = data?.playerStartY || 500;
+    const playerStartX = 300;
+    const playerStartY = 445;
 
     const bg = this.add
       .tileSprite(0, 0, this.width * 2, this.height, "background")
@@ -32,8 +32,8 @@ class Room1 extends Phaser.Scene {
     this.platforms.create(500, 600, "platform").setScale(1000, 1).refreshBody();
 
     this.player = new Player(this, playerStartX, playerStartY, "player", this.platforms);
-
-    this.returnDoor = this.physics.add.sprite(200, 400, "door");
+    this.player.setDepth(1);
+    this.returnDoor = this.physics.add.sprite(300, 437, "door").setScale(0.3).setDepth(0);
     this.returnDoor.setImmovable(true);
     this.returnDoor.body.allowGravity = false;
 

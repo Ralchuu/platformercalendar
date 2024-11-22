@@ -47,8 +47,11 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("platform", "assets/ground1.png");
     this.load.image("wall", "assets/wall.png");
     this.load.image("hazard", "assets/bomb.png");
-    this.load.image("door", "assets/castledoors.png");
+    this.load.image("door", "assets/door.png");
+    this.load.image("cabin1", "assets/cabin1.png");
+    this.load.image("cabin2", "assets/cabin2.png");
     this.load.image("savepoint", "assets/savepoint.png");
+
   }
 
   create() {
@@ -67,45 +70,48 @@ class MainGameScene extends Phaser.Scene {
 
     // Platforms group
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia
+    this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia 
 
-    // luukku 1
+
+    // Alku - Luukku 1
     this.platforms.create(300, 2245, "platform").setScale(1, 0.5).refreshBody();
     this.platforms.create(400, 2210, "platform").setScale(1, 1).refreshBody();
 
-    //luukku 1 - 2
     this.platforms.create(650, 2210, "platform").setScale(1, 1).refreshBody();
-    this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();
+    this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();    
+    this.platforms.create(1027, 2210, "platform").setScale(1, 1).setFlipX(true).refreshBody();    
 
-    //luukku 2 - 3
-    this.platforms
-      .create(1100, 2100, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1300, 2030, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1500, 1960, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1700, 1890, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
+    // luukku 1 - 2
+    this.platforms.create(900 + 300, 2100, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1100 + 300, 2030, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1300 + 300, 1960, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1500 + 300, 1890, "platform").setScale(1, 0.2).refreshBody(); 
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
     this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
 
-    // Create individual doors
+    // doors (rooms 1 to 24)
     this.doors = [
-      this.createDoor(903, 2100, "Room1"),
-      this.createDoor(1100, 2230, "Room2"),
-      this.createDoor(1000, 2230, "Room3")
+      this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1),
+      this.createDoor(1400, 2240, "Room2").setScale(0.3).setDepth(1),
+      this.createDoor(1800, 2240, "Room3").setScale(0.3).setDepth(1),
+      this.createDoor(2300, 2240, "Room4").setScale(0.3).setDepth(1),
+      this.createDoor(2600, 2240, "Room5").setScale(0.3).setDepth(1),
     ];
 
+    // Add cabins behind doors based on room number (odd/even)
+    this.doors.forEach((door) => {
+      const targetRoom = door.getData("targetRoom"); // Get target room name
+      const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
+
+      // Attach cabin1 for odd rooms and cabin2 for even rooms
+      if (roomNumber % 2 === 1) {
+        this.add.image(door.x, door.y - 39, "cabin1").setScale(1.5).setDepth(0); // Attach cabin1
+      } else {
+        this.add.image(door.x, door.y - 44, "cabin2").setScale(1.4).setDepth(0); // Attach cabin2
+      }
+    });
     // List of all savepoint coordinates
     let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 }];
 
@@ -127,6 +133,7 @@ class MainGameScene extends Phaser.Scene {
       "player",
       this.platforms
     );
+    this.player.setDepth(3);
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
@@ -161,6 +168,7 @@ class MainGameScene extends Phaser.Scene {
     const door = this.physics.add.sprite(x, y, "door");
     door.setImmovable(true);
     door.body.allowGravity = false;
+    door.body.setEnable(false);
     door.setData("targetRoom", targetRoom); // Store the target room name
     return door;
   }
@@ -216,9 +224,8 @@ class MainGameScene extends Phaser.Scene {
   }
 }
 
-// Game initialization
-const worldWidth = 64 * (16 * 4); //expanded width
-const worldHeight = 64 * (9 * 4); //expanded height
+const worldWidth = 64 * (16 * 4); // world width
+const worldHeight = 64 * (9 * 4); // world height
 
 const config = {
   type: Phaser.AUTO,
@@ -231,7 +238,7 @@ const config = {
       debug: false
     }
   },
-  scene: [MainGameScene, Room1, Room2, Room3] // Keep the scenes as they are
+  scene: [MainGameScene, Room1, Room2, Room3]
 };
 
 // Initialize the game
