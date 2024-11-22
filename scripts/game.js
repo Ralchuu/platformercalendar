@@ -227,7 +227,6 @@ const playerStartY = 500 + 1700;
 // Save & load the game
 function save(x, y) {
   let saveObject = {
-    //test values
     x: x,
     y: y - 20,
   };
