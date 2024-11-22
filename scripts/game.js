@@ -1,4 +1,5 @@
 import Player from "./player.js";
+
 import Room1 from "./rooms/room1.js";
 import Room2 from "./rooms/room2.js";
 import Room3 from "./rooms/room3.js";
@@ -13,11 +14,31 @@ class MainGameScene extends Phaser.Scene {
     this.platforms = null;
     this.hazards = null;
     this.doors = [];
+    this.savepoints = [];
     this.player = null;
     this.cursors = null;
     this.wasd = null;
     this.spaceBar = null;
     this.eKey = null;
+  }
+
+  // Save & load the game
+  saveGame(x, y) {
+    let saveObject = {
+      x: x,
+      y: y - 20
+    };
+    console.log("Saved coordinates x: " + x + ", y: " + y);
+    localStorage.setItem("save", JSON.stringify(saveObject));
+  }
+
+  loadGame() {
+    let saveObject = JSON.parse(localStorage.getItem("save"));
+    try {
+      this.player.setPosition(saveObject.x, saveObject.y);
+    } catch (error) {
+      console.log("No save file to load");
+    }
   }
 
   preload() {
@@ -29,6 +50,8 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
+    this.load.image("savepoint", "assets/savepoint.png");
+
   }
 
   create() {
@@ -49,9 +72,11 @@ class MainGameScene extends Phaser.Scene {
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia 
 
+
     // Alku - Luukku 1
     this.platforms.create(300, 2245, "platform").setScale(1, 0.5).refreshBody();
     this.platforms.create(400, 2210, "platform").setScale(1, 1).refreshBody();
+
     this.platforms.create(650, 2210, "platform").setScale(1, 1).refreshBody();
     this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();    
     this.platforms.create(1027, 2210, "platform").setScale(1, 1).setFlipX(true).refreshBody();    
@@ -87,6 +112,19 @@ class MainGameScene extends Phaser.Scene {
         this.add.image(door.x, door.y - 44, "cabin2").setScale(1.4).setDepth(0); // Attach cabin2
       }
     });
+    // List of all savepoint coordinates
+    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 }];
+
+    // Adding savepoints to listed coordinates
+    for (let i = 0; i < savepointCoordinates.length; i++) {
+      let x = savepointCoordinates[i].x;
+      let y = savepointCoordinates[i].y;
+      let savepoint = this.physics.add.sprite(x, y, "savepoint");
+      savepoint.setImmovable(true);
+      savepoint.body.allowGravity = false;
+      this.savepoints.push(savepoint);
+    }
+
     // Create player at the starting position
     this.player = new Player(
       this,
@@ -116,12 +154,14 @@ class MainGameScene extends Phaser.Scene {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
       left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
       down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
     };
     this.spaceBar = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+
+    this.loadGame();
   }
 
   createDoor(x, y, targetRoom) {
@@ -144,7 +184,7 @@ class MainGameScene extends Phaser.Scene {
     );
 
     // Check if the player is interacting with any door
-    this.doors.forEach((door) => {
+    this.doors.forEach(door => {
       if (
         Phaser.Math.Distance.Between(
           this.player.x,
@@ -159,17 +199,33 @@ class MainGameScene extends Phaser.Scene {
           // Transition to the target room
           this.scene.start(targetRoom, {
             playerStartX: this.player.x,
-            playerStartY: this.player.y,
+            playerStartY: this.player.y
           });
         }
+      }
+    });
+
+    // Save coordinates of savepoint if close and pressing E
+    this.savepoints.forEach(savepoint => {
+      if (
+        Phaser.Math.Distance.Between(
+          this.player.x,
+          this.player.y,
+          savepoint.x,
+          savepoint.y
+        ) < 50 &&
+        Phaser.Input.Keyboard.JustDown(
+          this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+        )
+      ) {
+        this.saveGame(savepoint.x, savepoint.y);
       }
     });
   }
 }
 
-// Game initialization
-const worldWidth = 64 * (16 * 4); //expanded width
-const worldHeight = 64 * (9 * 4); //expanded height
+const worldWidth = 64 * (16 * 4); // world width
+const worldHeight = 64 * (9 * 4); // world height
 
 const config = {
   type: Phaser.AUTO,
@@ -179,10 +235,10 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 2500 },
-      debug: false,
-    },
+      debug: false
+    }
   },
-  scene: [MainGameScene, Room1, Room2, Room3], // Keep the scenes as they are
+  scene: [MainGameScene, Room1, Room2, Room3]
 };
 
 // Initialize the game
