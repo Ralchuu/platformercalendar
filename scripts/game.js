@@ -55,9 +55,8 @@ class MainGameScene extends Phaser.Scene {
   }
 
   create() {
-    const bg = this.add
-      .tileSprite(0, 250, worldWidth, worldHeight, "background") // Background covering world
-      .setOrigin(0, 0);
+    const bg = this.add.tileSprite(0, 250, worldWidth, worldHeight, "background"); // Background covering world
+    bg.setOrigin(0, 0);
     bg.setDisplaySize(10250, 2280);
 
     // Set the new world bounds
