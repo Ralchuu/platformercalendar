@@ -207,7 +207,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     // Apply the velocity for wall jump
     this.setVelocityX(direction * 400); // Horizontal force
-    this.setVelocityY(-650); // Vertical force
+    this.setVelocityY(-700); // Vertical force
 
     // Set the flip direction
     this.setFlipX(direction === -1);
