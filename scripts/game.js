@@ -61,7 +61,7 @@ class MainGameScene extends Phaser.Scene {
     bg.setDisplaySize(worldWidth, worldHeight);
 
     // Set the new world bounds
-    this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
+    this.physics.world.setBounds(0, 0, 8000, 8000);
 
     // Walls group
       // X = HORIZONTAL, higher number = further right
@@ -73,6 +73,9 @@ class MainGameScene extends Phaser.Scene {
     this.walls.create(2080, 1800, "wall").setScale(4, 35).refreshBody();
     this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
     this.walls.create(2600, 1800, "wall").setScale(4, 35).refreshBody();
+    this.walls.create(3630, 1700, "wall").setScale(8, 25).refreshBody();    
+    this.walls.create(4050, 1800, "wall").setScale(8, 30).refreshBody();  // piikkejä seinään? 
+    
 
     // Platforms group
       // X = HORIZONTAL, higher number = further right
@@ -132,11 +135,32 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(1450+125, 1350, "platform").setScale(1, 0.2).refreshBody(); // JOULUKUUSI TÄHÄN 
     this.platforms.create(1450+250, 1120, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody();     // ovi 6
-    // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
+
+    // luukku 6 - 7
+                  // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
 
     // luukku 7 - 8
-    //this.platforms.create(2730, 1260, "platform").setScale(1, 0.2).refreshBody();
-    //this.platforms.create(2860, 1500, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(2730, 1260, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(2730+125, 1260, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
+
+  //luukku 8 - 9
+    this.platforms.create(3100, 1800, "platform").setScale(3, 8.6).refreshBody();
+              //ovi 9 lattialle kohtaan x: 3620, y: 2240
+
+              //OVI 9 - 10
+              this.platforms.create(4300, 1290, "platform").setScale(1, 0.2).refreshBody(); //ovi 10
+              this.platforms.create(4425, 1290, "platform").setScale(1, 0.2).refreshBody();
+              this.platforms.create(4600, 1230, "platform").setScale(1, 0.2).refreshBody();
+              this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
+              this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
+
+              this.platforms.create(5140-120, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi tähän
+              this.platforms.create(5140-120+125, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi
+              
+              this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
+              this.platforms.create(5190+125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11 jonnekki tänne kai
+              
+    
 
 
     // Hazards group
@@ -166,7 +190,7 @@ class MainGameScene extends Phaser.Scene {
     });
     // List of all savepoint coordinates
     //checkpoint height approx 40
-    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 },{ x: 2700, y: 1220e }];
+    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 },{ x: 2800, y: 1220 },{ x: 3620, y: 2240 },{ x: 4300, y: 1245 }];
 
     // Adding savepoints to listed coordinates
     for (let i = 0; i < savepointCoordinates.length; i++) {
@@ -190,8 +214,8 @@ class MainGameScene extends Phaser.Scene {
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
-    this.cameras.main.setZoom(0.75); // Set the zoom level
+    this.cameras.main.setBounds(0, 0, 8000, 8000);
+    this.cameras.main.setZoom(0.3); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
