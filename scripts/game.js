@@ -56,9 +56,9 @@ class MainGameScene extends Phaser.Scene {
 
   create() {
     const bg = this.add
-      .tileSprite(0, 0, worldWidth, worldHeight, "background") // Background covering world
+      .tileSprite(0, 250, worldWidth, worldHeight, "background") // Background covering world
       .setOrigin(0, 0);
-    bg.setDisplaySize(worldWidth, worldHeight);
+    bg.setDisplaySize(10250, 2280);
 
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, 8000, 8000);
@@ -215,7 +215,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.3); // Set the zoom level
+    this.cameras.main.setZoom(0.1); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
