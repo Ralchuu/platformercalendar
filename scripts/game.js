@@ -190,7 +190,7 @@ class MainGameScene extends Phaser.Scene {
     });
     // List of all savepoint coordinates
     //checkpoint height approx 40
-    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 },{ x: 2800, y: 1220 },{ x: 3620, y: 2240 },{ x: 4300, y: 1245 }];
+    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 },{ x: 2800, y: 1220 },{ x: 3620, y: 2240 },{ x: 4300, y: 1275 }];
 
     // Adding savepoints to listed coordinates
     for (let i = 0; i < savepointCoordinates.length; i++) {
