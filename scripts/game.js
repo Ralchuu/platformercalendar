@@ -71,7 +71,8 @@ class MainGameScene extends Phaser.Scene {
     this.walls.create(20, 2050, "wall").setScale(0.5, 10).refreshBody();
 
     this.walls.create(2080, 1800, "wall").setScale(4, 35).refreshBody();
-    this.walls.create(2350, 1560, "wall").setScale(4, 35).refreshBody();
+    this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
+    this.walls.create(2600, 1800, "wall").setScale(4, 35).refreshBody();
 
     // Platforms group
       // X = HORIZONTAL, higher number = further right
@@ -133,6 +134,10 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody();     // ovi 6
     // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
 
+    // luukku 7 - 8
+    //this.platforms.create(2730, 1260, "platform").setScale(1, 0.2).refreshBody();
+    //this.platforms.create(2860, 1500, "platform").setScale(1, 0.2).refreshBody();
+
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
@@ -161,7 +166,7 @@ class MainGameScene extends Phaser.Scene {
     });
     // List of all savepoint coordinates
     //checkpoint height approx 40
-    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 }];
+    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 },{ x: 2700, y: 1220e }];
 
     // Adding savepoints to listed coordinates
     for (let i = 0; i < savepointCoordinates.length; i++) {
