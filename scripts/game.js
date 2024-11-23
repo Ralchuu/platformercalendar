@@ -8,7 +8,7 @@ import Room3 from "./rooms/room3.js";
 class MainGameScene extends Phaser.Scene {
   constructor() {
     super("MainGameScene");
-
+    this.lastDoorPosition = { x: 0, y: 0 };
     // Declare game objects and state variables
     this.walls = null;
     this.platforms = null;
@@ -45,13 +45,11 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("background", "assets/2testbackground.png");
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground1.png");
-    this.load.image("wall", "assets/wall.png");
     this.load.image("hazard", "assets/bomb.png");
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
     this.load.image("savepoint", "assets/savepoint.png");
-
   }
 
   create() {
@@ -162,6 +160,21 @@ class MainGameScene extends Phaser.Scene {
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
     this.loadGame();
+    this.doors.forEach(door => {
+      door.on("pointerdown", () => {
+        // Save the position of the door when it is clicked
+        this.lastDoorPosition = { x: door.x, y: door.y };
+
+        // Start the target room and pass the door position as data
+        const targetRoom = door.getData("targetRoom");
+        if (targetRoom) {
+          this.scene.start(targetRoom, {
+            playerStartX: this.lastDoorPosition.x,
+            playerStartY: this.lastDoorPosition.y
+          });
+        }
+      });
+    });
   }
 
   createDoor(x, y, targetRoom) {
@@ -234,7 +247,7 @@ const config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 2500 },
+      gravity: { y: 1500 },
       debug: false
     }
   },

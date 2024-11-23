@@ -10,14 +10,16 @@ class Room1 extends Phaser.Scene {
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground1.png");
     this.load.image("door", "assets/castledoors.png");
+    this.load.image("cabin-wall", "assets/cabin-wall.png");
+
   }
 
   create(data) {
     this.width = 1024;
     this.height = 576;
 
-    const playerStartX = 300;
-    const playerStartY = 445;
+    const playerStartX = 400;
+    const playerStartY = 322;
 
     const bg = this.add
       .tileSprite(0, 0, this.width * 2, this.height, "background")
@@ -27,15 +29,18 @@ class Room1 extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, this.width * 2, this.height);
 
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(300, 505, "platform").setScale(1, 0.5).refreshBody();
-    this.platforms.create(400, 470, "platform").setScale(1, 1).refreshBody();
-    this.platforms.create(500, 600, "platform").setScale(1000, 1).refreshBody();
+    this.platforms.create(270, 355, "platform").setScale(0.1, 10.5).refreshBody().setDepth(3);
+    this.platforms.create(725, 370, "platform").setScale(0.1, 101).refreshBody().setDepth(3);
+    this.platforms.create(500, 370, "platform").setScale(1000, 0.2).refreshBody().setDepth(3);
 
     this.player = new Player(this, playerStartX, playerStartY, "player", this.platforms);
-    this.player.setDepth(1);
-    this.returnDoor = this.physics.add.sprite(300, 437, "door").setScale(0.3).setDepth(0);
+    this.player.setDepth(5);
+    this.returnDoor = this.physics.add.sprite(400, 322, "door").setScale(0.3).setDepth(2);
     this.returnDoor.setImmovable(true);
     this.returnDoor.body.allowGravity = false;
+
+    this.add.image(500, 250,"cabin-wall").setScale(0.3).setDepth(0.3);
+
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, this.width * 2, this.height);
