@@ -73,8 +73,8 @@ class MainGameScene extends Phaser.Scene {
     this.walls.create(2080, 1800, "wall").setScale(4, 35).refreshBody();
     this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
     this.walls.create(2600, 1800, "wall").setScale(4, 35).refreshBody();
-    this.walls.create(3630, 1700, "wall").setScale(8, 25).refreshBody();    
-    this.walls.create(4050, 1800, "wall").setScale(8, 30).refreshBody();  // piikkejä seinään? 
+    this.walls.create(3630+50, 1700, "wall").setScale(8, 25).refreshBody();    
+    this.walls.create(4050+50, 1800, "wall").setScale(8, 30).refreshBody();  // piikkejä seinään? 
     
 
     // Platforms group
@@ -148,9 +148,9 @@ class MainGameScene extends Phaser.Scene {
               //ovi 9 lattialle kohtaan x: 3620, y: 2240
 
               //OVI 9 - 10
-              this.platforms.create(4300, 1290, "platform").setScale(1, 0.2).refreshBody(); //ovi 10
-              this.platforms.create(4425, 1290, "platform").setScale(1, 0.2).refreshBody();
-              this.platforms.create(4600, 1230, "platform").setScale(1, 0.2).refreshBody();
+              this.platforms.create(4300, 1290+30, "platform").setScale(1, 0.2).refreshBody(); //ovi 10
+              this.platforms.create(4425, 1290+30, "platform").setScale(1, 0.2).refreshBody();
+              this.platforms.create(4600, 1230+15, "platform").setScale(1, 0.2).refreshBody();
               this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
               this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
 
