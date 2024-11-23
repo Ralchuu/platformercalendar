@@ -145,7 +145,7 @@ class MainGameScene extends Phaser.Scene {
 
     // Reset player on touching hazards
     this.physics.add.collider(this.player, this.hazards, () => {
-      this.player.resetPosition(playerStartX, playerStartY);
+      this.loadGame();
     });
 
     // Input configuration
@@ -201,6 +201,7 @@ class MainGameScene extends Phaser.Scene {
             playerStartX: this.player.x,
             playerStartY: this.player.y
           });
+          this.saveGame(this.player.x, this.player.y);
         }
       }
     });
