@@ -141,10 +141,10 @@ class MainGameScene extends Phaser.Scene {
 
     // luukku 7 - 8
     this.platforms.create(2730, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(2730+125, 1260, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
+    this.platforms.create(2730+125, 1260+50, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
 
   //luukku 8 - 9
-    this.platforms.create(3100, 1800, "platform").setScale(3, 8.6).refreshBody();
+    this.platforms.create(3100, 1800, "platform").setScale(3, 7.5).refreshBody();
               //ovi 9 lattialle kohtaan x: 3620, y: 2240
 
               //OVI 9 - 10
@@ -190,7 +190,7 @@ class MainGameScene extends Phaser.Scene {
     });
     // List of all savepoint coordinates
     //checkpoint height approx 40
-    let savepointCoordinates = [{ x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 },{ x: 2800, y: 1220 },{ x: 3620, y: 2240 },{ x: 4300, y: 1275 }];
+    let savepointCoordinates = [{ x: 400, y: 2125 }, { x: 650, y: 2125 },{ x: 1800, y: 1850 },{ x: 1180, y: 1580 },{ x: 600, y: 1510 },{ x: 850, y: 1210 },{ x: 1900, y: 1150 },{ x: 2200, y: 2250 },{ x: 3100, y: 1290 },{ x: 3620, y: 2240 },{ x: 4300, y: 1275 }];
 
     // Adding savepoints to listed coordinates
     for (let i = 0; i < savepointCoordinates.length; i++) {
