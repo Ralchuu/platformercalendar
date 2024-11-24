@@ -169,7 +169,7 @@ class MainGameScene extends Phaser.Scene {
     // doors (rooms 1 to 24)
     this.doors = [
       this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1),
-      this.createDoor(1400, 2240, "Room2").setScale(0.3).setDepth(1),
+      this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1),
       this.createDoor(1800, 2240, "Room3").setScale(0.3).setDepth(1),
       this.createDoor(2300, 2240, "Room4").setScale(0.3).setDepth(1),
       this.createDoor(2600, 2240, "Room5").setScale(0.3).setDepth(1),
@@ -214,7 +214,9 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.1); // Set the zoom level
+    this.cameras.main.setZoom(0.5
+
+    ); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
