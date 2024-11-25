@@ -248,13 +248,14 @@ class MainGameScene extends Phaser.Scene {
     this.platforms
       .create(5190 + 125, 1130, "platform")
       .setScale(1, 0.2)
-      .refreshBody(); //ovi 11 jonnekki tänne kai
+      .refreshBody(); //ovi 11
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
     this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
 
-    // doors (rooms 1 to 24) update: 1-11 done
+    // doors (rooms 1 to 24) 
+    //! update: 1-11 done, 12-24 left to do
     this.doors = [
       this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1), 
       this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1), 
@@ -310,7 +311,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.1); // Set the zoom level
+    this.cameras.main.setZoom(0.3); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
