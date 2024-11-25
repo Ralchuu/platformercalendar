@@ -281,10 +281,9 @@ class MainGameScene extends Phaser.Scene {
         this.add.image(door.x, door.y - 44, "cabin2").setScale(1.4).setDepth(0); // Attach cabin2
       }
     });
-    // List of all savepoint coordinates
-    //checkpoint height approx 40
+    // List of all savepoint coordinates //REDUNDANT ??
     let savepointCoordinates = [
-      { x: 4300, y: 1275 }
+      { }
     ];
 
     // Adding savepoints to listed coordinates
