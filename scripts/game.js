@@ -72,12 +72,11 @@ class MainGameScene extends Phaser.Scene {
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
     this.walls = this.physics.add.staticGroup();
-    this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
-    this.walls.create(20, 2050, "wall").setScale(0.5, 10).refreshBody();
+  
 
-    this.walls.create(2080, 1800, "wall").setScale(4, 35).refreshBody();
+    this.walls.create(2080, 1800, "wall").setScale(4, 30).refreshBody();
     this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
-    this.walls.create(2600, 1800, "wall").setScale(4, 35).refreshBody();
+    this.walls.create(2600, 1800, "wall").setScale(4, 30).refreshBody();
     this.walls.create(3630 + 50, 1700, "wall").setScale(8, 25).refreshBody();
     this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody(); // piikkejä seinään?
 
@@ -195,11 +194,11 @@ class MainGameScene extends Phaser.Scene {
 
     // luukku 7 - 8
     this.platforms
-      .create(2730, 1260, "platform")
+      .create(2720, 1330, "platform")
       .setScale(1, 0.2)
       .refreshBody();
     this.platforms
-      .create(2730 + 125, 1260 + 50, "platform")
+      .create(2845, 1330, "platform")
       .setScale(1, 0.2)
       .refreshBody(); // ovi 8
 
@@ -212,11 +211,11 @@ class MainGameScene extends Phaser.Scene {
 
     //OVI 9 - 10
     this.platforms
-      .create(4300, 1290 + 30, "platform")
+      .create(4300-7, 1335, "platform")
       .setScale(1, 0.2)
       .refreshBody(); //ovi 10
     this.platforms
-      .create(4425, 1290 + 30, "platform")
+      .create(4425-7, 1335, "platform")
       .setScale(1, 0.2)
       .refreshBody();
     this.platforms
@@ -248,24 +247,25 @@ class MainGameScene extends Phaser.Scene {
     this.platforms
       .create(5190 + 125, 1130, "platform")
       .setScale(1, 0.2)
-      .refreshBody(); //ovi 11 jonnekki tänne kai
+      .refreshBody(); //ovi 11
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
     this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
 
-    // doors (rooms 1 to 24) update: 1-11 done
+    // doors (rooms 1 to 24) 
+    //! update: 1-11 done, 12-24 left to do
     this.doors = [
       this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1), 
       this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1), 
       this.createDoor(1130, 1575, "Room3").setScale(0.3).setDepth(1), 
       this.createDoor(140, 1350, "Room4").setScale(0.3).setDepth(1), 
       this.createDoor(850, 1210, "Room5").setScale(0.3).setDepth(1),  
-      this.createDoor(2080, 1200, "Room6").setScale(0.3).setDepth(1), 
+      this.createDoor(2080, 1290, "Room6").setScale(0.3).setDepth(1), 
       this.createDoor(2355, 2240, "Room7").setScale(0.3).setDepth(1), 
       this.createDoor(3100, 1290, "Room8").setScale(0.3).setDepth(1), 
       this.createDoor(3675, 2240, "Room9").setScale(0.3).setDepth(1), 
-      this.createDoor(4360, 1275, "Room10").setScale(0.3).setDepth(1), 
+      this.createDoor(4360, 1285, "Room10").setScale(0.3).setDepth(1), 
       this.createDoor(5255, 1080, "Room11").setScale(0.3).setDepth(1), 
     ];
 
@@ -281,10 +281,9 @@ class MainGameScene extends Phaser.Scene {
         this.add.image(door.x, door.y - 44, "cabin2").setScale(1.4).setDepth(0); // Attach cabin2
       }
     });
-    // List of all savepoint coordinates
-    //checkpoint height approx 40
+    // List of all savepoint coordinates //REDUNDANT ??
     let savepointCoordinates = [
-      { x: 4300, y: 1275 }
+      { }
     ];
 
     // Adding savepoints to listed coordinates
