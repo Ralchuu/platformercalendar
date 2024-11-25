@@ -1,13 +1,18 @@
 import Player from './player.js';
 <<<<<<< HEAD
+<<<<<<< HEAD
 // kommentti3
 =======
 // kommentti2
 >>>>>>> ce3e775 (iso maailma)
+=======
+// kommentti3
+>>>>>>> 118dcd23dcda471bc070afb94ee4267d664a5474
 // Game configuration
 const config = {
   type: Phaser.AUTO,
   width: 1900,
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   height: 850,
@@ -20,6 +25,10 @@ const config = {
   height: 850,
    physics: {
 >>>>>>> ce3e775 (iso maailma)
+=======
+  height: 850,
+   physics: {
+>>>>>>> 118dcd23dcda471bc070afb94ee4267d664a5474
     default: "arcade",
     arcade: {
       gravity: { y: 1000 },
@@ -79,6 +88,7 @@ function create() {
   platforms = this.physics.add.staticGroup();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   platforms.create(200, 505, "wall").setScale(1, 0.5).refreshBody();
   platforms.create(400, 470, "wall").setScale(1, 1).refreshBody();
   platforms.create(500, 1000, "wall").setScale(1000, 1).refreshBody();
@@ -93,12 +103,17 @@ function create() {
   platforms.create(1200, 2400, "wall").setScale(1, 0.5).refreshBody();  // New platform added
 >>>>>>> 52a3800 (asd3)
 =======
+=======
+>>>>>>> 118dcd23dcda471bc070afb94ee4267d664a5474
   platforms.create(200, 2450, "wall").setScale(1, 0.5).refreshBody();
   platforms.create(400, 2450, "wall").setScale(1, 1).refreshBody();
   platforms.create(500, 2580, "wall").setScale(1000, 1).refreshBody();
   platforms.create(800, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
   platforms.create(1200, 2450, "wall").setScale(1, 0.5).refreshBody();  // New platform added
+<<<<<<< HEAD
 >>>>>>> 9873c4a (korjaus)
+=======
+>>>>>>> 118dcd23dcda471bc070afb94ee4267d664a5474
 
   // Create a door at a new position (optional)
   door = this.physics.add.sprite(2000, 490, "door");
@@ -140,6 +155,7 @@ function update(time, delta) {
     openDoor();  // Call the door open function if 'O' is pressed
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 
 // Function to simulate the player opening the door
@@ -150,6 +166,8 @@ function openDoor() {
   // For now, we simply log the action
 =======
 >>>>>>> c1b8786 (asd)
+=======
+>>>>>>> 118dcd23dcda471bc070afb94ee4267d664a5474
 }
 
 // Function to simulate the player opening the door
