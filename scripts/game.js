@@ -143,10 +143,7 @@ class MainGameScene extends Phaser.Scene {
       .refreshBody(); //ovi 3
 
     //luukku 3 - 4
-    this.platforms
-      .create(1065 - 125, 1645, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
+    this.platforms.create(1065 - 125, 1645, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(815, 1620, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(600, 1550, "platform").setScale(1, 0.2).refreshBody(); //ovi 4
 
@@ -158,6 +155,7 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(600, 1550, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(400, 1470, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(200, 1400, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(75, 1400, "platform").setScale(1, 0.2).refreshBody(); //OVI 4
 
     this.platforms.create(400, 1330, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(600, 1260, "platform").setScale(1, 0.2).refreshBody();
@@ -256,13 +254,19 @@ class MainGameScene extends Phaser.Scene {
     this.hazards = this.physics.add.staticGroup();
     this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
 
-    // doors (rooms 1 to 24)
+    // doors (rooms 1 to 24) update: 1-11 done
     this.doors = [
-      this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1),
-      this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1),
-      this.createDoor(1800, 2240, "Room3").setScale(0.3).setDepth(1),
-      this.createDoor(2300, 2240, "Room4").setScale(0.3).setDepth(1),
-      this.createDoor(2600, 2240, "Room5").setScale(0.3).setDepth(1)
+      this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1), 
+      this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1), 
+      this.createDoor(1130, 1575, "Room3").setScale(0.3).setDepth(1), 
+      this.createDoor(140, 1350, "Room4").setScale(0.3).setDepth(1), 
+      this.createDoor(850, 1210, "Room5").setScale(0.3).setDepth(1),  
+      this.createDoor(2080, 1200, "Room6").setScale(0.3).setDepth(1), 
+      this.createDoor(2355, 2240, "Room7").setScale(0.3).setDepth(1), 
+      this.createDoor(3100, 1290, "Room8").setScale(0.3).setDepth(1), 
+      this.createDoor(3675, 2240, "Room9").setScale(0.3).setDepth(1), 
+      this.createDoor(4360, 1275, "Room10").setScale(0.3).setDepth(1), 
+      this.createDoor(5255, 1080, "Room11").setScale(0.3).setDepth(1), 
     ];
 
     // Add cabins behind doors based on room number (odd/even)
@@ -280,16 +284,6 @@ class MainGameScene extends Phaser.Scene {
     // List of all savepoint coordinates
     //checkpoint height approx 40
     let savepointCoordinates = [
-      { x: 400, y: 2125 },
-      { x: 650, y: 2125 },
-      { x: 1800, y: 1850 },
-      { x: 1180, y: 1580 },
-      { x: 600, y: 1510 },
-      { x: 850, y: 1210 },
-      { x: 1900, y: 1150 },
-      { x: 2200, y: 2250 },
-      { x: 3100, y: 1290 },
-      { x: 3620, y: 2240 },
       { x: 4300, y: 1275 }
     ];
 
@@ -316,7 +310,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(1); // Set the zoom level
+    this.cameras.main.setZoom(0.1); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
