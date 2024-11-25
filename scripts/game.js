@@ -46,7 +46,7 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground1.png");
     this.load.image("wall", "assets/wall.png");
-    this.load.image("hazard", "assets/bomb.png");
+    this.load.image("hazard", "assets/hazard_down.png");
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
@@ -316,7 +316,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.1); // Set the zoom level
+    this.cameras.main.setZoom(1); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
