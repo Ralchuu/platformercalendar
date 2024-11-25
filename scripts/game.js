@@ -44,7 +44,7 @@ class MainGameScene extends Phaser.Scene {
   preload() {
     this.load.image("background", "assets/2testbackground.png");
     this.load.image("player", "assets/elf1.png");
-    this.load.image("platform", "assets/ground1.png");
+    this.load.image("platform", "assets/ground_test.png");
     this.load.image("wall", "assets/wall.png");
     this.load.image("hazard", "assets/hazard_down.png");
     this.load.image("door", "assets/door.png");
