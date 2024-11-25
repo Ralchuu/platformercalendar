@@ -417,8 +417,6 @@ class MainGameScene extends Phaser.Scene {
           const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
           let doorDate = new Date(year, month, roomNumber);
 
-          console.log(doorDate);
-
           if (currentDate < doorDate && this.developerModeIsOn == false) { // Jos 
             let timeDifference = doorDate - currentDate;
             let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Muuttaa millisekunnit päiviksi?
@@ -437,7 +435,6 @@ class MainGameScene extends Phaser.Scene {
               playerStartX: this.player.x,
               playerStartY: this.player.y
             });
-            
             
           }
           this.saveGame(this.player.x, this.player.y);
