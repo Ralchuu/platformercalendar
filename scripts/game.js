@@ -83,7 +83,7 @@ class MainGameScene extends Phaser.Scene {
     // Platforms group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
-    //platform width approx 125, height 25
+    //platform width approx 125, height 25 pixels
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia
 
