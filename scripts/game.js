@@ -309,7 +309,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.75); // Set the zoom level
+    this.cameras.main.setZoom(1); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
