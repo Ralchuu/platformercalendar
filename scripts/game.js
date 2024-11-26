@@ -23,6 +23,7 @@ class MainGameScene extends Phaser.Scene {
     this.spaceBar = null;
     this.eKey = null;
     this.qKey = null;
+    this.ctrlKey = null;
   }
 
   // Save & load the game
@@ -54,7 +55,7 @@ class MainGameScene extends Phaser.Scene {
       let gameLoadedText = this.add.text(
         10,
         10,
-        "Game loaded\nPress [q] to restart game",
+        "Game loaded\nPress [Ctrl] + [Q] to restart game",
         {
           font: "20px Arial",
           fill: "#32141c",
@@ -403,6 +404,7 @@ class MainGameScene extends Phaser.Scene {
     );
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.qKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.ctrlKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL);
 
     // Instruction messages
     this.instructions = [
@@ -460,8 +462,8 @@ class MainGameScene extends Phaser.Scene {
       this.updateDevModeText(); // Update the displayed text
     }
 
-    // Clearing the save file when q is pressed
-    if (Phaser.Input.Keyboard.JustDown(this.qKey)) {
+    // Clearing the save file when ctrl+q is pressed
+    if (Phaser.Input.Keyboard.JustDown(this.qKey) && Phaser.Input.Keyboard.JustDown(this.ctrlKey)) {
       if (localStorage.getItem("save") != null) localStorage.removeItem("save");
       location.reload();
     }
