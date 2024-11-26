@@ -68,10 +68,10 @@ class MainGameScene extends Phaser.Scene {
     ); // Background covering world
     // background image dimensions: 1024 * 2048
     bg.setOrigin(0, 0);
-    bg.setDisplaySize(10250, 2280);
+    bg.setDisplaySize(16000, 2280);
 
     // Set the new world bounds
-    this.physics.world.setBounds(0, 0, 8000, 8000);
+    this.physics.world.setBounds(0, 0, 16000, 8000);
 
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
@@ -101,7 +101,7 @@ class MainGameScene extends Phaser.Scene {
     this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody(); // piikkejä seinään?
     this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody(); 
     this.walls.create(6500, 1710, "wall").setScale(6, 30).refreshBody();
-    this.walls.create(6800, 1710, "wall").setScale(4, 34).refreshBody(); 
+    this.walls.create(6800, 1730, "wall").setScale(4, 34).refreshBody(); 
 
     // Platforms group
     // X = HORIZONTAL, higher number = further right
@@ -188,8 +188,9 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(5870, 1200+30, "platform").setScale(3, 5).refreshBody();
     this.platforms.create(5980, 1648+30, "platform").setScale(1.3, 2).refreshBody();
     this.platforms.create(5870, 1900+30, "platform").setScale(3, 3).refreshBody();  //hazardeja alapuolelle lattiaan
-    this.platforms.create(7130, 1180, "platform").setScale(1, 0.2).refreshBody();
-      
+    this.platforms.create(7150, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7500, 1180, "platform").setScale(1, 0.2).refreshBody();
+          
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
@@ -264,8 +265,8 @@ class MainGameScene extends Phaser.Scene {
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.1); // Set the zoom level
+    this.cameras.main.setBounds(0, 0, 16000, 8000);
+    this.cameras.main.setZoom(0.4); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
