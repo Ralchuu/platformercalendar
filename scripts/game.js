@@ -64,12 +64,13 @@ create() {
   // Create the background as a tiled sprite to cover the world
   const bg = this.add.tileSprite(
     0,        // X position
-    250,      // Y position
+    0,      // Y position
     extendedWorldWidth, // Extended world width
-    extendedWorldHeight, // Extended world height
+    worldHeight, // Extended world height
     "background" // Background texture
   ); 
   bg.setOrigin(0, 0);  // Align the background at the top-left corner
+  
 
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
@@ -312,7 +313,7 @@ create() {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.4); // Set the zoom level
+    this.cameras.main.setZoom(0.2); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -453,8 +454,8 @@ const worldWidth = 64 * (16 * 4); // 4096
 const worldHeight = 64 * (9 * 4); // 2304
 
 // Extended world bounds
-const extendedWorldWidth = 16000; // Example extended world width
-const extendedWorldHeight = 8000; // Example extended world height
+const extendedWorldWidth = 16000; // extended world width
+const extendedWorldHeight = 8000; // extended world height
 
 const config = {
   type: Phaser.AUTO,
