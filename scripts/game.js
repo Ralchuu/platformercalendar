@@ -103,6 +103,12 @@ class MainGameScene extends Phaser.Scene {
     this.walls.create(6500, 1710, "wall").setScale(6, 30).refreshBody();
     this.walls.create(6800, 1730, "wall").setScale(4, 34).refreshBody(); 
 
+    this.walls.create(9850, 1780, "wall").setScale(6, 27).refreshBody(); 
+    this.walls.create(10200, 1730, "wall").setScale(6, 35).refreshBody(); 
+
+    this.walls.create(9500, 830, "wall").setScale(4, 20).refreshBody(); 
+    this.walls.create(9200, 830, "wall").setScale(4, 25).refreshBody(); 
+    
     // Platforms group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
@@ -191,7 +197,25 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(7150, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7500, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7850, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7850+350, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(8325, 1180, "platform").setScale(1, 0.2).refreshBody(); //ovi 15
 
+    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7300, 1600, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7750, 1900, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(8200, 2100, "platform").setScale(1, 0.2).refreshBody(); //huone 16 lattialla
+
+    this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
+    this.platforms.create(9100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9200, 2020, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400, 2020, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400+100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400+200, 2200, "platform").setScale(0.5, 0.2).refreshBody();
+
+    this.platforms.create(9500, 1300, "platform").setScale(1, 0.2).refreshBody(); //OVI 17 oikealla
+
+    this.platforms.create(9900, 900, "platform").setScale(1, 0.2).refreshBody();  //ovi 18 alhaalla oikealla
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
@@ -224,6 +248,10 @@ class MainGameScene extends Phaser.Scene {
       this.createDoor(5800, 1705, "Room12").setScale(0.3).setDepth(1),
       this.createDoor(6230, 2240, "Room13").setScale(0.3).setDepth(1),
       this.createDoor(6500, 1195, "Room14").setScale(0.3).setDepth(1),
+      this.createDoor(8265, 1135, "Room15").setScale(0.3).setDepth(1),
+      this.createDoor(8600, 2240, "Room16").setScale(0.3).setDepth(1),
+      this.createDoor(9850, 1310, "Room17").setScale(0.3).setDepth(1),
+      this.createDoor(10200, 1135, "Room18").setScale(0.3).setDepth(1),
       
     ];
 
