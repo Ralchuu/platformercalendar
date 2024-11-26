@@ -36,7 +36,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     // Dash settings
     this.dashSpeed = 1000; // Dash speed
     this.dashTime = 170;  // Duration of the dash in milliseconds
-    this.dashCooldown = 1500; // Cooldown time between dashes in milliseconds
+    this.dashCooldown = 700; // Cooldown time between dashes in milliseconds
     this.isDashing = false; // Whether the player is currently dashing
     this.dashTimer = 0; // Dash timer
     this.dashCooldownTimer = 0; // Cooldown timer

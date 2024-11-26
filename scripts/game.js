@@ -73,22 +73,6 @@ class MainGameScene extends Phaser.Scene {
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, 8000, 8000);
 
-    
-
-    // Walls group
-    // X = HORIZONTAL, higher number = further right
-    // Y = VERTICAL, higher number = further down
-    this.walls = this.physics.add.staticGroup();
-  
-    this.walls.create(2080, 1800, "wall").setScale(4, 30).refreshBody();
-    this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
-    this.walls.create(2600, 1800, "wall").setScale(4, 30).refreshBody();
-    this.walls.create(3630 + 50, 1700, "wall").setScale(8, 25).refreshBody();
-    this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody(); // piikkejä seinään?
-    this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody(); 
-
-
-
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
       fontSize: "20px",
@@ -104,6 +88,20 @@ class MainGameScene extends Phaser.Scene {
     const devModeBg = this.add.rectangle(60, 20, 330, 30, 0x000000, 0.3); // Black background with 50% opacity
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3)
+
+    // Walls group
+    // X = HORIZONTAL, higher number = further right
+    // Y = VERTICAL, higher number = further down
+    this.walls = this.physics.add.staticGroup();
+  
+    this.walls.create(2080, 1800, "wall").setScale(4, 30).refreshBody();
+    this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
+    this.walls.create(2600, 1800, "wall").setScale(4, 30).refreshBody();
+    this.walls.create(3630 + 50, 1700, "wall").setScale(8, 25).refreshBody();
+    this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody(); // piikkejä seinään?
+    this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody(); 
+    this.walls.create(6500, 1710, "wall").setScale(6, 30).refreshBody();
+    this.walls.create(6800, 1710, "wall").setScale(4, 34).refreshBody(); 
 
     // Platforms group
     // X = HORIZONTAL, higher number = further right
@@ -190,7 +188,7 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(5870, 1200+30, "platform").setScale(3, 5).refreshBody();
     this.platforms.create(5980, 1648+30, "platform").setScale(1.3, 2).refreshBody();
     this.platforms.create(5870, 1900+30, "platform").setScale(3, 3).refreshBody();  //hazardeja alapuolelle lattiaan
-
+    this.platforms.create(7130, 1180, "platform").setScale(1, 0.2).refreshBody();
       
 
     // Hazards group
@@ -222,6 +220,9 @@ class MainGameScene extends Phaser.Scene {
       this.createDoor(4360, 1285, "Room10").setScale(0.3).setDepth(1), 
       this.createDoor(5255, 1080, "Room11").setScale(0.3).setDepth(1), 
       this.createDoor(5800, 1705, "Room12").setScale(0.3).setDepth(1),
+      this.createDoor(6230, 2240, "Room13").setScale(0.3).setDepth(1),
+      this.createDoor(6500, 1195, "Room14").setScale(0.3).setDepth(1),
+      
     ];
 
     // Add cabins behind doors based on room number (odd/even)
@@ -264,7 +265,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.3); // Set the zoom level
+    this.cameras.main.setZoom(0.4); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
