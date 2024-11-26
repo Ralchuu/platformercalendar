@@ -108,7 +108,20 @@ class MainGameScene extends Phaser.Scene {
 
     this.walls.create(9500, 830, "wall").setScale(4, 20).refreshBody(); 
     this.walls.create(9200, 830, "wall").setScale(4, 25).refreshBody(); 
+
+    //luola
+    this.walls.create(10920, 1190, "wall").setScale(33, 15).refreshBody();  //tämän päälle kuusimetsä 
+    this.walls.create(10700, 1715, "wall").setScale(7, 18).refreshBody();
+    this.walls.create(10500, 1810, "wall").setScale(6, 12).refreshBody();
+    this.walls.create(10805, 2080, "wall").setScale(25, 5).refreshBody();
+
+    this.walls.create(11450, 2065 , "wall").setScale(8, 13).refreshBody();
+    this.walls.create(11255, 1800, "wall").setScale(20, 5).refreshBody();
+    this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
+    this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
+    this.walls.create(11635, 1560, "wall").setScale(4, 45).refreshBody();
     
+   
     // Platforms group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
@@ -252,6 +265,9 @@ class MainGameScene extends Phaser.Scene {
       this.createDoor(8600, 2240, "Room16").setScale(0.3).setDepth(1),
       this.createDoor(9850, 1310, "Room17").setScale(0.3).setDepth(1),
       this.createDoor(10200, 1135, "Room18").setScale(0.3).setDepth(1),
+      this.createDoor(10500, 1580, "Room19").setScale(0.3).setDepth(1),
+      this.createDoor(11255, 1685, "Room20").setScale(0.3).setDepth(1),
+      this.createDoor(11300, 910, "Room21").setScale(0.3).setDepth(1),
       
     ];
 
@@ -295,7 +311,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 16000, 8000);
-    this.cameras.main.setZoom(0.4); // Set the zoom level
+    this.cameras.main.setZoom(0.3); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
