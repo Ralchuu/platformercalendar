@@ -514,7 +514,7 @@ class MainGameScene extends Phaser.Scene {
               " days."; // rivinvaihto = \n
 
             this.doorLocked.play();
-            // Made message into its own function, found on row 49
+            // Changed message into its own function
             this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
           } else {
             // Transition to the target room
