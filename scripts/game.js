@@ -404,7 +404,7 @@ class MainGameScene extends Phaser.Scene {
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.qKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 
-    // Listing spots where instruction texts are shown
+    // Instruction messages
     this.instructions = [
       {
         x: playerStartX,
