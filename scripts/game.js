@@ -53,7 +53,9 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
     this.load.image("savepoint", "assets/savepoint.png");
-    this.load.audio("hazardSound", "assets/audio/spike_splatter_01.wav")
+    this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav")
+    this.load.audio("doorLocked", "assets/audio/oviLukossa_01.wav")
+    this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav")
   }
 
   create() {
@@ -276,7 +278,14 @@ class MainGameScene extends Phaser.Scene {
     this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
 
     this.hazardSound = this.sound.add("hazardSound");
-    this.hazardSound.setVolume(0.3); // Set volume (0.0 to 1.0)
+    this.hazardSound.setVolume(0.4); // Set volume (0.0 to 1.0)
+
+    // Door sounds
+    this.doorLocked = this.sound.add("doorLocked");
+    this.doorLocked.setVolume(0.3); 
+
+    this.doorOpened = this.sound.add("doorOpened")
+    this.doorOpened.setVolume(0.6); 
 
     // doors (rooms 1 to 24) 
     //! update: 1-11 done, 12-24 left to do
@@ -417,20 +426,29 @@ class MainGameScene extends Phaser.Scene {
           const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
           let doorDate = new Date(year, month, roomNumber);
 
-          if (currentDate < doorDate && this.developerModeIsOn == false) { // Jos 
+          if (currentDate < doorDate && this.developerModeIsOn == false) { 
             let timeDifference = doorDate - currentDate;
             let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Muuttaa millisekunnit päiviksi?
-            doorMessageText = "No access yet!\nThis door can be opened\nin " + daysLeft + " days"; // rivinvaihto = \n
+            doorMessageText = "No access yet!\nThis door can be opened\nin " + daysLeft + " days."; // rivinvaihto = \n
   
             let textStyle = {
               font: "20px Arial",
               fill: "#000000",
               align: "center",
               backgroundColor: "#ffffff", // Set background color
-            };   
-            this.add.text(door.x-100, door.y-200, doorMessageText, textStyle);
+            };
+            
+            this.doorLocked.play();
+            const messageTextObject = this.add.text(door.x-100, door.y-200, doorMessageText, textStyle);
+
+            // Destroy the text after 5 seconds
+            this.time.delayedCall(4000, () => {
+            messageTextObject.destroy();
+          });
+
           } else {
             // Transition to the target room
+            this.doorOpened.play();
             this.scene.start(targetRoom, {
               playerStartX: this.player.x,
               playerStartY: this.player.y
