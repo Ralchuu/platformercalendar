@@ -9,6 +9,8 @@ class MainGameScene extends Phaser.Scene {
   constructor() {
     super("MainGameScene");
 
+    this.developerModeIsOn = false;
+
     // Declare game objects and state variables
     this.walls = null;
     this.platforms = null;
@@ -51,6 +53,9 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
     this.load.image("savepoint", "assets/savepoint.png");
+    this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav")
+    this.load.audio("doorLocked", "assets/audio/oviLukossa_01.wav")
+    this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav")
   }
 
   create() {
@@ -68,6 +73,8 @@ class MainGameScene extends Phaser.Scene {
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, 8000, 8000);
 
+    
+
     // Walls group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
@@ -80,6 +87,23 @@ class MainGameScene extends Phaser.Scene {
     this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody(); // piikkejä seinään?
     this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody(); 
 
+
+
+    // Add text to display developer mode status
+    this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
+      fontSize: "20px",
+      fill: "#ffffff", // White text
+    });
+  
+    this.devModeText.setScrollFactor(0); // Ensure text stays fixed on screen
+    this.devModeText.setDepth(4);
+
+    // Add the 'B' key for toggling developer mode
+    this.bKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+
+    const devModeBg = this.add.rectangle(60, 20, 330, 30, 0x000000, 0.3); // Black background with 50% opacity
+    devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
+    devModeBg.setDepth(3)
 
     // Platforms group
     // X = HORIZONTAL, higher number = further right
@@ -173,6 +197,16 @@ class MainGameScene extends Phaser.Scene {
     this.hazards = this.physics.add.staticGroup();
     this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
 
+    this.hazardSound = this.sound.add("hazardSound");
+    this.hazardSound.setVolume(0.4); // Set volume (0.0 to 1.0)
+
+    // Door sounds
+    this.doorLocked = this.sound.add("doorLocked");
+    this.doorLocked.setVolume(0.3); 
+
+    this.doorOpened = this.sound.add("doorOpened")
+    this.doorOpened.setVolume(0.6); 
+
     // doors (rooms 1 to 24) 
     //! update: 1-11 done, 12-24 left to do
     this.doors = [
@@ -238,7 +272,8 @@ class MainGameScene extends Phaser.Scene {
 
     // Reset player on touching hazards
     this.physics.add.collider(this.player, this.hazards, () => {
-      this.player.resetPosition(playerStartX, playerStartY);
+      this.hazardSound.play();
+      this.loadGame();
     });
 
     // Input configuration
@@ -266,6 +301,11 @@ class MainGameScene extends Phaser.Scene {
     return door;
   }
 
+  updateDevModeText() {
+    this.devModeText.setText(`Dev Mode (B): ${this.developerModeIsOn ? "ON" : "OFF"}`);
+  }
+  
+
   update(time, delta) {
     // Update player movements
     this.player.update(
@@ -276,6 +316,11 @@ class MainGameScene extends Phaser.Scene {
       delta
     );
 
+    if (Phaser.Input.Keyboard.JustDown(this.bKey)) {
+      this.developerModeIsOn = !this.developerModeIsOn; // Toggle mode
+      this.updateDevModeText(); // Update the displayed text
+    }
+
     // Check if the player is interacting with any door
     this.doors.forEach(door => {
       if (
@@ -285,16 +330,54 @@ class MainGameScene extends Phaser.Scene {
           door.x,
           door.y
         ) < 50 &&
+        
         Phaser.Input.Keyboard.JustDown(this.eKey) // Check for "E" key press
+
+        
       ) {
+        // Määritellään pvm-muuttuja päivän tarkistusta varten
+        const month = 11; // Kuukausien indeksi alkaa 0:sta, joten 11 on joulukuu
+        const year = 2024;
+        const currentDate = new Date();
+        let doorMessageText;
+
         const targetRoom = door.getData("targetRoom"); // Get the target room name
         if (targetRoom) {
-          // Transition to the target room
-          this.scene.start(targetRoom, {
-            playerStartX: this.player.x,
-            playerStartY: this.player.y
+
+          const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
+          let doorDate = new Date(year, month, roomNumber);
+
+          if (currentDate < doorDate && this.developerModeIsOn == false) { 
+            let timeDifference = doorDate - currentDate;
+            let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Muuttaa millisekunnit päiviksi?
+            doorMessageText = "No access yet!\nThis door can be opened\nin " + daysLeft + " days."; // rivinvaihto = \n
+  
+            let textStyle = {
+              font: "20px Arial",
+              fill: "#000000",
+              align: "center",
+              backgroundColor: "#ffffff", // Set background color
+            };
+            
+            this.doorLocked.play();
+            const messageTextObject = this.add.text(door.x-100, door.y-200, doorMessageText, textStyle);
+
+            // Destroy the text after 5 seconds
+            this.time.delayedCall(4000, () => {
+            messageTextObject.destroy();
           });
+
+          } else {
+            // Transition to the target room
+            this.doorOpened.play();
+            this.scene.start(targetRoom, {
+              playerStartX: this.player.x,
+              playerStartY: this.player.y
+            });
+            
+          }
           this.saveGame(this.player.x, this.player.y);
+          
         }
       }
     });
