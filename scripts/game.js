@@ -44,7 +44,7 @@ class MainGameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/2testbackground.png");
+    this.load.image("background", "assets/test_bg_1.jpg");
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
@@ -58,20 +58,21 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav")
   }
 
-  create() {
-    const bg = this.add.tileSprite(
-      0,
-      250,
-      worldWidth,
-      worldHeight,
-      "background"
-    ); // Background covering world
-    // background image dimensions: 1024 * 2048
-    bg.setOrigin(0, 0);
-    bg.setDisplaySize(16000, 2280);
+  // world width 4096
+// world height 2304
+create() {
+  // Create the background as a tiled sprite to cover the world
+  const bg = this.add.tileSprite(
+    0,        // X position
+    250,      // Y position
+    extendedWorldWidth, // Extended world width
+    extendedWorldHeight, // Extended world height
+    "background" // Background texture
+  ); 
+  bg.setOrigin(0, 0);  // Align the background at the top-left corner
 
     // Set the new world bounds
-    this.physics.world.setBounds(0, 0, 16000, 8000);
+    this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
@@ -310,8 +311,8 @@ class MainGameScene extends Phaser.Scene {
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBounds(0, 0, 16000, 8000);
-    this.cameras.main.setZoom(0.3); // Set the zoom level
+    this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
+    this.cameras.main.setZoom(0.4); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -448,8 +449,12 @@ class MainGameScene extends Phaser.Scene {
   }
 }
 
-const worldWidth = 64 * (16 * 4); // world width
-const worldHeight = 64 * (9 * 4); // world height
+const worldWidth = 64 * (16 * 4); // 4096
+const worldHeight = 64 * (9 * 4); // 2304
+
+// Extended world bounds
+const extendedWorldWidth = 16000; // Example extended world width
+const extendedWorldHeight = 8000; // Example extended world height
 
 const config = {
   type: Phaser.AUTO,
