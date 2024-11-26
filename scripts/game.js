@@ -190,7 +190,8 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(5870, 1900+30, "platform").setScale(3, 3).refreshBody();  //hazardeja alapuolelle lattiaan
     this.platforms.create(7150, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7500, 1180, "platform").setScale(1, 0.2).refreshBody();
-          
+    this.platforms.create(7850, 1180, "platform").setScale(1, 0.2).refreshBody();
+
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
