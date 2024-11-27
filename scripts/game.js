@@ -45,8 +45,7 @@ class MainGameScene extends Phaser.Scene {
   loadGame() {
     let saveObject = JSON.parse(localStorage.getItem("save"));
     try {
-      //this.player.setPosition(saveObject.x, saveObject.y); // Set saved coordinates
-      this.player.setPosition(this.doors[13].x, this.doors[13].y);
+      this.player.setPosition(saveObject.x, saveObject.y); // Set saved coordinates
       this.developerModeIsOn = saveObject.devMode; // Set saved developer mode status
       for (let i = 0; i < this.instructions.length; i++) {
         this.instructions[i].shown = saveObject.showedMessages[i];
