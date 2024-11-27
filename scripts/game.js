@@ -34,7 +34,7 @@ class MainGameScene extends Phaser.Scene {
     });
     let saveObject = {
       x: x,
-      y: y - 20,
+      y: y - 40,
       devMode: this.developerModeIsOn,
       showedMessages: shown,
     };
@@ -70,6 +70,7 @@ class MainGameScene extends Phaser.Scene {
       });
     } catch (error) {
       console.log("Failed to load game");
+      this.player.setPosition(playerStartX, playerStartY);
     }
   }
 
@@ -265,22 +266,49 @@ class MainGameScene extends Phaser.Scene {
 
     // luukku 5 - 6
     this.platforms.create(975, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1100, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1275, 1190, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1450, 1120, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1450 + 125, 1350, "platform").setScale(1, 0.2).refreshBody(); // JOULUKUUSI TÄHÄN
-    this.platforms.create(1450 + 250, 1120, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody(); // ovi 6
+    this.platforms
+      .create(1100, 1260, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1275, 1190, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1450, 1120, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1450 + 125, 1350, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); // JOULUKUUSI TÄHÄN
+    this.platforms
+      .create(1450 + 250, 1120, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1900, 1190, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); // ovi 6
 
     // luukku 6 - 7
     // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
 
     // luukku 7 - 8
-    this.platforms.create(2720, 1330, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(2845, 1330, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
+    this.platforms
+      .create(2720, 1330, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(2845, 1330, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); // ovi 8
 
     //luukku 8 - 9
-    this.platforms.create(3100, 1800, "platform").setScale(3, 7.5).refreshBody();
+    this.platforms
+      .create(3100, 1800, "platform")
+      .setScale(3, 7.5)
+      .refreshBody();
     //ovi 9 lattialle kohtaan x: 3620, y: 2240
 
     //OVI 9 - 10
@@ -290,8 +318,14 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
 
-    this.platforms.create(5140 - 120, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi tähän
-    this.platforms.create(5140 - 120 + 125, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi
+    this.platforms
+      .create(5140 - 120, 1500, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //joulukuusi tähän
+    this.platforms
+      .create(5140 - 120 + 125, 1500, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //joulukuusi
 
     this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(5190 + 125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11
@@ -325,7 +359,10 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(9400 + 100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
     this.platforms.create(9400 + 200, 2200, "platform").setScale(0.5, 0.2).refreshBody();
 
-    this.platforms.create(9500, 1300, "platform").setScale(1, 0.2).refreshBody(); //OVI 17 oikealla
+    this.platforms
+      .create(9500, 1300, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //OVI 17 oikealla
 
     this.platforms.create(9900, 900, "platform").setScale(1, 0.2).refreshBody(); //ovi 18 alhaalla oikealla
 
@@ -542,6 +579,24 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
         shown: false,
         message: "Press [E]\nto open door",
       },
+      {
+        x: this.doors[5].x + 100,
+        y: this.doors[5].y - 25,
+        shown: false,
+        message: "You can slow your descent\nby pushing against the wall",
+      },
+      {
+        x: this.doors[6].x + 100,
+        y: this.doors[6].y - 25,
+        shown: false,
+        message: "Try to bounce off the walls\nto climb higher",
+      },
+      {
+        x: this.doors[13].x + 350,
+        y: this.doors[13].y - 50,
+        shown: false,
+        message: "Press [shift] to dash\nwhile walking or jumping",
+      }
     ];
 
     // Loading the game
