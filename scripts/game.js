@@ -34,7 +34,7 @@ class MainGameScene extends Phaser.Scene {
     });
     let saveObject = {
       x: x,
-      y: y - 20,
+      y: y - 30,
       devMode: this.developerModeIsOn,
       showedMessages: shown,
     };
@@ -70,6 +70,7 @@ class MainGameScene extends Phaser.Scene {
       });
     } catch (error) {
       console.log("Failed to load game");
+      this.player.setPosition(playerStartX, playerStartY);
     }
   }
 
