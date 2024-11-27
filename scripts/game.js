@@ -34,7 +34,7 @@ class MainGameScene extends Phaser.Scene {
     });
     let saveObject = {
       x: x,
-      y: y - 20,
+      y: y - 30,
       devMode: this.developerModeIsOn,
       showedMessages: shown,
     };
