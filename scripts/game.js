@@ -101,25 +101,23 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
-    this.load.image("savepoint", "assets/savepoint.png");
     this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
     this.load.audio("doorLocked", "assets/audio/oviLukossa_01.wav");
     this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav");
   }
 
   // world width 4096
-// world height 2304
-create() {
-  // Create the background as a tiled sprite to cover the world
-  const bg = this.add.tileSprite(
-    0,        // X position
-    0,      // Y position
-    extendedWorldWidth, // Extended world width
-    worldHeight, // Extended world height
-    "background" // Background texture
-  ); 
-  bg.setOrigin(0, 0);  // Align the background at the top-left corner
-  
+  // world height 2304
+  create() {
+    // Create the background as a tiled sprite to cover the world
+    const bg = this.add.tileSprite(
+      0, // X position
+      0, // Y position
+      extendedWorldWidth, // Extended world width
+      worldHeight, // Extended world height
+      "background" // Background texture
+    );
+    bg.setOrigin(0, 0); // Align the background at the top-left corner
 
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
@@ -138,43 +136,51 @@ create() {
 
     const devModeBg = this.add.rectangle(60, 20, 330, 30, 0x000000, 0.3); // Black background with 50% opacity
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
-    devModeBg.setDepth(3)
+    devModeBg.setDepth(3);
 
     // Walls group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
     this.walls = this.physics.add.staticGroup();
-  
+
     this.walls.create(2080, 1800, "wall").setScale(4, 30).refreshBody();
     this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
     this.walls.create(2600, 1800, "wall").setScale(4, 30).refreshBody();
-    this.walls.create(3630 + 50, 1700, "wall").setScale(8, 25).refreshBody();
-    this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody(); // piikkejä seinään?
-    this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody(); 
+    this.walls
+      .create(3630 + 50, 1700, "wall")
+      .setScale(8, 25)
+      .refreshBody();
+    this.walls
+      .create(4050 + 50, 1800, "wall")
+      .setScale(8, 30)
+      .refreshBody(); // piikkejä seinään?
+    this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody();
     this.walls.create(6500, 1710, "wall").setScale(6, 30).refreshBody();
-    this.walls.create(6800, 1730, "wall").setScale(4, 34).refreshBody(); 
+    this.walls.create(6800, 1730, "wall").setScale(4, 34).refreshBody();
 
-    this.walls.create(9850, 1780, "wall").setScale(6, 27).refreshBody(); 
-    this.walls.create(10200, 1730, "wall").setScale(6, 35).refreshBody(); 
+    this.walls.create(9850, 1780, "wall").setScale(6, 27).refreshBody();
+    this.walls.create(10200, 1730, "wall").setScale(6, 35).refreshBody();
 
-    this.walls.create(9500, 830, "wall").setScale(4, 20).refreshBody(); 
-    this.walls.create(9200, 830, "wall").setScale(4, 25).refreshBody(); 
+    this.walls.create(9500, 830, "wall").setScale(4, 20).refreshBody();
+    this.walls.create(9200, 830, "wall").setScale(4, 25).refreshBody();
 
     //luola
-    this.walls.create(10920, 1190, "wall").setScale(33, 15).refreshBody();  //tämän päälle kuusimetsä 
+    this.walls.create(10920, 1190, "wall").setScale(33, 15).refreshBody(); //tämän päälle kuusimetsä
     this.walls.create(10700, 1715, "wall").setScale(7, 18).refreshBody();
     this.walls.create(10500, 1810, "wall").setScale(6, 12).refreshBody();
     this.walls.create(10805, 2080, "wall").setScale(25, 5).refreshBody();
 
-    this.walls.create(11450, 2065 , "wall").setScale(8, 13).refreshBody();
+    this.walls.create(11450, 2065, "wall").setScale(8, 13).refreshBody();
     this.walls.create(11255, 1800, "wall").setScale(20, 5).refreshBody();
     this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
     this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
     this.walls.create(11635, 1560, "wall").setScale(4, 45).refreshBody();
 
-    this.walls.create(13160+600, 1320, "wall").setScale(10, 60).refreshBody(); //vika (luukkku 24)
-    
-   
+    this.walls
+      .create(13160 + 600, 1320, "wall")
+      .setScale(10, 60)
+      .refreshBody(); //vika (luukkku 24)
+
     // Platforms group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
@@ -188,24 +194,56 @@ create() {
 
     this.platforms.create(650, 2210, "platform").setScale(1, 1).refreshBody();
     this.platforms.create(900, 2210, "platform").setScale(1, 1).refreshBody();
-    this.platforms.create(1027, 2210, "platform").setScale(1, 1).setFlipX(true).refreshBody(); //ovi 1
+    this.platforms
+      .create(1027, 2210, "platform")
+      .setScale(1, 1)
+      .setFlipX(true)
+      .refreshBody(); //ovi 1
 
     // luukku 1 - 2
-    this.platforms.create(900 + 300, 2100, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1100 + 300, 2030, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1300 + 300, 1960, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1950, 1890, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1835, 1890, "platform").setScale(1, 0.2).setFlipX(true).refreshBody(); //ovi 2
+    this.platforms
+      .create(900 + 300, 2100, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1100 + 300, 2030, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1300 + 300, 1960, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1950, 1890, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1835, 1890, "platform")
+      .setScale(1, 0.2)
+      .setFlipX(true)
+      .refreshBody(); //ovi 2
 
     //luukku 2 - 3
-    this.platforms.create(1600, 1800, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1390, 1710, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms
+      .create(1600, 1800, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1390, 1710, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
 
-    this.platforms.create(1180, 1620, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1065, 1620, "platform").setScale(1, 0.2).refreshBody(); //ovi 3
+    this.platforms
+      .create(1180, 1620, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1065, 1620, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //ovi 3
 
     //luukku 3 - 4
-    
+
     this.platforms.create(815, 1620, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(600, 1550, "platform").setScale(1, 0.2).refreshBody(); //ovi 4
 
@@ -227,108 +265,303 @@ create() {
 
     // luukku 5 - 6
     this.platforms.create(975, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1100, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1275, 1190, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1450, 1120, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1450 + 125, 1350, "platform").setScale(1, 0.2).refreshBody(); // JOULUKUUSI TÄHÄN
-    this.platforms.create(1450 + 250, 1120, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody(); // ovi 6
+    this.platforms
+      .create(1100, 1260, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1275, 1190, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1450, 1120, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1450 + 125, 1350, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); // JOULUKUUSI TÄHÄN
+    this.platforms
+      .create(1450 + 250, 1120, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(1900, 1190, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); // ovi 6
 
     // luukku 6 - 7
     // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
 
     // luukku 7 - 8
-    this.platforms.create(2720, 1330, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(2845, 1330, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
+    this.platforms
+      .create(2720, 1330, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(2845, 1330, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); // ovi 8
 
     //luukku 8 - 9
-    this.platforms.create(3100, 1800, "platform").setScale(3, 7.5).refreshBody();
+    this.platforms
+      .create(3100, 1800, "platform")
+      .setScale(3, 7.5)
+      .refreshBody();
     //ovi 9 lattialle kohtaan x: 3620, y: 2240
 
     //OVI 9 - 10
-    this.platforms.create(4300-7, 1335, "platform").setScale(1, 0.2).refreshBody(); //ovi 10
-    this.platforms.create(4425-7, 1335, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(4600, 1230 + 15, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms
+      .create(4300 - 7, 1335, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //ovi 10
+    this.platforms
+      .create(4425 - 7, 1335, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(4600, 1230 + 15, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(4775, 1180, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(4950, 1130, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
 
-    this.platforms.create(5140 - 120, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi tähän
-    this.platforms.create(5140 - 120 + 125, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi
+    this.platforms
+      .create(5140 - 120, 1500, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //joulukuusi tähän
+    this.platforms
+      .create(5140 - 120 + 125, 1500, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //joulukuusi
 
-    this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(5190 + 125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11
-    this.platforms.create(5870, 1200+30, "platform").setScale(3, 5).refreshBody();
-    this.platforms.create(5980, 1648+30, "platform").setScale(1.3, 2).refreshBody();
-    this.platforms.create(5870, 1900+30, "platform").setScale(3, 3).refreshBody();  //hazardeja alapuolelle lattiaan
-    this.platforms.create(7150, 1180, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7500, 1180, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7850, 1180, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7850+350, 1180, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(8325, 1180, "platform").setScale(1, 0.2).refreshBody(); //ovi 15
+    this.platforms
+      .create(5190, 1130, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(5190 + 125, 1130, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //ovi 11
+    this.platforms
+      .create(5870, 1200 + 30, "platform")
+      .setScale(3, 5)
+      .refreshBody();
+    this.platforms
+      .create(5980, 1648 + 30, "platform")
+      .setScale(1.3, 2)
+      .refreshBody();
+    this.platforms
+      .create(5870, 1900 + 30, "platform")
+      .setScale(3, 3)
+      .refreshBody(); //hazardeja alapuolelle lattiaan
+    this.platforms
+      .create(7150, 1180, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(7500, 1180, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(7850, 1180, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(7850 + 350, 1180, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(8325, 1180, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //ovi 15
 
-    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7300, 1600, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7750, 1900, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(8200, 2100, "platform").setScale(1, 0.2).refreshBody(); //huone 16 lattialla
+    this.platforms
+      .create(7800, 1400, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(7800, 1400, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(7300, 1600, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(7750, 1900, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(8200, 2100, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //huone 16 lattialla
 
-    this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
-    this.platforms.create(9100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
-    this.platforms.create(9200, 2020, "platform").setScale(0.5, 0.2).refreshBody();
-    this.platforms.create(9400, 2020, "platform").setScale(0.5, 0.2).refreshBody();
-    this.platforms.create(9400+100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
-    this.platforms.create(9400+200, 2200, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms
+      .create(9000, 2200, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody(); //joulukuusi oikealle
+    this.platforms
+      .create(9100, 2110, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(9200, 2020, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(9400, 2020, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(9400 + 100, 2110, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(9400 + 200, 2200, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
 
-    this.platforms.create(9500, 1300, "platform").setScale(1, 0.2).refreshBody(); //OVI 17 oikealla
+    this.platforms
+      .create(9500, 1300, "platform")
+      .setScale(1, 0.2)
+      .refreshBody(); //OVI 17 oikealla
 
-    this.platforms.create(9900, 900, "platform").setScale(1, 0.2).refreshBody();  //ovi 18 alhaalla oikealla
+    this.platforms.create(9900, 900, "platform").setScale(1, 0.2).refreshBody(); //ovi 18 alhaalla oikealla
 
-    this.platforms.create(11100, 880, "platform").setScale(0.5, 0.2).refreshBody();  
-    this.platforms.create(11030, 790, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusia alle
-    this.platforms.create(10960, 700, "platform").setScale(0.5, 0.2).refreshBody();
-    this.platforms.create(10890, 610, "platform").setScale(0.5, 0.2).refreshBody();
-    this.platforms.create(10820, 520, "platform").setScale(0.5, 0.2).refreshBody();
-    this.platforms.create(10550, 430, "platform").setScale(2, 0.2).refreshBody();  //OVI 22
+    this.platforms
+      .create(11100, 880, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(11030, 790, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody(); //joulukuusia alle
+    this.platforms
+      .create(10960, 700, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(10890, 610, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(10820, 520, "platform")
+      .setScale(0.5, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(10550, 430, "platform")
+      .setScale(2, 0.2)
+      .refreshBody(); //OVI 22
 
-    this.platforms.create(11000+50, 430, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(11360+100, 460, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(11720+100, 490, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(12080+100, 520, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(12440+100, 550, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(12800+100, 580, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(13160+100, 610, "platform").setScale(2, 0.2).refreshBody();
-    
+    this.platforms
+      .create(11000 + 50, 430, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(11360 + 100, 460, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(11720 + 100, 490, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(12080 + 100, 520, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(12440 + 100, 550, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(12800 + 100, 580, "platform")
+      .setScale(1, 0.2)
+      .refreshBody();
+    this.platforms
+      .create(13160 + 100, 610, "platform")
+      .setScale(2, 0.2)
+      .refreshBody();
 
-    
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
     this.hazards.create(400, 2000, "hazard_down").setScale(0.5).refreshBody();
-    
+
     this.hazards.create(530, 2225, "hazard_up").setScale(1).refreshBody();
     this.hazards.create(775, 2225, "hazard_up").setScale(1).refreshBody();
 
     this.hazards.create(1200, 2225, "hazard_up").setScale(2, 1).refreshBody();
     this.hazards.create(1200, 2225, "hazard_up").setScale(2, 1).refreshBody();
-    this.hazards.create(1200+200, 2225, "hazard_up").setScale(2, 1).refreshBody();
-    this.hazards.create(1200+400, 2225, "hazard_up").setScale(2, 1).refreshBody();
-    this.hazards.create(1200+600, 2225, "hazard_up").setScale(2, 1).refreshBody();
-    this.hazards.create(1200+700, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards
+      .create(1200 + 200, 2225, "hazard_up")
+      .setScale(2, 1)
+      .refreshBody();
+    this.hazards
+      .create(1200 + 400, 2225, "hazard_up")
+      .setScale(2, 1)
+      .refreshBody();
+    this.hazards
+      .create(1200 + 600, 2225, "hazard_up")
+      .setScale(2, 1)
+      .refreshBody();
+    this.hazards
+      .create(1200 + 700, 2225, "hazard_up")
+      .setScale(2, 1)
+      .refreshBody();
 
-    this.hazards.create(1200+980, 2225, "hazard_up").setScale(0.8, 1).refreshBody();
-    this.hazards.create(2250, 1950, "hazard_left").setScale(0.7, 1).refreshBody();
+    this.hazards
+      .create(1200 + 980, 2225, "hazard_up")
+      .setScale(0.8, 1)
+      .refreshBody();
+    this.hazards
+      .create(2250, 1950, "hazard_left")
+      .setScale(0.7, 1)
+      .refreshBody();
 
-    
-   //  this.hazards.create(1580, 1220, "hazard_kuusi").setScale(2, 2).refreshBody();
+    //  this.hazards.create(1580, 1220, "hazard_kuusi").setScale(2, 2).refreshBody();
 
-    this.hazards.create(3315+50, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 1600, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 1700, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 1800, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 1900, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 2000, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 2100, "hazard_right").setScale(1.5, 1).refreshBody();
-    this.hazards.create(3315+50, 2200, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards
+      .create(3315 + 50, 1400, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 1500, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 1600, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 1700, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 1800, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 1900, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 2000, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 2100, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3315 + 50, 2200, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
 
     this.hazards.create(4330, 2225, "hazard_up").setScale(2, 1).refreshBody();
     this.hazards.create(4530, 2225, "hazard_up").setScale(2, 1).refreshBody();
@@ -344,7 +577,7 @@ create() {
     this.hazards.create(7770, 2225, "hazard_up").setScale(2, 1).refreshBody();
     this.hazards.create(7970, 2225, "hazard_up").setScale(2, 1).refreshBody();
     this.hazards.create(8170, 2225, "hazard_up").setScale(2, 1).refreshBody();
-    this.hazards.create(8370, 2225, "hazard_up").setScale(2, 1).refreshBody(); 
+    this.hazards.create(8370, 2225, "hazard_up").setScale(2, 1).refreshBody();
 
     this.hazardSound = this.sound.add("hazardSound");
     this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
@@ -359,17 +592,17 @@ create() {
     // doors (rooms 1 to 24)
     //! update: 1-11 done, 12-24 left to do
     this.doors = [
-      this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1), 
-      this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1), 
-      this.createDoor(1130, 1575, "Room3").setScale(0.3).setDepth(1), 
-      this.createDoor(140, 1350, "Room4").setScale(0.3).setDepth(1), 
-      this.createDoor(850, 1210, "Room5").setScale(0.3).setDepth(1),  
-      this.createDoor(2080, 1290, "Room6").setScale(0.3).setDepth(1), 
-      this.createDoor(2355, 2240, "Room7").setScale(0.3).setDepth(1), 
-      this.createDoor(3100, 1290, "Room8").setScale(0.3).setDepth(1), 
-      this.createDoor(3675, 2240, "Room9").setScale(0.3).setDepth(1), 
-      this.createDoor(4360, 1285, "Room10").setScale(0.3).setDepth(1), 
-      this.createDoor(5255, 1080, "Room11").setScale(0.3).setDepth(1), 
+      this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1),
+      this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1),
+      this.createDoor(1130, 1575, "Room3").setScale(0.3).setDepth(1),
+      this.createDoor(140, 1350, "Room4").setScale(0.3).setDepth(1),
+      this.createDoor(850, 1210, "Room5").setScale(0.3).setDepth(1),
+      this.createDoor(2080, 1290, "Room6").setScale(0.3).setDepth(1),
+      this.createDoor(2355, 2240, "Room7").setScale(0.3).setDepth(1),
+      this.createDoor(3100, 1290, "Room8").setScale(0.3).setDepth(1),
+      this.createDoor(3675, 2240, "Room9").setScale(0.3).setDepth(1),
+      this.createDoor(4360, 1285, "Room10").setScale(0.3).setDepth(1),
+      this.createDoor(5255, 1080, "Room11").setScale(0.3).setDepth(1),
       this.createDoor(5800, 1705, "Room12").setScale(0.3).setDepth(1),
       this.createDoor(6230, 2240, "Room13").setScale(0.3).setDepth(1),
       this.createDoor(6500, 1195, "Room14").setScale(0.3).setDepth(1),
@@ -381,9 +614,12 @@ create() {
       this.createDoor(11255, 1685, "Room20").setScale(0.3).setDepth(1),
       this.createDoor(11300, 910, "Room21").setScale(0.3).setDepth(1),
       this.createDoor(10550, 380, "Room22").setScale(0.3).setDepth(1),
-      this.createDoor(13160+100, 560, "Room23").setScale(0.3).setDepth(1),
-      this.createDoor(13160-1000, 2240, "Room24").setScale(0.3).setDepth(1),
-      
+      this.createDoor(13160 + 100, 560, "Room23")
+        .setScale(0.3)
+        .setDepth(1),
+      this.createDoor(13160 - 1000, 2240, "Room24")
+        .setScale(0.3)
+        .setDepth(1),
     ];
 
     // Add cabins behind doors based on room number (odd/even)
@@ -443,7 +679,9 @@ create() {
     );
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.qKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    this.ctrlKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL);
+    this.ctrlKey = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.CTRL
+    );
 
     // Instruction messages
     this.instructions = [
@@ -502,7 +740,10 @@ create() {
     }
 
     // Clearing the save file when ctrl+q is pressed
-    if (Phaser.Input.Keyboard.JustDown(this.qKey) && Phaser.Input.Keyboard.JustDown(this.ctrlKey)) {
+    if (
+      Phaser.Input.Keyboard.JustDown(this.qKey) &&
+      Phaser.Input.Keyboard.JustDown(this.ctrlKey)
+    ) {
       if (localStorage.getItem("save") != null) localStorage.removeItem("save");
       location.reload();
     }
@@ -565,23 +806,6 @@ create() {
           }
           this.saveGame(this.player.x, this.player.y);
         }
-      }
-    });
-
-    // Save coordinates of savepoint if close and pressing E
-    this.savepoints.forEach(savepoint => {
-      if (
-        Phaser.Math.Distance.Between(
-          this.player.x,
-          this.player.y,
-          savepoint.x,
-          savepoint.y
-        ) < 50 &&
-        Phaser.Input.Keyboard.JustDown(
-          this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E)
-        )
-      ) {
-        this.saveGame(savepoint.x, savepoint.y);
       }
     });
   }
