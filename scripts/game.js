@@ -45,7 +45,8 @@ class MainGameScene extends Phaser.Scene {
   loadGame() {
     let saveObject = JSON.parse(localStorage.getItem("save"));
     try {
-      this.player.setPosition(saveObject.x, saveObject.y); // Set saved coordinates
+      //this.player.setPosition(saveObject.x, saveObject.y); // Set saved coordinates
+      this.player.setPosition(this.doors[13].x, this.doors[13].y);
       this.developerModeIsOn = saveObject.devMode; // Set saved developer mode status
       for (let i = 0; i < this.instructions.length; i++) {
         this.instructions[i].shown = saveObject.showedMessages[i];
@@ -654,7 +655,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.5); // Set the zoom level
+    this.cameras.main.setZoom(1); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -703,6 +704,24 @@ class MainGameScene extends Phaser.Scene {
         shown: false,
         message: "Press [E]\nto open door",
       },
+      {
+        x: this.doors[5].x + 100,
+        y: this.doors[5].y - 25,
+        shown: false,
+        message: "You can slow your descent\nby pushing against the wall",
+      },
+      {
+        x: this.doors[6].x + 100,
+        y: this.doors[6].y - 25,
+        shown: false,
+        message: "Try to bounce off the walls\nto climb higher",
+      },
+      {
+        x: this.doors[13].x + 350,
+        y: this.doors[13].y - 50,
+        shown: false,
+        message: "Press [shift] to dash\nwhile walking or jumping",
+      }
     ];
 
     // Loading the game
