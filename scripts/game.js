@@ -122,6 +122,8 @@ create() {
     this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
     this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
     this.walls.create(11635, 1560, "wall").setScale(4, 45).refreshBody();
+
+    this.walls.create(13160+600, 1320, "wall").setScale(10, 60).refreshBody(); //vika (luukkku 24)
     
    
     // Platforms group
@@ -232,6 +234,23 @@ create() {
 
     this.platforms.create(9900, 900, "platform").setScale(1, 0.2).refreshBody();  //ovi 18 alhaalla oikealla
 
+    this.platforms.create(11100, 880, "platform").setScale(0.5, 0.2).refreshBody();  
+    this.platforms.create(11030, 790, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusia alle
+    this.platforms.create(10960, 700, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10890, 610, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10820, 520, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10550, 430, "platform").setScale(2, 0.2).refreshBody();  //OVI 22
+
+    this.platforms.create(11000+50, 430, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(11360+100, 460, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(11720+100, 490, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12080+100, 520, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12440+100, 550, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12800+100, 580, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(13160+100, 610, "platform").setScale(2, 0.2).refreshBody();
+    
+
+    
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
     this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
@@ -270,6 +289,9 @@ create() {
       this.createDoor(10500, 1580, "Room19").setScale(0.3).setDepth(1),
       this.createDoor(11255, 1685, "Room20").setScale(0.3).setDepth(1),
       this.createDoor(11300, 910, "Room21").setScale(0.3).setDepth(1),
+      this.createDoor(10550, 380, "Room22").setScale(0.3).setDepth(1),
+      this.createDoor(13160+100, 560, "Room23").setScale(0.3).setDepth(1),
+      this.createDoor(13160-1000, 2240, "Room24").setScale(0.3).setDepth(1),
       
     ];
 
@@ -313,7 +335,7 @@ create() {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.45); // Set the zoom level
+    this.cameras.main.setZoom(0.2); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
