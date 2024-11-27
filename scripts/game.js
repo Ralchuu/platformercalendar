@@ -70,6 +70,7 @@ class MainGameScene extends Phaser.Scene {
       });
     } catch (error) {
       console.log("Failed to load game");
+      this.player.setPosition(playerStartX, playerStartY);
     }
   }
 
