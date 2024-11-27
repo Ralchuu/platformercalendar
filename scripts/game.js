@@ -265,229 +265,76 @@ class MainGameScene extends Phaser.Scene {
 
     // luukku 5 - 6
     this.platforms.create(975, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms
-      .create(1100, 1260, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1275, 1190, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1450, 1120, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1450 + 125, 1350, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); // JOULUKUUSI TÄHÄN
-    this.platforms
-      .create(1450 + 250, 1120, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1900, 1190, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); // ovi 6
+    this.platforms.create(1100, 1260, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1275, 1190, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1450, 1120, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1450 + 125, 1350, "platform").setScale(1, 0.2).refreshBody(); // JOULUKUUSI TÄHÄN
+    this.platforms.create(1450 + 250, 1120, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody(); // ovi 6
 
     // luukku 6 - 7
     // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
 
     // luukku 7 - 8
-    this.platforms
-      .create(2720, 1330, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(2845, 1330, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); // ovi 8
+    this.platforms.create(2720, 1330, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(2845, 1330, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
 
     //luukku 8 - 9
-    this.platforms
-      .create(3100, 1800, "platform")
-      .setScale(3, 7.5)
-      .refreshBody();
+    this.platforms.create(3100, 1800, "platform").setScale(3, 7.5).refreshBody();
     //ovi 9 lattialle kohtaan x: 3620, y: 2240
 
     //OVI 9 - 10
-    this.platforms
-      .create(4300 - 7, 1335, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //ovi 10
-    this.platforms
-      .create(4425 - 7, 1335, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(4600, 1230 + 15, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(4775, 1180, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(4950, 1130, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
+    this.platforms.create(4300 - 7, 1335, "platform").setScale(1, 0.2).refreshBody(); //ovi 10
+    this.platforms.create(4425 - 7, 1335, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(4600, 1230 + 15, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
 
-    this.platforms
-      .create(5140 - 120, 1500, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //joulukuusi tähän
-    this.platforms
-      .create(5140 - 120 + 125, 1500, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //joulukuusi
+    this.platforms.create(5140 - 120, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi tähän
+    this.platforms.create(5140 - 120 + 125, 1500, "platform").setScale(1, 0.2).refreshBody(); //joulukuusi
 
-    this.platforms
-      .create(5190, 1130, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(5190 + 125, 1130, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //ovi 11
-    this.platforms
-      .create(5870, 1200 + 30, "platform")
-      .setScale(3, 5)
-      .refreshBody();
-    this.platforms
-      .create(5980, 1648 + 30, "platform")
-      .setScale(1.3, 2)
-      .refreshBody();
-    this.platforms
-      .create(5870, 1900 + 30, "platform")
-      .setScale(3, 3)
-      .refreshBody(); //hazardeja alapuolelle lattiaan
-    this.platforms
-      .create(7150, 1180, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(7500, 1180, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(7850, 1180, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(7850 + 350, 1180, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(8325, 1180, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //ovi 15
+    this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(5190 + 125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11
+    this.platforms.create(5870, 1200 + 30, "platform").setScale(3, 5).refreshBody();
+    this.platforms.create(5980, 1648 + 30, "platform").setScale(1.3, 2).refreshBody();
+    this.platforms.create(5870, 1900 + 30, "platform").setScale(3, 3).refreshBody(); //hazardeja alapuolelle lattiaan
+    this.platforms.create(7150, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7500, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7850, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7850 + 350, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(8325, 1180, "platform").setScale(1, 0.2).refreshBody(); //ovi 15
 
-    this.platforms
-      .create(7800, 1400, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(7800, 1400, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(7300, 1600, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(7750, 1900, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(8200, 2100, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //huone 16 lattialla
+    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7300, 1600, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7750, 1900, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(8200, 2100, "platform").setScale(1, 0.2).refreshBody(); //huone 16 lattialla
 
-    this.platforms
-      .create(9000, 2200, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody(); //joulukuusi oikealle
-    this.platforms
-      .create(9100, 2110, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(9200, 2020, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(9400, 2020, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(9400 + 100, 2110, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(9400 + 200, 2200, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
+    this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
+    this.platforms.create(9100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9200, 2020, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400, 2020, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400 + 100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400 + 200, 2200, "platform").setScale(0.5, 0.2).refreshBody();
 
-    this.platforms
-      .create(9500, 1300, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //OVI 17 oikealla
+    this.platforms.create(9500, 1300, "platform").setScale(1, 0.2).refreshBody(); //OVI 17 oikealla
 
     this.platforms.create(9900, 900, "platform").setScale(1, 0.2).refreshBody(); //ovi 18 alhaalla oikealla
 
-    this.platforms
-      .create(11100, 880, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(11030, 790, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody(); //joulukuusia alle
-    this.platforms
-      .create(10960, 700, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(10890, 610, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(10820, 520, "platform")
-      .setScale(0.5, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(10550, 430, "platform")
-      .setScale(2, 0.2)
-      .refreshBody(); //OVI 22
+    this.platforms.create(11100, 880, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms .create(11030, 790, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusia alle
+    this.platforms.create(10960, 700, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10890, 610, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10820, 520, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10550, 430, "platform").setScale(2, 0.2).refreshBody(); //OVI 22
 
-    this.platforms
-      .create(11000 + 50, 430, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(11360 + 100, 460, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(11720 + 100, 490, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(12080 + 100, 520, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(12440 + 100, 550, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(12800 + 100, 580, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(13160 + 100, 610, "platform")
-      .setScale(2, 0.2)
-      .refreshBody();
+    this.platforms.create(11000 + 50, 430, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(11360 + 100, 460, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(11720 + 100, 490, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12080 + 100, 520, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12440 + 100, 550, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12800 + 100, 580, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(13160 + 100, 610, "platform").setScale(2, 0.2).refreshBody();
 
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
@@ -506,15 +353,15 @@ this.hazards.create(2180, 2235, "hazard_up").setScale(0.8, 1).refreshBody();
 
 this.hazards.create(2255, 1980, "hazard_left").setScale(0.7, 1).refreshBody();
 
-this.hazards.create(3365, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 1600, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 1700, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 1800, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 1900, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 2000, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 2100, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 2200, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 1600, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 1700, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 1800, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 1900, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 2000, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 2100, "hazard_right").setScale(1.5, 1).refreshBody();
+this.hazards.create(3360, 2200, "hazard_right").setScale(1.5, 1).refreshBody();
 
 //this.hazards.create(3850, 1900, "hazard_right").setScale(1, 1).refreshBody();
 
@@ -610,7 +457,7 @@ this.hazards.create(8370, 2235, "hazard_up").setScale(2, 1).refreshBody();
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.3); // Set the zoom level
+    this.cameras.main.setZoom(0.4); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
