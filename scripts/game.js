@@ -16,19 +16,27 @@ class MainGameScene extends Phaser.Scene {
     this.platforms = null;
     this.hazards = null;
     this.doors = [];
-    this.savepoints = [];
+    this.instructions = [];
     this.player = null;
     this.cursors = null;
     this.wasd = null;
     this.spaceBar = null;
     this.eKey = null;
+    this.qKey = null;
+    this.ctrlKey = null;
   }
 
   // Save & load the game
   saveGame(x, y) {
+    let shown = [];
+    this.instructions.forEach((inst) => {
+      shown.push(inst.shown);
+    });
     let saveObject = {
       x: x,
-      y: y - 20
+      y: y - 20,
+      devMode: this.developerModeIsOn,
+      showedMessages: shown,
     };
     console.log("Saved coordinates x: " + x + ", y: " + y);
     localStorage.setItem("save", JSON.stringify(saveObject));
@@ -37,10 +45,48 @@ class MainGameScene extends Phaser.Scene {
   loadGame() {
     let saveObject = JSON.parse(localStorage.getItem("save"));
     try {
-      this.player.setPosition(saveObject.x, saveObject.y);
+      this.player.setPosition(saveObject.x, saveObject.y); // Set saved coordinates
+      this.developerModeIsOn = saveObject.devMode; // Set saved developer mode status
+      for (let i = 0; i < this.instructions.length; i++) {
+        this.instructions[i].shown = saveObject.showedMessages[i];
+      }
+
+      this.updateDevModeText(); // Update the displayed text
+      let gameLoadedText = this.add.text(
+        10,
+        10,
+        "Game loaded\nPress [Ctrl] + [Q] to restart game",
+        {
+          font: "20px Arial",
+          fill: "#32141c",
+          align: "center",
+          backgroundColor: "#c99b70",
+        }
+      );
+      gameLoadedText.setScrollFactor(0); // Ensure text stays fixed on screen
+      gameLoadedText.setDepth(5);
+      this.time.delayedCall(3000, () => {
+        gameLoadedText.destroy();
+      });
     } catch (error) {
-      console.log("No save file to load");
+      console.log("Failed to load game");
     }
+  }
+
+  showTextBox(x, y, message, timer) {
+    let textStyle = {
+      font: "20px Arial",
+      fill: "#32141c",
+      align: "center",
+      backgroundColor: "rgba(236, 182, 132, 0.7)", // Set background color
+    };
+
+    const messageTextObject = this.add.text(x, y, message, textStyle);
+
+    // Destroy the text after timer runs out
+    this.time.delayedCall(timer, () => {
+      messageTextObject.destroy();
+    });
   }
 
   preload() {
@@ -56,9 +102,9 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
     this.load.image("savepoint", "assets/savepoint.png");
-    this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav")
-    this.load.audio("doorLocked", "assets/audio/oviLukossa_01.wav")
-    this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav")
+    this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
+    this.load.audio("doorLocked", "assets/audio/oviLukossa_01.wav");
+    this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav");
   }
 
   // world width 4096
@@ -83,7 +129,7 @@ create() {
       fontSize: "20px",
       fill: "#ffffff", // White text
     });
-  
+
     this.devModeText.setScrollFactor(0); // Ensure text stays fixed on screen
     this.devModeText.setDepth(4);
 
@@ -305,12 +351,12 @@ create() {
 
     // Door sounds
     this.doorLocked = this.sound.add("doorLocked");
-    this.doorLocked.setVolume(0.3); 
+    this.doorLocked.setVolume(0.3);
 
-    this.doorOpened = this.sound.add("doorOpened")
-    this.doorOpened.setVolume(0.6); 
+    this.doorOpened = this.sound.add("doorOpened");
+    this.doorOpened.setVolume(0.6);
 
-    // doors (rooms 1 to 24) 
+    // doors (rooms 1 to 24)
     //! update: 1-11 done, 12-24 left to do
     this.doors = [
       this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1), 
@@ -341,31 +387,23 @@ create() {
     ];
 
     // Add cabins behind doors based on room number (odd/even)
-    this.doors.forEach(door => {
+    this.doors.forEach((door) => {
       const targetRoom = door.getData("targetRoom"); // Get target room name
       const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
 
       // Attach cabin1 for odd rooms and cabin2 for even rooms
       if (roomNumber % 2 === 1) {
-        this.add.image(door.x, door.y - 39, "cabin1").setScale(1.5).setDepth(0); // Attach cabin1
+        this.add
+          .image(door.x, door.y - 39, "cabin1")
+          .setScale(1.5)
+          .setDepth(0); // Attach cabin1
       } else {
-        this.add.image(door.x, door.y - 44, "cabin2").setScale(1.4).setDepth(0); // Attach cabin2
+        this.add
+          .image(door.x, door.y - 44, "cabin2")
+          .setScale(1.4)
+          .setDepth(0); // Attach cabin2
       }
     });
-    // List of all savepoint coordinates //REDUNDANT ??
-    let savepointCoordinates = [
-      { }
-    ];
-
-    // Adding savepoints to listed coordinates
-    for (let i = 0; i < savepointCoordinates.length; i++) {
-      let x = savepointCoordinates[i].x;
-      let y = savepointCoordinates[i].y;
-      let savepoint = this.physics.add.sprite(x, y, "savepoint");
-      savepoint.setImmovable(true);
-      savepoint.body.allowGravity = false;
-      this.savepoints.push(savepoint);
-    }
 
     // Create player at the starting position
     this.player = new Player(
@@ -398,13 +436,38 @@ create() {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
       left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
       down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
     };
     this.spaceBar = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    this.qKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+    this.ctrlKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.CTRL);
 
+    // Instruction messages
+    this.instructions = [
+      {
+        x: playerStartX,
+        y: playerStartY + 20,
+        shown: false,
+        message: "Use keys [A] and [D]\nor [←] and [→] to move",
+      },
+      {
+        x: playerStartX + 120,
+        y: playerStartY + 20,
+        shown: false,
+        message: "Press [W] or [space]\nto jump",
+      },
+      {
+        x: this.doors[0].x - 80,
+        y: this.doors[0].y - 20,
+        shown: false,
+        message: "Press [E]\nto open door",
+      },
+    ];
+
+    // Loading the game
     this.loadGame();
   }
 
@@ -418,9 +481,10 @@ create() {
   }
 
   updateDevModeText() {
-    this.devModeText.setText(`Dev Mode (B): ${this.developerModeIsOn ? "ON" : "OFF"}`);
+    this.devModeText.setText(
+      `Dev Mode (B): ${this.developerModeIsOn ? "ON" : "OFF"}`
+    );
   }
-  
 
   update(time, delta) {
     // Update player movements
@@ -437,8 +501,30 @@ create() {
       this.updateDevModeText(); // Update the displayed text
     }
 
+    // Clearing the save file when ctrl+q is pressed
+    if (Phaser.Input.Keyboard.JustDown(this.qKey) && Phaser.Input.Keyboard.JustDown(this.ctrlKey)) {
+      if (localStorage.getItem("save") != null) localStorage.removeItem("save");
+      location.reload();
+    }
+
+    // Show instruction messages at set coordinates
+    this.instructions.forEach((inst) => {
+      if (
+        Phaser.Math.Distance.Between(
+          this.player.x,
+          this.player.y,
+          inst.x,
+          inst.y
+        ) < 40 &&
+        inst.shown == false
+      ) {
+        this.showTextBox(inst.x - 100, inst.y - 60, inst.message, 2500);
+        inst.shown = true;
+      }
+    });
+
     // Check if the player is interacting with any door
-    this.doors.forEach(door => {
+    this.doors.forEach((door) => {
       if (
         Phaser.Math.Distance.Between(
           this.player.x,
@@ -446,54 +532,38 @@ create() {
           door.x,
           door.y
         ) < 50 &&
-        
         Phaser.Input.Keyboard.JustDown(this.eKey) // Check for "E" key press
-
-        
       ) {
         // Määritellään pvm-muuttuja päivän tarkistusta varten
         const month = 11; // Kuukausien indeksi alkaa 0:sta, joten 11 on joulukuu
         const year = 2024;
         const currentDate = new Date();
-        let doorMessageText;
 
         const targetRoom = door.getData("targetRoom"); // Get the target room name
         if (targetRoom) {
-
           const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
           let doorDate = new Date(year, month, roomNumber);
 
-          if (currentDate < doorDate && this.developerModeIsOn == false) { 
+          if (currentDate < doorDate && this.developerModeIsOn == false) {
             let timeDifference = doorDate - currentDate;
             let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Muuttaa millisekunnit päiviksi?
-            doorMessageText = "No access yet!\nThis door can be opened\nin " + daysLeft + " days."; // rivinvaihto = \n
-  
-            let textStyle = {
-              font: "20px Arial",
-              fill: "#000000",
-              align: "center",
-              backgroundColor: "#ffffff", // Set background color
-            };
-            
+            let doorMessageText =
+              "No access yet!\nThis door can be opened\nin " +
+              daysLeft +
+              " days."; // rivinvaihto = \n
+
             this.doorLocked.play();
-            const messageTextObject = this.add.text(door.x-100, door.y-200, doorMessageText, textStyle);
-
-            // Destroy the text after 5 seconds
-            this.time.delayedCall(4000, () => {
-            messageTextObject.destroy();
-          });
-
+            // Changed message into its own function
+            this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
           } else {
             // Transition to the target room
             this.doorOpened.play();
             this.scene.start(targetRoom, {
               playerStartX: this.player.x,
-              playerStartY: this.player.y
+              playerStartY: this.player.y,
             });
-            
           }
           this.saveGame(this.player.x, this.player.y);
-          
         }
       }
     });
@@ -532,10 +602,10 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 2500 },
-      debug: false
-    }
+      debug: false,
+    },
   },
-  scene: [MainGameScene, Room1, Room2, Room3]
+  scene: [MainGameScene, Room1, Room2, Room3],
 };
 
 // Initialize the game
