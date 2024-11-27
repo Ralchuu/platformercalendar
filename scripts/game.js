@@ -44,11 +44,14 @@ class MainGameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/2testbackground.png");
+    this.load.image("background", "assets/test_bg_1.jpg");
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
-    this.load.image("hazard", "assets/hazard_down.png");
+    this.load.image("hazard_down", "assets/hazard_down.png");
+    this.load.image("hazard_up", "assets/hazard_up.png");
+    this.load.image("hazard_right", "assets/hazard_right.png");
+    this.load.image("hazard_left", "assets/hazard_left.png");
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
@@ -58,20 +61,22 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav")
   }
 
-  create() {
-    const bg = this.add.tileSprite(
-      0,
-      250,
-      worldWidth,
-      worldHeight,
-      "background"
-    ); // Background covering world
-    // background image dimensions: 1024 * 2048
-    bg.setOrigin(0, 0);
-    bg.setDisplaySize(10250, 2280);
+  // world width 4096
+// world height 2304
+create() {
+  // Create the background as a tiled sprite to cover the world
+  const bg = this.add.tileSprite(
+    0,        // X position
+    0,      // Y position
+    extendedWorldWidth, // Extended world width
+    worldHeight, // Extended world height
+    "background" // Background texture
+  ); 
+  bg.setOrigin(0, 0);  // Align the background at the top-left corner
+  
 
     // Set the new world bounds
-    this.physics.world.setBounds(0, 0, 8000, 8000);
+    this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
@@ -101,8 +106,29 @@ class MainGameScene extends Phaser.Scene {
     this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody(); // piikkejä seinään?
     this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody(); 
     this.walls.create(6500, 1710, "wall").setScale(6, 30).refreshBody();
-    this.walls.create(6800, 1710, "wall").setScale(4, 34).refreshBody(); 
+    this.walls.create(6800, 1730, "wall").setScale(4, 34).refreshBody(); 
 
+    this.walls.create(9850, 1780, "wall").setScale(6, 27).refreshBody(); 
+    this.walls.create(10200, 1730, "wall").setScale(6, 35).refreshBody(); 
+
+    this.walls.create(9500, 830, "wall").setScale(4, 20).refreshBody(); 
+    this.walls.create(9200, 830, "wall").setScale(4, 25).refreshBody(); 
+
+    //luola
+    this.walls.create(10920, 1190, "wall").setScale(33, 15).refreshBody();  //tämän päälle kuusimetsä 
+    this.walls.create(10700, 1715, "wall").setScale(7, 18).refreshBody();
+    this.walls.create(10500, 1810, "wall").setScale(6, 12).refreshBody();
+    this.walls.create(10805, 2080, "wall").setScale(25, 5).refreshBody();
+
+    this.walls.create(11450, 2065 , "wall").setScale(8, 13).refreshBody();
+    this.walls.create(11255, 1800, "wall").setScale(20, 5).refreshBody();
+    this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
+    this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
+    this.walls.create(11635, 1560, "wall").setScale(4, 45).refreshBody();
+
+    this.walls.create(13160+600, 1320, "wall").setScale(10, 60).refreshBody(); //vika (luukkku 24)
+    
+   
     // Platforms group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
@@ -133,7 +159,7 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(1065, 1620, "platform").setScale(1, 0.2).refreshBody(); //ovi 3
 
     //luukku 3 - 4
-    this.platforms.create(1065 - 125, 1645, "platform").setScale(1, 0.2).refreshBody();
+    
     this.platforms.create(815, 1620, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(600, 1550, "platform").setScale(1, 0.2).refreshBody(); //ovi 4
 
@@ -188,15 +214,94 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(5870, 1200+30, "platform").setScale(3, 5).refreshBody();
     this.platforms.create(5980, 1648+30, "platform").setScale(1.3, 2).refreshBody();
     this.platforms.create(5870, 1900+30, "platform").setScale(3, 3).refreshBody();  //hazardeja alapuolelle lattiaan
-    this.platforms.create(7130, 1180, "platform").setScale(1, 0.2).refreshBody();
-      
+    this.platforms.create(7150, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7500, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7850, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7850+350, 1180, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(8325, 1180, "platform").setScale(1, 0.2).refreshBody(); //ovi 15
 
+    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7300, 1600, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7750, 1900, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(8200, 2100, "platform").setScale(1, 0.2).refreshBody(); //huone 16 lattialla
+
+    this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
+    this.platforms.create(9100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9200, 2020, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400, 2020, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400+100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(9400+200, 2200, "platform").setScale(0.5, 0.2).refreshBody();
+
+    this.platforms.create(9500, 1300, "platform").setScale(1, 0.2).refreshBody(); //OVI 17 oikealla
+
+    this.platforms.create(9900, 900, "platform").setScale(1, 0.2).refreshBody();  //ovi 18 alhaalla oikealla
+
+    this.platforms.create(11100, 880, "platform").setScale(0.5, 0.2).refreshBody();  
+    this.platforms.create(11030, 790, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusia alle
+    this.platforms.create(10960, 700, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10890, 610, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10820, 520, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(10550, 430, "platform").setScale(2, 0.2).refreshBody();  //OVI 22
+
+    this.platforms.create(11000+50, 430, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(11360+100, 460, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(11720+100, 490, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12080+100, 520, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12440+100, 550, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(12800+100, 580, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(13160+100, 610, "platform").setScale(2, 0.2).refreshBody();
+    
+
+    
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
-    this.hazards.create(400, 2000, "hazard").setScale(0.5).refreshBody();
+    this.hazards.create(400, 2000, "hazard_down").setScale(0.5).refreshBody();
+    
+    this.hazards.create(530, 2225, "hazard_up").setScale(1).refreshBody();
+    this.hazards.create(775, 2225, "hazard_up").setScale(1).refreshBody();
+
+    this.hazards.create(1200, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(1200, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(1200+200, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(1200+400, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(1200+600, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(1200+700, 2225, "hazard_up").setScale(2, 1).refreshBody();
+
+    this.hazards.create(1200+980, 2225, "hazard_up").setScale(0.8, 1).refreshBody();
+    this.hazards.create(2250, 1950, "hazard_left").setScale(0.7, 1).refreshBody();
+
+    
+   //  this.hazards.create(1580, 1220, "hazard_kuusi").setScale(2, 2).refreshBody();
+
+    this.hazards.create(3315+50, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 1600, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 1700, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 1800, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 1900, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 2000, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 2100, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards.create(3315+50, 2200, "hazard_right").setScale(1.5, 1).refreshBody();
+
+    this.hazards.create(4330, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(4530, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(4730, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(4930, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(5130, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(5330, 2225, "hazard_up").setScale(2, 1).refreshBody();
+
+    this.hazards.create(6970, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(7170, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(7370, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(7570, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(7770, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(7970, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(8170, 2225, "hazard_up").setScale(2, 1).refreshBody();
+    this.hazards.create(8370, 2225, "hazard_up").setScale(2, 1).refreshBody(); 
 
     this.hazardSound = this.sound.add("hazardSound");
-    this.hazardSound.setVolume(0.4); // Set volume (0.0 to 1.0)
+    this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
 
     // Door sounds
     this.doorLocked = this.sound.add("doorLocked");
@@ -222,6 +327,16 @@ class MainGameScene extends Phaser.Scene {
       this.createDoor(5800, 1705, "Room12").setScale(0.3).setDepth(1),
       this.createDoor(6230, 2240, "Room13").setScale(0.3).setDepth(1),
       this.createDoor(6500, 1195, "Room14").setScale(0.3).setDepth(1),
+      this.createDoor(8265, 1135, "Room15").setScale(0.3).setDepth(1),
+      this.createDoor(8600, 2240, "Room16").setScale(0.3).setDepth(1),
+      this.createDoor(9850, 1310, "Room17").setScale(0.3).setDepth(1),
+      this.createDoor(10200, 1135, "Room18").setScale(0.3).setDepth(1),
+      this.createDoor(10500, 1580, "Room19").setScale(0.3).setDepth(1),
+      this.createDoor(11255, 1685, "Room20").setScale(0.3).setDepth(1),
+      this.createDoor(11300, 910, "Room21").setScale(0.3).setDepth(1),
+      this.createDoor(10550, 380, "Room22").setScale(0.3).setDepth(1),
+      this.createDoor(13160+100, 560, "Room23").setScale(0.3).setDepth(1),
+      this.createDoor(13160-1000, 2240, "Room24").setScale(0.3).setDepth(1),
       
     ];
 
@@ -264,8 +379,8 @@ class MainGameScene extends Phaser.Scene {
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBounds(0, 0, 8000, 8000);
-    this.cameras.main.setZoom(0.1); // Set the zoom level
+    this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
+    this.cameras.main.setZoom(0.5); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -402,8 +517,12 @@ class MainGameScene extends Phaser.Scene {
   }
 }
 
-const worldWidth = 64 * (16 * 4); // world width
-const worldHeight = 64 * (9 * 4); // world height
+const worldWidth = 64 * (16 * 4); // 4096
+const worldHeight = 64 * (9 * 4); // 2304
+
+// Extended world bounds
+const extendedWorldWidth = 16000; // extended world width
+const extendedWorldHeight = 8000; // extended world height
 
 const config = {
   type: Phaser.AUTO,
