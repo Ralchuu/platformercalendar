@@ -391,8 +391,8 @@ class MainGameScene extends Phaser.Scene {
     // Hazards group
     this.hazards = this.physics.add.staticGroup();
 
-this.hazards.create(530, 2230, "hazard_up").setScale(1).refreshBody();
-this.hazards.create(775, 2230, "hazard_up").setScale(1).refreshBody();
+this.hazards.create(530, 2230, "hazard_up").setScale(1).refreshBody().setSize(40, 5);
+this.hazards.create(775, 2230, "hazard_up").setScale(1).refreshBody().setSize(40, 5);
 
 this.hazards.create(1200, 2235, "hazard_up").setScale(2, 1).refreshBody();
 this.hazards.create(1200, 2235, "hazard_up").setScale(2, 1).refreshBody();
@@ -530,7 +530,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.8); // Set the zoom level
+    this.cameras.main.setZoom(0.2); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
