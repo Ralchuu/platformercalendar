@@ -403,10 +403,16 @@ this.hazards.create(8370, 2235, "hazard_up").setScale(2, 1).refreshBody();
 
 //12160, 2240
 this.hazards.create(13500, 2230, "hazard_up").setScale(2, 1).refreshBody();
-
-
 this.hazards.create(13555, 950, "hazard_left").setScale(1, 1).refreshBody();
 this.hazards.create(13555, 1550, "hazard_left").setScale(1, 1).refreshBody();
+
+this.hazards.create(11800, 1925, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(12000, 1925, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(12200, 1925, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(12400, 1925, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(12600, 1925, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(12800, 1925, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(13020, 1925, "hazard_up").setScale(2.5, 1).refreshBody();
 
 //11860, 2240
 this.hazards.create(12100, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
@@ -415,8 +421,6 @@ this.hazards.create(12500, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody(
 this.hazards.create(12700, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
 this.hazards.create(12900, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
 this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
-
-
 
     this.hazardSound = this.sound.add("hazardSound");
     this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
