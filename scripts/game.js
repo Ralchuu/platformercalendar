@@ -313,7 +313,7 @@ create() {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.2); // Set the zoom level
+    this.cameras.main.setZoom(0.45); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
