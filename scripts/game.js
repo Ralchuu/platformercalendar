@@ -318,7 +318,7 @@ create() {
     this.hazards.create(2250, 1950, "hazard_left").setScale(0.7, 1).refreshBody();
 
     
-   //  this.hazards.create(1580, 1220, "hazard_kuusi").setScale(2, 2).refreshBody();
+   //(1580, 1220, "hazard_kuusi").setScale(2, 2).refreshBody();
 
     this.hazards.create(3315+50, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
     this.hazards.create(3315+50, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
