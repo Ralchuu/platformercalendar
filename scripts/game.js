@@ -302,13 +302,21 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(7500, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7850, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7850 + 350, 1180, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(8325, 1180, "platform").setScale(1, 0.2).refreshBody(); //ovi 15
+    this.platforms.create(8325, 1180, "platform").setScale(1, 0.2).refreshBody(); //ovi 15 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7800, 1400, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7300, 1600, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(7750, 1900, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(8200, 2100, "platform").setScale(1, 0.2).refreshBody(); //huone 16 lattialla
+    this.platforms.create(7400, 1600, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(7800, 1700, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(8200, 1800, "platform").setScale(1, 0.2).refreshBody(); 
+ 
+    
+    this.platforms.create(8850, 2200, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(8850-100, 2200-90, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(8850-200, 2200-180, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(8850-300, 2200-270, "platform").setScale(0.5, 0.2).refreshBody();
+    this.platforms.create(8850-400, 2200-360, "platform").setScale(0.5, 0.2).refreshBody();
+    
 
     this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
     this.platforms.create(9100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
@@ -397,7 +405,7 @@ this.hazards.create(8370, 2235, "hazard_up").setScale(2, 1).refreshBody();
     this.doorOpened.setVolume(0.6);
 
     // doors (rooms 1 to 24)
-    //! update: 1-11 done, 12-24 left to do
+    
     this.doors = [
       this.createDoor(965, 2110, "Room1").setScale(0.3).setDepth(1),
       this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1),
@@ -457,7 +465,7 @@ this.hazards.create(8370, 2235, "hazard_up").setScale(2, 1).refreshBody();
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.4); // Set the zoom level
+    this.cameras.main.setZoom(0.2); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
