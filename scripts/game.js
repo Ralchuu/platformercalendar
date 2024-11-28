@@ -95,7 +95,7 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
-    this.load.image("hazard_tree", "assets/hazard_tree.png");
+    this.load.image("hazard_tree", "assets/treetest.png");
     this.load.image("hazard_down", "assets/hazard_down1.png");
     this.load.image("hazard_up", "assets/hazard_up1.png");
     this.load.image("hazard_right", "assets/hazard_right1.png");
