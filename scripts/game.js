@@ -34,7 +34,7 @@ class MainGameScene extends Phaser.Scene {
     });
     let saveObject = {
       x: x,
-      y: y - 30,
+      y: y - 40,
       devMode: this.developerModeIsOn,
       showedMessages: shown,
     };
@@ -655,7 +655,7 @@ class MainGameScene extends Phaser.Scene {
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(1); // Set the zoom level
+    this.cameras.main.setZoom(0.8); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
