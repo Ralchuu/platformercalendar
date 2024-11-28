@@ -733,8 +733,23 @@ class MainGameScene extends Phaser.Scene {
     door.body.allowGravity = false;
     door.body.setEnable(false);
     door.setData("targetRoom", targetRoom); // Store the target room name
+  
+    // Create the door number text
+    const roomNumber = parseInt(targetRoom.replace('Room', '')); // take the room number from the targetRoom string (room1 -> 1)
+    const doorText = this.add.text(x, y - 12, `${roomNumber}`, {
+      font: "bold 30px 'Tempus Sans ITC'", 
+      fill: "#542723",
+      align: "center",
+    });
+    doorText.setShadow(2, 2, '', 2);
+    doorText.setOrigin(0.5, 0.5); // Centers the text on the door sprite
+  
+    doorText.setDepth(2);
+    
     return door;
   }
+  
+  
 
   updateDevModeText() {
     this.devModeText.setText(
@@ -829,7 +844,6 @@ class MainGameScene extends Phaser.Scene {
   }
 }
 
-const worldWidth = 64 * (16 * 4); // 4096
 const worldHeight = 64 * (9 * 4); // 2304
 
 // Extended world bounds
