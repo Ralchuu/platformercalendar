@@ -103,8 +103,8 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
     this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
-    this.load.audio("doorLocked", "assets/audio/oviLukossa_01.wav");
-    this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav");
+    this.load.audio("doorLockedSound", "assets/audio/oviLukossa_01.wav");
+    this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
   }
 
   // world width 4096
@@ -468,11 +468,11 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
 
     // Door sounds
-    this.doorLocked = this.sound.add("doorLocked");
-    this.doorLocked.setVolume(0.3);
+    this.doorLockedSound = this.sound.add("doorLockedSound");
+    this.doorLockedSound.setVolume(0.3);
 
-    this.doorOpened = this.sound.add("doorOpened");
-    this.doorOpened.setVolume(0.6);
+    this.doorOpenedSound = this.sound.add("doorOpenedSound");
+    this.doorOpenedSound.setVolume(0.6);
 
     // doors (rooms 1 to 24)
     
@@ -692,12 +692,12 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
               daysLeft +
               " days."; // rivinvaihto = \n
 
-            this.doorLocked.play();
+            this.doorLockedSound.play();
             // Changed message into its own function
             this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
           } else {
             // Transition to the target room
-            this.doorOpened.play();
+            this.doorOpenedSound.play();
             this.scene.start(targetRoom, {
               playerStartX: this.player.x,
               playerStartY: this.player.y,
