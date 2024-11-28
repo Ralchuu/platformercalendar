@@ -43,7 +43,7 @@
   </style>
 </head>
 <body>
-  <h1>Joulukalenteripeli:D</h1> <!-- Testikommentti -->
+  <h1>Joulukalenteripeli:D</h1>
 
   <!-- Pop-up window HTML -->
   <div class="popup-window" id="popup-room">
@@ -54,7 +54,7 @@
 
   <script type="module" src="scripts/game.js"></script>
   <audio id="background-music" autoplay loop>
-    <source src="assets/sounds/Joulukalenteri_taustamusademo_1.0.mp3" type="audio/mpeg">
+    <source src="assets/audio/Joulukalenteri_taustamusa01_MIXjaMASTER_1.1.wav" type="audio/mpeg">
   </audio> 
   
   <script>
@@ -67,7 +67,7 @@
         audio.play();
       }
     }
-    audio.volume = 0.05;
+    audio.volume = 0.15;
     
     // Event listener for arrow keys or WASD keys
     window.addEventListener("keydown", (event) => {

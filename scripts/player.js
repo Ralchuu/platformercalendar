@@ -36,55 +36,60 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     // Dash settings
     this.dashSpeed = 1000; // Dash speed
     this.dashTime = 170;  // Duration of the dash in milliseconds
-    this.dashCooldown = 1500; // Cooldown time between dashes in milliseconds
+    this.dashCooldown = 700; // Cooldown time between dashes in milliseconds
     this.isDashing = false; // Whether the player is currently dashing
     this.dashTimer = 0; // Dash timer
     this.dashCooldownTimer = 0; // Cooldown timer
   }
 
   update(cursors, wasd, spaceBar, shiftKey, delta) {
+    // Safely handle null inputs
+    const isLeftPressed = cursors?.left?.isDown || wasd?.left?.isDown || false;
+    const isRightPressed = cursors?.right?.isDown || wasd?.right?.isDown || false;
+    const isUpPressed = cursors?.up?.isDown || wasd?.up?.isDown || spaceBar?.isDown || false;
+    const isDashPressed = shiftKey?.isDown || false;
+
     // Dash cooldown timer logic
     if (this.dashCooldownTimer > 0) {
       this.dashCooldownTimer -= delta;
     }
-  
+
     // Handle dash
-    if (!this.isDashing && this.dashCooldownTimer <= 0 && (shiftKey.isDown)) {
-      // Initiate the dash in the direction the player is facing
+    if (!this.isDashing && this.dashCooldownTimer <= 0 && isDashPressed) {
       this.isDashing = true;
       this.dashTimer = this.dashTime;
       this.dashCooldownTimer = this.dashCooldown; // Start cooldown
       this.setVelocityX(this.flipX ? -this.dashSpeed : this.dashSpeed); // Dash direction based on facing
-  
+
       // Reset vertical velocity to keep the player's height the same
       this.setVelocityY(0);
-  
+
       // Temporarily stop any movement to ensure dash consistency
-      this.body.allowGravity = false;  // Disable gravity during the dash
+      this.body.allowGravity = false; // Disable gravity during the dash
     }
-  
+
     // Dash behavior logic
     if (this.isDashing) {
       // Check for wall collisions during the dash
-      const touchingLeftWall = this.body.blocked.left && !this.isTouchingPlatform(-1);
-      const touchingRightWall = this.body.blocked.right && !this.isTouchingPlatform(1);
-  
+      const touchingLeftWall = this.body.blocked.left && !this.isTouchingWall(-1);
+      const touchingRightWall = this.body.blocked.right && !this.isTouchingWall(1);
+
       if (touchingLeftWall || touchingRightWall) {
         // Stop dash if player hits a wall
         this.isDashing = false;
-        this.setVelocityX(0);  // Stop horizontal dash movement
-        this.body.allowGravity = true;  // Re-enable gravity
+        this.setVelocityX(0); // Stop horizontal dash movement
+        this.body.allowGravity = true; // Re-enable gravity
       }
-  
+
       // Decrease dash timer
       this.dashTimer -= delta;
       if (this.dashTimer <= 0) {
         this.isDashing = false; // End the dash
-        this.setVelocityX(0);  // Stop horizontal dash movement
-        this.body.allowGravity = true;  // Re-enable gravity
+        this.setVelocityX(0); // Stop horizontal dash movement
+        this.body.allowGravity = true; // Re-enable gravity
       }
     }
-  
+
     // Wall jumping cooldown timer logic
     if (this.isWallJumping) {
       this.wallJumpTimer -= delta;
@@ -92,23 +97,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.wallJumpTimer = 0;
         this.isWallJumping = false;
         // Reset image flip after wall jump lock time ends
-        this.setFlipX(this.wallJumpDirection === -1);  // Keep flip in the wall jump direction
+        this.setFlipX(this.wallJumpDirection === -1); // Keep flip in the wall jump direction
       }
       return;
     }
-  
+
     // Horizontal movement logic
     const acceleration = 5;
     const deceleration = 10;
     const maxSpeed = 270;
-  
+
     if (!this.isDashing) {
-      if (cursors.left.isDown || wasd.left.isDown) {
+      if (isLeftPressed) {
         if (this.body.velocity.x > -maxSpeed) {
           this.setVelocityX(Math.max(this.body.velocity.x - acceleration * delta, -maxSpeed));
         }
         this.setFlipX(true);
-      } else if (cursors.right.isDown || wasd.right.isDown) {
+      } else if (isRightPressed) {
         if (this.body.velocity.x < maxSpeed) {
           this.setVelocityX(Math.min(this.body.velocity.x + acceleration * delta, maxSpeed));
         }
@@ -121,48 +126,37 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
       }
     }
-  
+
     // Wall sticking and sliding logic
-    const touchingLeftWall = this.body.blocked.left && !this.isTouchingPlatform(-1);
-    const touchingRightWall = this.body.blocked.right && !this.isTouchingPlatform(1);
-  
+    const touchingLeftWall = this.body.blocked.left && this.isTouchingWall(-1);
+    const touchingRightWall = this.body.blocked.right && this.isTouchingWall(1);
+
     if (touchingLeftWall || touchingRightWall) {
       this.setVelocityX(0);
       this.isWallSliding = true;
-  
+
       if (this.body.velocity.y < 0) {
         this.setVelocityY(0);
       }
-  
+
       this.setVelocityY(Math.min(this.body.velocity.y + this.wallSlideSpeed, this.wallSlideMaxSpeed));
-  
-      if ((cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
-        this.jumpButtonReleased && !this.jumpButtonPressed) {
+
+      if (isUpPressed && this.jumpButtonReleased && !this.jumpButtonPressed) {
         if (touchingLeftWall) {
-          this.isWallJumping = true;
-          this.wallJumpDirection = 1;
-          this.wallJumpTimer = this.wallJumpLockTime;
-          this.setVelocityX(300);
-          this.setVelocityY(-700);
+          this.initiateWallJump(1);
         } else if (touchingRightWall) {
-          this.isWallJumping = true;
-          this.wallJumpDirection = -1;
-          this.wallJumpTimer = this.wallJumpLockTime;
-          this.setVelocityX(-300);
-          this.setVelocityY(-700);
+          this.initiateWallJump(-1);
         }
-  
+
         this.isWallSliding = false;
         this.jumpButtonPressed = true;
         this.jumpButtonReleased = false;
-  
-        this.setFlipX(this.wallJumpDirection === -1);
       }
     } else {
       this.isWallSliding = false;
     }
-  
-    // Regular jumping and coyote time logicc
+
+    // Regular jumping and coyote time logic
     if (this.body.touching.down) {
       this.canJump = true;
       this.coyoteTimer = this.coyoteTime;
@@ -174,10 +168,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.canJump = false;
       }
     }
-  
+
     if (this.body.velocity.y > 0 && this.coyoteTimer > 0 && this.jumpBufferTimer > 0) {
       this.jumpBufferTimer -= delta;
-  
+
       if (this.jumpBufferTimer > 0) {
         this.setVelocityY(-700);
         this.jumpBufferTimer = 0;
@@ -186,9 +180,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.jumpButtonReleased = false;
       }
     }
-  
-    if ((cursors.up.isDown || wasd.up.isDown || spaceBar.isDown) &&
-      this.jumpButtonReleased && !this.jumpButtonPressed) {
+
+    if (isUpPressed && this.jumpButtonReleased && !this.jumpButtonPressed) {
       if (this.body.touching.down || this.coyoteTimer > 0) {
         this.setVelocityY(-700);
         this.canJump = false;
@@ -199,44 +192,46 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.jumpBufferTimer = this.jumpBufferTime;
       }
     }
-  
-    if (this.jumpButtonPressed &&
-      !cursors.up.isDown &&
-      !wasd.up.isDown &&
-      !spaceBar.isDown) {
+
+    if (this.jumpButtonPressed && !isUpPressed) {
       this.jumpButtonPressed = false;
       this.jumpButtonReleased = true;
     }
   }
-  
 
-  isTouchingPlatform(direction) {
-    const platforms = this.platforms.getChildren();
-    return platforms.some(platform => {
-      const platformBounds = platform.getBounds();
+  // New method to initiate wall jump
+  initiateWallJump(direction) {
+    this.wallJumpDirection = direction;
+    this.isWallJumping = true;
+    this.wallJumpTimer = this.wallJumpLockTime;
+
+    // Apply the velocity for wall jump
+    this.setVelocityX(direction * 400); // Horizontal force
+    this.setVelocityY(-700); // Vertical force
+
+    // Set the flip direction
+    this.setFlipX(direction === -1);
+  }
+  
+  // isTouchingWall method (fixed)
+  isTouchingWall(direction) {
+    const walls = this.scene.walls.getChildren();  // Get children of the wall group
+    return walls.some(wall => {
+      const wallBounds = wall.getBounds();
       const playerBounds = this.getBounds();
 
       if (direction === -1) {
-        return (
-          playerBounds.left <= platformBounds.right &&
-          playerBounds.right > platformBounds.left &&
-          playerBounds.bottom > platformBounds.top &&
-          playerBounds.top < platformBounds.bottom
-        );
+        return playerBounds.left <= wallBounds.right &&
+          playerBounds.right > wallBounds.left &&
+          playerBounds.bottom > wallBounds.top &&
+          playerBounds.top < wallBounds.bottom;
       } else if (direction === 1) {
-        return (
-          playerBounds.right >= platformBounds.left &&
-          playerBounds.left < platformBounds.right &&
-          playerBounds.bottom > platformBounds.top &&
-          playerBounds.top < platformBounds.bottom
-        );
+        return playerBounds.right >= wallBounds.left &&
+          playerBounds.left < wallBounds.right &&
+          playerBounds.bottom > wallBounds.top &&
+          playerBounds.top < wallBounds.bottom;
       }
       return false;
     });
-  }
-
-  resetPosition(startX, startY) {
-    this.setPosition(startX, startY);
-    this.setVelocity(0, 0);
   }
 }
