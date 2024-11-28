@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Phaser Game</title>
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
   <link rel="stylesheet" href="">
   <style>
     /* Basic reset for body */
@@ -54,23 +54,29 @@
 
   <script type="module" src="scripts/game.js"></script>
   <audio id="background-music" autoplay loop>
-    <source src="assets/audio/Joulukalenteri_taustamusa01_MIXjaMASTER_1.1.wav" type="audio/mpeg">
-  </audio> 
+    <source src="assets/audio/Joulukalenteri_taustamusa01_MIXjaMASTER_1.1.wav" type="audio/wav">
+  </audio>
   
   <script>
+    
     const audio = document.getElementById("background-music");
+    audio.volume = 0.15;
+    audio.pause(); // Music is triggered in game.js, so pause here
+
     const popupRoom = document.getElementById("popup-room");
     const closeBtn = document.getElementById("popup-close-btn");
 
+    /*
     function playBackgroundMusic() {
       if (audio.paused) {  // Only play if it's not already playing
         audio.play();
       }
     }
-    audio.volume = 0.15;
+    */
+  
     
     // Event listener for arrow keys or WASD keys
-    window.addEventListener("keydown", (event) => {
+    /*window.addEventListener("keydown", (event) => {
       const key = event.key.toLowerCase();
       if (["arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"].includes(key)) {
         playBackgroundMusic();
@@ -81,6 +87,7 @@
         closePopup();
       }
     });
+    */
 
     // Close the pop-up window when clicking the button
     closeBtn.addEventListener("click", () => {
