@@ -95,10 +95,11 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
-    this.load.image("hazard_down", "assets/hazard_down.png");
-    this.load.image("hazard_up", "assets/hazard_up.png");
-    this.load.image("hazard_right", "assets/hazard_right.png");
-    this.load.image("hazard_left", "assets/hazard_left.png");
+    this.load.image("hazard_tree", "assets/hazard_tree.png");
+    this.load.image("hazard_down", "assets/hazard_down1.png");
+    this.load.image("hazard_up", "assets/hazard_up1.png");
+    this.load.image("hazard_right", "assets/hazard_right1.png");
+    this.load.image("hazard_left", "assets/hazard_left1.png");
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
@@ -384,20 +385,29 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(13220, 1360, "platform").setScale(1, 11.5).refreshBody();     // !!!!!!!!!!!!!!!!!!!!!!!!!!
     this.platforms.create(12430, 2032, "platform").setScale(11.5, 1).refreshBody();
 
-    // Hazards group
+  // hazards group
+    
     this.hazards = this.physics.add.staticGroup();
+    
+  // hazards group TREES
+    this.hazards.create(1580, 1210, "hazard_tree").setSize(5, 5).setScale(3, 3.5).refreshBody();
 
-this.hazards.create(530, 2230, "hazard_up").setScale(1).refreshBody().setSize(70, 10);
-this.hazards.create(775, 2230, "hazard_up").setScale(1).refreshBody().setSize(40, 5);
+  // Hazards group SPIKES 
 
-this.hazards.create(1200, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(1200, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(1400, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(1600, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(1800, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(1960, 2235, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(530-3, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
+this.hazards.create(775-2, 2230, "hazard_up").setScale(1.25, 1).refreshBody().setSize(40, 50);
 
-this.hazards.create(2180, 2235, "hazard_up").setScale(0.8, 1).refreshBody().setSize(80, 80);
+this.hazards.create(1150, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1250, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1350, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1450, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1560, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1660, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1760, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1860, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1960, 2230, "hazard_up").setScale(1, 1).refreshBody();
+
+this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody().setSize(80, 80);
 
 this.hazards.create(2255, 1980, "hazard_left").setScale(0.7, 1).refreshBody().setSize(40, 80);
 
@@ -412,27 +422,45 @@ this.hazards.create(3360+125, 2040, "hazard_left").setScale(1.5, 1).refreshBody(
 this.hazards.create(3630, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
 this.hazards.create(3730, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
 
-this.hazards.create(4330, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(4530, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(4730, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(4930, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(5130, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(5330, 2235, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(4290, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(4390, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(4490, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(4590, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(4690, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(4790, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(4890, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(4990, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(5090, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(5190+10, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(5290+20, 2230, "hazard_up").setScale(1, 1).refreshBody();
+
+
+
+
 
 this.hazards.create(5555, 1400, "hazard_right").setScale(1, 1).refreshBody().setSize(80);
 this.hazards.create(5635, 1800, "hazard_left").setScale(1, 1).refreshBody().setSize(60, 90);
 
-this.hazards.create(5550, 2235, "hazard_up").setScale(1, 1).refreshBody().setSize(75, 60);
+this.hazards.create(5550, 2230, "hazard_up").setScale(1, 1).refreshBody().setSize(75, 60);
 
 
-this.hazards.create(6970, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(7170, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(7370, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(7570, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(7770, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(7970, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(8170, 2235, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(8370-40, 2235, "hazard_up").setScale(2, 1).refreshBody();
+this.hazards.create(6920, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7020, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7120, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7220, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7320, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7420, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7520, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7620, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7720, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7820, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(7920, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(8020, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(8120, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(8220, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(8320, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(8420, 2230, "hazard_up").setScale(1, 1).refreshBody();
+
 
 //"!!!!!!!!!!!!"
 this.hazards.create(7995, 1090, "hazard_right").setScale(1, 1).refreshBody().setSize(75, 80);
@@ -441,20 +469,46 @@ this.hazards.create(7995, 1090+660, "hazard_right").setScale(1, 1).refreshBody()
 
 this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody().setSize(75, 80);
 
-this.hazards.create(10445+200, 820, "hazard_up").setScale(5, 3).refreshBody().setSize(75, 80);
+this.hazards.create(10445+200, 820, "hazard_up").setScale(5, 3).refreshBody();   //"KUUSIMETSÄ"
 
-//12160, 2240
-this.hazards.create(13500, 2230, "hazard_up").setScale(2, 1).refreshBody();
+//asdfghj
+
+this.hazards.create(13330, 675, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 775, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 875, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 975, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 1075, "hazard_right").setScale(1, 1).refreshBody();
+
+this.hazards.create(13330, 1275, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 1375, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 1475, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 1575, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 1675, "hazard_right").setScale(1, 1).refreshBody();
+
+this.hazards.create(13330, 1875, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(13330, 1975, "hazard_right").setScale(1, 1).refreshBody();
+
 this.hazards.create(13555, 950, "hazard_left").setScale(1, 1).refreshBody();
 this.hazards.create(13555, 1550, "hazard_left").setScale(1, 1).refreshBody();
+this.hazards.create(13550, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(13450, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
-this.hazards.create(11800, 1925, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(12000, 1925, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(12200, 1925, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(12400, 1925, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(12600, 1925, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(12800, 1925, "hazard_up").setScale(2, 1).refreshBody();
-this.hazards.create(13020, 1925, "hazard_up").setScale(2.5, 1).refreshBody();
+this.hazards.create(11750, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(11850, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(11950+5, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12050+10, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12150+15, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12250+20, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12350+25, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12450+30, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12550+35, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12650+40, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12750+45, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12850+50, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(12950+55, 1925, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(13050+60, 1925, "hazard_up").setScale(1, 1).refreshBody();
+
+
 
 //11860, 2240
 this.hazards.create(12100, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody().setSize(75, 80);
@@ -535,7 +589,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.8); // Set the zoom level
+    this.cameras.main.setZoom(0.4); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
