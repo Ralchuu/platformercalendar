@@ -95,6 +95,7 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
+    this.load.image("hazard_tree", "assets/hazard_tree.png");
     this.load.image("hazard_down", "assets/hazard_down1.png");
     this.load.image("hazard_up", "assets/hazard_up1.png");
     this.load.image("hazard_right", "assets/hazard_right1.png");
@@ -384,8 +385,15 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(13220, 1360, "platform").setScale(1, 11.5).refreshBody();     // !!!!!!!!!!!!!!!!!!!!!!!!!!
     this.platforms.create(12430, 2032, "platform").setScale(11.5, 1).refreshBody();
 
-    // Hazards group
+
+    // hazards group TREES 
+    
+
+    // Hazards group SPIKES 
     this.hazards = this.physics.add.staticGroup();
+    this.hazards.create(1580, 1210, "hazard_tree").setSize(5, 5).setScale(3, 3.5).refreshBody();
+
+    // hazards group TREES
 
 this.hazards.create(530-3, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
 this.hazards.create(775-2, 2230, "hazard_up").setScale(1.25, 1).refreshBody().setSize(40, 50);
