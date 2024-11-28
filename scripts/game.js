@@ -140,6 +140,22 @@ class MainGameScene extends Phaser.Scene {
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3);
 
+    // PLayer coordinate text for developer mode
+    this.playerCoordinateText = this.add.text(
+      5,
+      60,
+      "",
+      {
+        font: "20px Arial",
+        fill: "#32141c",
+        align: "center",
+        backgroundColor: "#c99b70",
+      }
+    );
+    this.playerCoordinateText.setScrollFactor(0);
+    this.playerCoordinateText.setDepth(5);
+    this.playerCoordinateText.setVisible(false); // Hidden until developer mode is switched on
+
     // Walls group
     // X = HORIZONTAL, higher number = further right
     // Y = VERTICAL, higher number = further down
@@ -589,7 +605,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.4); // Set the zoom level
+    this.cameras.main.setZoom(0.8); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -701,6 +717,15 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
       this.cursors.shift,
       delta
     );
+
+    if (this.developerModeIsOn) {
+      this.playerCoordinateText.setText(
+        `X: ${this.player.x.toFixed(0)} Y: ${this.player.y.toFixed(0)}`
+      );
+      this.playerCoordinateText.setVisible(true); // Show the text
+    } else {
+      this.playerCoordinateText.setVisible(false)
+    }
 
     if (Phaser.Input.Keyboard.JustDown(this.bKey)) {
       this.developerModeIsOn = !this.developerModeIsOn; // Toggle mode
