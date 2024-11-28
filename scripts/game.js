@@ -390,7 +390,7 @@ class MainGameScene extends Phaser.Scene {
     this.hazards = this.physics.add.staticGroup();
     
   // hazards group TREES
-    this.hazards.create(1580, 1210, "hazard_tree").setSize(5, 5).setScale(3, 3.5).refreshBody();
+    this.hazards.create(1590, 1195, "hazard_tree").setSize(0.1, 0.1).setScale(0.4, 0.4).refreshBody();
 
   // Hazards group SPIKES 
 
