@@ -104,8 +104,8 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
     this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
-    this.load.audio("doorLocked", "assets/audio/oviLukossa_01.wav");
-    this.load.audio("doorOpened", "assets/audio/ovenAvaus_01.wav");
+    this.load.audio("doorLockedSound", "assets/audio/oviLukossa_01.wav");
+    this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
     this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
       frameWidth: 16, // Frame width
       frameHeight: 16, // Frame height
@@ -146,6 +146,22 @@ class MainGameScene extends Phaser.Scene {
     const devModeBg = this.add.rectangle(60, 20, 330, 30, 0x000000, 0.3); // Black background with 50% opacity
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3);
+
+    // PLayer coordinate text for developer mode
+    this.playerCoordinateText = this.add.text(
+      5,
+      60,
+      "",
+      {
+        font: "20px Arial",
+        fill: "#32141c",
+        align: "center",
+        backgroundColor: "#c99b70",
+      }
+    );
+    this.playerCoordinateText.setScrollFactor(0);
+    this.playerCoordinateText.setDepth(5);
+    this.playerCoordinateText.setVisible(false); // Hidden until developer mode is switched on
 
     // Walls group
     // X = HORIZONTAL, higher number = further right
@@ -529,11 +545,11 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
 
     // Door sounds
-    this.doorLocked = this.sound.add("doorLocked");
-    this.doorLocked.setVolume(0.3);
+    this.doorLockedSound = this.sound.add("doorLockedSound");
+    this.doorLockedSound.setVolume(0.3);
 
-    this.doorOpened = this.sound.add("doorOpened");
-    this.doorOpened.setVolume(0.6);
+    this.doorOpenedSound = this.sound.add("doorOpenedSound");
+    this.doorOpenedSound.setVolume(0.6);
 
     // doors (rooms 1 to 24)
     
@@ -611,7 +627,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.4); // Set the zoom level
+    this.cameras.main.setZoom(0.8); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -724,6 +740,15 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
       delta
     );
 
+    if (this.developerModeIsOn) {
+      this.playerCoordinateText.setText(
+        `X: ${this.player.x.toFixed(0)} Y: ${this.player.y.toFixed(0)}`
+      );
+      this.playerCoordinateText.setVisible(true); // Show the text
+    } else {
+      this.playerCoordinateText.setVisible(false)
+    }
+
     if (Phaser.Input.Keyboard.JustDown(this.bKey)) {
       this.developerModeIsOn = !this.developerModeIsOn; // Toggle mode
       this.updateDevModeText(); // Update the displayed text
@@ -783,11 +808,11 @@ this.doors.forEach((door) => {
         let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Convert milliseconds to days
         let doorMessageText = `No access yet!\nThis door can be opened\nin ${daysLeft} days.`;
         
-        this.doorLocked.play();
+        this.doorLockedSound.play();
         this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
       } else {
         // When the door can be opened
-        this.doorOpened.play();
+        this.doorOpenedSound.play();
         this.scene.start(targetRoom, {
           playerStartX: this.player.x,
           playerStartY: this.player.y,
