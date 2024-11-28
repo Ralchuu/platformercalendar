@@ -123,12 +123,15 @@ class Room1 extends Phaser.Scene {
     youtubeDiv.style.width = '640px'; // Adjust width
     youtubeDiv.style.height = '360px'; // Adjust height
 
+    // Set z-index to ensure the video is above the canvas
+    youtubeDiv.style.zIndex = '12'; // Higher values mean it will appear "on top" of elements with lower z-index  <--  EI TOIMI
+
     // Add the YouTube iframe
     youtubeDiv.innerHTML = `
         <iframe
             width="380"
             height="240"
-            src="https://www.youtube.com/embed/8lFjrAj-vrk" // Replace with your video URL
+            src="https://www.youtube.com/embed/8lFjrAj-vrk?rel=0" // ?=rel ensures recommended videos are disabled
 
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
