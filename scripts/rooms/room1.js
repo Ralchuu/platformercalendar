@@ -5,12 +5,15 @@ class Room1 extends Phaser.Scene {
     super("Room1");
   }
 
+
+
   preload() {
     this.load.image("background", "assets/2testbackground.png");
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground1.png");
     this.load.image("door", "assets/castledoors.png");
     this.load.image("cabin-wall", "assets/cabin-wall.png");
+    this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
   }
 
   create(data) {
@@ -23,6 +26,9 @@ class Room1 extends Phaser.Scene {
       .tileSprite(0, 0, this.width * 2, this.height, "background")
       .setOrigin(0, 0);
     bg.setDisplaySize(this.width * 2, this.height);
+
+    this.doorClosingSound = this.sound.add("doorClosingSound");
+    this.doorClosingSound.setVolume(0.45)
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -62,6 +68,29 @@ class Room1 extends Phaser.Scene {
 
     // Zoom the camera
     this.cameras.main.setZoom(1.8); 
+
+
+    this.addYouTubeVideo();
+
+    // Jos seuraava koodi käytössä, pelaaja ei jostain syystä voi liikkua. Ilman koodinpätkää toimii.
+/*
+    const videoIframe = document.getElementById('youtubeDiv');
+    const music = document.getElementById("background-music");
+    videoIframe.onload = () => {
+      if (music && music.isPlaying) {
+        music.pause();
+      }
+    };
+
+    // Listen for when the video finishes playing to resume the music
+    videoIframe.onended = () => {
+      if (music && ! music.isPlaying) {
+        music.play();
+      }
+    };
+
+*/
+    
   }
 
   update(time, delta) {
@@ -73,6 +102,8 @@ class Room1 extends Phaser.Scene {
       Phaser.Math.Distance.Between(this.player.x, this.player.y, this.returnDoor.x, this.returnDoor.y) < 50 &&
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
+      this.removeYouTubeVideo(); // Remove YouTube iframe
+      this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }
 
@@ -80,6 +111,40 @@ class Room1 extends Phaser.Scene {
     this.platforms.getChildren().forEach(platform => {
       platform.body.checkCollision.down = false;
     });
+  }
+
+
+  addYouTubeVideo() {
+    const youtubeDiv = document.createElement('div');
+    youtubeDiv.id = 'youtube-video';
+    youtubeDiv.style.position = 'absolute';
+    youtubeDiv.style.top = '270px'; // Adjust top position
+    youtubeDiv.style.left = '420px'; // Adjust left position
+    youtubeDiv.style.width = '640px'; // Adjust width
+    youtubeDiv.style.height = '360px'; // Adjust height
+
+    // Add the YouTube iframe
+    youtubeDiv.innerHTML = `
+        <iframe
+            width="380"
+            height="240"
+            src="https://www.youtube.com/embed/8lFjrAj-vrk" // Replace with your video URL
+
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    `;
+
+    // Append the div to the body
+    document.body.appendChild(youtubeDiv);
+  }
+
+  removeYouTubeVideo() {
+    const youtubeDiv = document.getElementById("youtube-video");
+    if (youtubeDiv) {
+      youtubeDiv.remove();
+    }
   }
 }
 

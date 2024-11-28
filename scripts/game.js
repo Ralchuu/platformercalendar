@@ -24,6 +24,7 @@ class MainGameScene extends Phaser.Scene {
     this.eKey = null;
     this.qKey = null;
     this.ctrlKey = null;
+    
   }
 
   // Save & load the game
@@ -72,6 +73,8 @@ class MainGameScene extends Phaser.Scene {
       console.log("Failed to load game");
       this.player.setPosition(playerStartX, playerStartY);
     }
+    const outsideMusic = document.getElementById("background-music");
+    outsideMusic.play()
   }
 
   showTextBox(x, y, message, timer) {
@@ -103,6 +106,7 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
+    //this.load.audio("outsideMusic", "assets/audio/Joulukalenteri_taustamusa01_MIXjaMASTER_1.1.wav")
     this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
     this.load.audio("doorLockedSound", "assets/audio/oviLukossa_01.wav");
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
@@ -131,6 +135,24 @@ class MainGameScene extends Phaser.Scene {
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
+    // Play music
+    /*
+    this.outsideMusic = this.sound.add("outsideMusic");
+    this.outsideMusic.setVolume(0.15);
+    if (this.outsideMusic.paused) {
+      this.outsideMusic.play();
+    }
+    else {
+
+      this.outsideMusic.play();
+    }
+      */
+
+    const outsideMusic = document.getElementById("background-music");
+    outsideMusic.play()
+    
+    
+
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
       fontSize: "20px",
@@ -146,6 +168,7 @@ class MainGameScene extends Phaser.Scene {
     const devModeBg = this.add.rectangle(60, 20, 330, 30, 0x000000, 0.3); // Black background with 50% opacity
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3);
+
 
     // PLayer coordinate text for developer mode
     this.playerCoordinateText = this.add.text(
@@ -813,6 +836,10 @@ this.doors.forEach((door) => {
       } else {
         // When the door can be opened
         this.doorOpenedSound.play();
+
+        const outsideMusic= document.getElementById("background-music");
+        outsideMusic.pause(); // Pause the music while in the cabin
+
         this.scene.start(targetRoom, {
           playerStartX: this.player.x,
           playerStartY: this.player.y,
