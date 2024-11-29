@@ -3,6 +3,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture);
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.body.setSize(30, 60);  // Adjusts the hitbox size
+this.body.setOffset(8, -5); // Offsets the hitbox to move it
 
     // Save reference to non-wall-jumpable platforms
     this.platforms = platforms;

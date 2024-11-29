@@ -482,7 +482,7 @@ treeHazards.forEach(hazard => {
   // Hazards group SPIKES 
 
 this.hazards.create(530-3, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
-this.hazards.create(775-2, 2230, "hazard_up").setScale(1.25, 1).refreshBody().setSize(40, 50);
+this.hazards.create(775-2, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
 
 this.hazards.create(1150, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1250, 2230, "hazard_up").setScale(1, 1).refreshBody();
@@ -494,9 +494,9 @@ this.hazards.create(1760, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1860, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1960, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
-this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody().setSize(80, 80);
+this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody();
 
-this.hazards.create(2255, 1980, "hazard_left").setScale(0.7, 1).refreshBody().setSize(40, 80);
+this.hazards.create(2255, 1980, "hazard_left").setScale(0.7, 1).refreshBody();
 
 this.hazards.create(3360, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
 this.hazards.create(3360, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
@@ -525,10 +525,10 @@ this.hazards.create(5290+20, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
 
 
-this.hazards.create(5555, 1400, "hazard_right").setScale(1, 1).refreshBody().setSize(80);
-this.hazards.create(5635, 1800, "hazard_left").setScale(1, 1).refreshBody().setSize(60, 90);
+this.hazards.create(5555, 1400, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(5635, 1800, "hazard_left").setScale(1, 1).refreshBody();
 
-this.hazards.create(5550, 2230, "hazard_up").setScale(1, 1).refreshBody().setSize(75, 60);
+this.hazards.create(5550, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
 
 this.hazards.create(6920, 2230, "hazard_up").setScale(1, 1).refreshBody();
@@ -550,11 +550,11 @@ this.hazards.create(8420, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
 
 //"!!!!!!!!!!!!"
-this.hazards.create(7995, 1090, "hazard_right").setScale(1, 1).refreshBody().setSize(75, 80);
-this.hazards.create(7995+125, 1090+330, "hazard_left").setScale(1, 1).refreshBody().setSize(75, 80);
-this.hazards.create(7995, 1090+660, "hazard_right").setScale(1, 1).refreshBody().setSize(75, 80);
+this.hazards.create(7995, 1090, "hazard_right").setScale(1, 1).refreshBody();
+this.hazards.create(7995+125, 1090+330, "hazard_left").setScale(1, 1).refreshBody();
+this.hazards.create(7995, 1090+660, "hazard_right").setScale(1, 1).refreshBody();
 
-this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody().setSize(75, 80);
+this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody();
 
 
 //asdfghj
@@ -597,12 +597,12 @@ this.hazards.create(13050+60, 1925, "hazard_up").setScale(1, 1).refreshBody();
 
 
 //11860, 2240
-this.hazards.create(12100, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody().setSize(75, 80);
-this.hazards.create(12300, 2245, "hazard_up").setScale(1, 0.7).refreshBody().setSize(75, 80);
-this.hazards.create(12500, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody().setSize(75, 80);
-this.hazards.create(12700, 2245, "hazard_up").setScale(1, 0.7).refreshBody().setSize(75, 80);
-this.hazards.create(12900, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody().setSize(75, 15);
-this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).refreshBody();
+this.hazards.create(12100, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
+this.hazards.create(12300, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
+this.hazards.create(12500, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
+this.hazards.create(12700, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
+this.hazards.create(12900, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
+this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
 
     this.hazardSound = this.sound.add("hazardSound");
     this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
@@ -690,7 +690,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.4); // Set the zoom level
+    this.cameras.main.setZoom(0.8); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -922,7 +922,7 @@ const config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 2500 },
+      gravity: { y: 2200 },
       debug: false,
     },
   },
