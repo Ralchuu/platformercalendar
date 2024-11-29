@@ -12,7 +12,8 @@ class Room1 extends Phaser.Scene {
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground1.png");
     this.load.image("door", "assets/castledoors.png");
-    this.load.image("cabin-wall", "assets/cabin-wall.png");
+    this.load.image("cabin-wall", "assets/cabin-wall.png");    
+    this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
   }
 
@@ -34,7 +35,8 @@ class Room1 extends Phaser.Scene {
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
     
     this.physics.world.setBounds(0, 0, this.width * 2, this.height);
-
+    
+    
     this.platforms = this.physics.add.staticGroup();
     this.platforms.create(320, 355, "platform").setScale(0.1, 10.5).refreshBody().setDepth(-1);
     this.platforms.create(810, 370, "platform").setScale(0.1, 10).refreshBody().setDepth(-1);
@@ -43,15 +45,17 @@ class Room1 extends Phaser.Scene {
     this.platforms.create(545, 330, "platform").setScale(0.6, 0.01).refreshBody().setDepth(1);
 
     this.player = new Player(this, playerStartX, playerStartY, "player", this.platforms);
-    this.player.setDepth(5);
+    this.player.setDepth(50);
     this.returnDoor = this.physics.add.sprite(420, 350, "door").setScale(0.4).setDepth(2);
     this.returnDoor.setImmovable(true);
     this.returnDoor.body.allowGravity = false;
 
-    this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);
+    this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);    
+    this.add.image(572.4, 318,"frame").setScale(0.435, 0.40).setDepth(0.3);
+    
 
     this.physics.add.collider(this.player, this.platforms);
-
+    
     // Setup cursor keys and WASD keys
     this.cursors = this.input.keyboard.createCursorKeys();
     this.wasd = {
@@ -119,23 +123,19 @@ class Room1 extends Phaser.Scene {
     youtubeDiv.id = 'youtube-video';
     youtubeDiv.style.position = 'absolute';
     youtubeDiv.style.top = '270px'; // Adjust top position
-    youtubeDiv.style.left = '420px'; // Adjust left position
-    youtubeDiv.style.width = '640px'; // Adjust width
-    youtubeDiv.style.height = '360px'; // Adjust height
-
+    youtubeDiv.style.left = '442px'; // Adjust left position
+  
     // Add the YouTube iframe
     youtubeDiv.innerHTML = `
         <iframe
-            width="380"
-            height="240"
-            src="https://www.youtube.com/embed/8lFjrAj-vrk" // Replace with your video URL
-
+            width="320"
+            height="230"
+            src="https://www.youtube.com/embed/8lFjrAj-vrk?controls=0&modestbranding=1&rel=0&autohide=1"
             frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
         </iframe>
     `;
-
+  
     // Append the div to the body
     document.body.appendChild(youtubeDiv);
   }
