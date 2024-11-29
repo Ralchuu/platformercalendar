@@ -15,6 +15,7 @@ class MainGameScene extends Phaser.Scene {
     this.walls = null;
     this.platforms = null;
     this.hazards = null;
+    this.hazardTrees = null;
     this.doors = [];
     this.instructions = [];
     this.player = null;
@@ -308,8 +309,8 @@ class MainGameScene extends Phaser.Scene {
       .setScale(1, 0.2)
       .refreshBody();
     this.platforms
-      .create(1450 + 125, 1350, "platform")
-      .setScale(1, 0.2)
+      .create(1450 + 150, 1350, "platform")
+      .setScale(1.5, 0.2)
       .refreshBody(); // JOULUKUUSI TÄHÄN
     this.platforms
       .create(1450 + 250, 1120, "platform")
@@ -348,13 +349,8 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
 
     this.platforms
-      .create(5140 - 120, 1500, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //joulukuusi tähän
-    this.platforms
-      .create(5140 - 120 + 125, 1500, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //joulukuusi
+      .create(5080, 1380, "platform").setScale(1.5, 0.2).refreshBody(); //joulukuusi tähän
+    
 
     this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(5190 + 125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11
@@ -369,7 +365,7 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(7655, 2100, "platform").setScale(1, 0.2).refreshBody();  //ovi 15
 
    
-    this.platforms.create(8325-300, 2100, "platform").setScale(1, 0.2).refreshBody(); 
+    this.platforms.create(8325-280, 2110, "platform").setScale(1.4, 0.2).refreshBody(); 
 
     this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
     this.platforms.create(9100, 2110, "platform").setScale(0.5, 0.2).refreshBody();
@@ -408,12 +404,80 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(13220, 1360, "platform").setScale(1, 11.5).refreshBody();     // !!!!!!!!!!!!!!!!!!!!!!!!!!
     this.platforms.create(12430, 2032, "platform").setScale(11.5, 1).refreshBody();
 
-  // hazards group
+// hazards group
+this.hazardTrees = this.physics.add.group();
+
+// Array of tree hazard configurations
+const treeHazards = [
+    { x: 1590, y: 1195, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
+    { x: 5070, y: 1220, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
+    { x: 9300, y: 2130, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
+    { x: 10600, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
+    { x: 10850, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
+  ];  
+
+
+// Loop to create the tree hazards
+treeHazards.forEach(hazard => {
+    const tree = this.hazardTrees.create(hazard.x, hazard.y, hazard.texture)
+        .setScale(hazard.scaleX, hazard.scaleY)
+        .refreshBody();
+        
+    // Make sure the tree stays in front of other objects
+    tree.setDepth(1); 
+    
+    // Prevent gravity from affecting the tree
+    tree.body.setAllowGravity(false);
+    
+    // Prevent the tree from moving 
+    tree.body.setImmovable(true); 
+    
+    // Prevent any velocity changes
+    tree.body.setVelocity(0, 0); 
+    
+    // Adjust the origin for pixel-perfect positioning
+    tree.setOrigin(0.5, 0.5); // Center the origin
+    
+    // Round the positions to avoid floating-point offsets
+    tree.x = Math.round(tree.x);
+    tree.y = Math.round(tree.y);
+    tree.body.offset.x = Math.round(tree.body.offset.x);
+    tree.body.offset.y = Math.round(tree.body.offset.y);
+
+
+    tree.body.setSize(110, 700); // Adjust the width and height to match the visible part
+    tree.body.setOffset(160, 30); // Adjust the offset to align the hitbox with the visible part
+   
+    this.physics.world.createDebugGraphic()
+    .lineStyle(2, 0xff0000)
+    .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
+
+      
+    // // SECOND HITBOX
+    // const lowerHitbox = this.physics.add.image(tree.x, tree.y); // Create an invisible image for the lower hitbox
+    // lowerHitbox.setSize(100, 100); // Adjust this size to cover the bottom part of the tree
+    // lowerHitbox.body.setOffset(100, 550); // Adjust the offset to align it with the bottom part
+
+    // // Register lower hitbox with the physics world before adjusting its body
+    // this.physics.add.existing(lowerHitbox); 
+
+    // // Set properties for the lower hitbox
+    // lowerHitbox.body.setImmovable(true);
+    // lowerHitbox.body.setAllowGravity(false);
+
+    // // Create a debug graphic for the second hitbox
+    // this.physics.world.createDebugGraphic()
+    //     .lineStyle(4, 0x00ff00) // Thicker green line for second hitbox
+    //     .strokeRect(lowerHitbox.x - lowerHitbox.body.width / 2, 
+    //                 lowerHitbox.y - lowerHitbox.body.height / 2, 
+    //                 lowerHitbox.body.width, lowerHitbox.body.height);
+
+});
+
+
     
     this.hazards = this.physics.add.staticGroup();
     
-  // hazards group TREES
-    this.hazards.create(1590, 1195, "hazard_tree").setScale(0.4, 0.4).refreshBody();
 
   // Hazards group SPIKES 
 
@@ -424,7 +488,7 @@ this.hazards.create(1150, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1250, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1350, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1450, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1560, 2230, "hazard_up").setScale(1, 1).refreshBody();
+this.hazards.create(1555, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1660, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1760, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(1860, 2230, "hazard_up").setScale(1, 1).refreshBody();
@@ -492,7 +556,6 @@ this.hazards.create(7995, 1090+660, "hazard_right").setScale(1, 1).refreshBody()
 
 this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody().setSize(75, 80);
 
-this.hazards.create(10445+200, 820, "hazard_up").setScale(5, 3).refreshBody();   //"KUUSIMETSÄ"
 
 //asdfghj
 
@@ -627,7 +690,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.8); // Set the zoom level
+    this.cameras.main.setZoom(0.4); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -635,6 +698,12 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
 
     // Reset player on touching hazards
     this.physics.add.collider(this.player, this.hazards, () => {
+      this.hazardSound.play();
+      this.loadGame();
+    });
+
+    // Reset player on touching hazards
+    this.physics.add.collider(this.player, this.hazardTrees, () => {
       this.hazardSound.play();
       this.loadGame();
     });
