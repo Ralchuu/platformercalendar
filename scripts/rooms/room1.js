@@ -122,7 +122,7 @@ class Room1 extends Phaser.Scene {
     const youtubeDiv = document.createElement('div');
     youtubeDiv.id = 'youtube-video';
     youtubeDiv.style.position = 'absolute';
-    youtubeDiv.style.top = '270px'; // Adjust top position
+    youtubeDiv.style.top = '270px'; // Adjust top position :)
     youtubeDiv.style.left = '442px'; // Adjust left position
   
     // Add the YouTube iframe
