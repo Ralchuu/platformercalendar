@@ -106,7 +106,6 @@ class MainGameScene extends Phaser.Scene {
     this.load.image("door", "assets/door.png");
     this.load.image("cabin1", "assets/cabin1.png");
     this.load.image("cabin2", "assets/cabin2.png");
-    //this.load.audio("outsideMusic", "assets/audio/Joulukalenteri_taustamusa01_MIXjaMASTER_1.1.wav")
     this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
     this.load.audio("doorLockedSound", "assets/audio/oviLukossa_01.wav");
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
@@ -135,24 +134,9 @@ class MainGameScene extends Phaser.Scene {
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
-    // Play music
-    /*
-    this.outsideMusic = this.sound.add("outsideMusic");
-    this.outsideMusic.setVolume(0.15);
-    if (this.outsideMusic.paused) {
-      this.outsideMusic.play();
-    }
-    else {
-
-      this.outsideMusic.play();
-    }
-      */
-
     const outsideMusic = document.getElementById("background-music");
     outsideMusic.play()
     
-    
-
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
       fontSize: "20px",

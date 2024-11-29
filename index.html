@@ -61,7 +61,10 @@
     
     const audio = document.getElementById("background-music");
     audio.volume = 0.15;
-    audio.pause(); // Music is triggered in game.js, so pause here
+    if (audio.paused) {  // Only play if it's not already playing
+        audio.play();
+  }
+
 
     const popupRoom = document.getElementById("popup-room");
     const closeBtn = document.getElementById("popup-close-btn");
