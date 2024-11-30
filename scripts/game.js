@@ -10,6 +10,7 @@ class MainGameScene extends Phaser.Scene {
     super("MainGameScene");
 
     this.developerModeIsOn = false;
+    this.musicStarted = false;
 
     // Declare game objects and state variables
     this.walls = null;
@@ -25,6 +26,7 @@ class MainGameScene extends Phaser.Scene {
     this.eKey = null;
     this.qKey = null;
     this.ctrlKey = null;
+    
   }
 
   // Save & load the game
@@ -73,6 +75,12 @@ class MainGameScene extends Phaser.Scene {
       console.log("Failed to load game");
       this.player.setPosition(playerStartX, playerStartY);
     }
+    // Continue music
+    if (this.musicStarted) {
+      const outsideMusic = document.getElementById("background-music");
+      outsideMusic.play()
+    }
+    
   }
 
   showTextBox(x, y, message, timer) {
@@ -107,6 +115,7 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
     this.load.audio("doorLockedSound", "assets/audio/oviLukossa_01.wav");
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
+    this.load.audio("dashSound", "assets/audio/dash_01.wav");
     this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
       frameWidth: 16, // Frame width
       frameHeight: 16, // Frame height
@@ -118,7 +127,6 @@ class MainGameScene extends Phaser.Scene {
   // world width 4096
   // world height 2304
   create() {
-
     // Create the background as a tiled sprite to cover the world
     const bg = this.add.tileSprite(
       0, // X position
@@ -131,6 +139,36 @@ class MainGameScene extends Phaser.Scene {
 
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
+
+    const outsideMusic = document.getElementById("background-music");
+
+    const startMusic = () => {
+      if (!this.musicStarted) {
+          this.musicStarted = true; // Mark the music as started
+          outsideMusic.play();
+          console.log('Music started');
+      }
+    };
+
+    // Add sounds
+    // Hazard hit sound
+    this.hazardSound = this.sound.add("hazardSound");
+    this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
+
+    // Door sounds
+    this.doorLockedSound = this.sound.add("doorLockedSound");
+    this.doorLockedSound.setVolume(0.3);
+
+    this.doorOpenedSound = this.sound.add("doorOpenedSound");
+    this.doorOpenedSound.setVolume(0.6);
+
+    // Dash sound
+    this.dashSound = this.sound.add("dashSound");
+    this.dashSound.setVolume(0.4);
+
+    // Listen for keyboard press and pointer interaction
+    this.input.keyboard.on('keydown', startMusic);
+    this.input.on('pointerdown', startMusic);
 
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
@@ -147,6 +185,7 @@ class MainGameScene extends Phaser.Scene {
     const devModeBg = this.add.rectangle(60, 20, 330, 30, 0x000000, 0.3); // Black background with 50% opacity
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3);
+
 
     // PLayer coordinate text for developer mode
     this.playerCoordinateText = this.add.text(
@@ -220,58 +259,26 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia
 
     // Alku - Luukku 1
-    this.platforms.create(300, 2245, "platform").setScale(1, 0.5).refreshBody();
+    this.platforms.create(275, 2245, "platform").setScale(1, 0.5).refreshBody();
     this.platforms.create(400, 2215, "platform").setScale(1, 1).refreshBody();
 
     this.platforms.create(650, 2215, "platform").setScale(1, 1).refreshBody();
     this.platforms.create(900, 2215, "platform").setScale(1, 1).refreshBody();
-    this.platforms
-      .create(1027, 2215, "platform")
-      .setScale(1, 1)
-      .setFlipX(true)
-      .refreshBody(); //ovi 1
+    this.platforms.create(1027, 2215, "platform").setScale(1, 1).setFlipX(true).refreshBody(); //ovi 1
 
     // luukku 1 - 2
-    this.platforms
-      .create(900 + 300, 2100, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1100 + 300, 2030, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1300 + 300, 1960, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1950, 1890, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1835, 1890, "platform")
-      .setScale(1, 0.2)
-      .setFlipX(true)
-      .refreshBody(); //ovi 2
+    this.platforms.create(900 + 300, 2100, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1100 + 300, 2030, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1300 + 300, 1960, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1950, 1890, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1835, 1890, "platform").setScale(1, 0.2).setFlipX(true).refreshBody(); //ovi 2
 
     //luukku 2 - 3
-    this.platforms
-      .create(1600, 1800, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1390, 1710, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
+    this.platforms.create(1600, 1800, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1390, 1710, "platform").setScale(1, 0.2).refreshBody();
 
-    this.platforms
-      .create(1180, 1620, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1065, 1620, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //ovi 3
+    this.platforms.create(1180, 1620, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1065, 1620, "platform").setScale(1, 0.2).refreshBody(); //ovi 3
 
     //luukku 3 - 4
 
@@ -296,49 +303,22 @@ class MainGameScene extends Phaser.Scene {
 
     // luukku 5 - 6
     this.platforms.create(975, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms
-      .create(1100, 1260, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1275, 1190, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1450, 1120, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1450 + 150, 1350, "platform")
-      .setScale(1.5, 0.2)
-      .refreshBody(); // JOULUKUUSI TÄHÄN
-    this.platforms
-      .create(1450 + 250, 1120, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1900, 1190, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); // ovi 6
+    this.platforms.create(1100, 1260, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1275, 1190, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1450, 1120, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1450 + 150, 1350, "platform").setScale(1.5, 0.2).refreshBody(); // JOULUKUUSI TÄHÄN
+    this.platforms.create(1450 + 250, 1120, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody(); // ovi 6
 
     // luukku 6 - 7
     // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
 
     // luukku 7 - 8
-    this.platforms
-      .create(2720, 1330, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(2845, 1330, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); // ovi 8
+    this.platforms.create(2720, 1330, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(2845, 1330, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
 
     //luukku 8 - 9
-    this.platforms
-      .create(3100, 1800, "platform")
-      .setScale(3, 7.5)
-      .refreshBody();
+    this.platforms.create(3100, 1800, "platform").setScale(3, 7.5).refreshBody();
     //ovi 9 lattialle kohtaan x: 3620, y: 2240
 
     //OVI 9 - 10
@@ -348,10 +328,8 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
 
-    this.platforms
-      .create(5080, 1380, "platform").setScale(1.5, 0.2).refreshBody(); //joulukuusi tähän
+    this.platforms.create(5080, 1380, "platform").setScale(1.5, 0.2).refreshBody(); //joulukuusi tähän
     
-
     this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(5190 + 125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11
 
@@ -364,7 +342,6 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(7500+30, 2100, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7655, 2100, "platform").setScale(1, 0.2).refreshBody();  //ovi 15
 
-   
     this.platforms.create(8325-280, 2110, "platform").setScale(1.4, 0.2).refreshBody(); 
 
     this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
@@ -397,7 +374,6 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(12800 + 100, 580, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(13160 + 100, 610, "platform").setScale(2, 0.2).refreshBody();  //ovi 23
     this.platforms.create(13160 + 280, 610, "platform").setScale(1.5, 0.2).refreshBody(); 
-    
 
     this.platforms.create(13350, 1200, "platform").setScale(2.5, 0.2).refreshBody();
     this.platforms.create(13350, 1800, "platform").setScale(2, 0.2).refreshBody();
@@ -423,16 +399,9 @@ treeHazards.forEach(hazard => {
         .setScale(hazard.scaleX, hazard.scaleY)
         .refreshBody();
         
-    // Make sure the tree stays in front of other objects
     tree.setDepth(1); 
-    
-    // Prevent gravity from affecting the tree
     tree.body.setAllowGravity(false);
-    
-    // Prevent the tree from moving 
     tree.body.setImmovable(true); 
-    
-    // Prevent any velocity changes
     tree.body.setVelocity(0, 0); 
     
     // Adjust the origin for pixel-perfect positioning
@@ -444,34 +413,28 @@ treeHazards.forEach(hazard => {
     tree.body.offset.x = Math.round(tree.body.offset.x);
     tree.body.offset.y = Math.round(tree.body.offset.y);
 
-
     tree.body.setSize(110, 700); // Adjust the width and height to match the visible part
     tree.body.setOffset(160, 30); // Adjust the offset to align the hitbox with the visible part
    
-    this.physics.world.createDebugGraphic()
-    .lineStyle(2, 0xff0000)
-    .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
+    // this.physics.world.createDebugGraphic()
+    // .lineStyle(2, 0xff0000)
+    // .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
 
       
-    // // SECOND HITBOX
-    // const lowerHitbox = this.physics.add.image(tree.x, tree.y); // Create an invisible image for the lower hitbox
-    // lowerHitbox.setSize(100, 100); // Adjust this size to cover the bottom part of the tree
-    // lowerHitbox.body.setOffset(100, 550); // Adjust the offset to align it with the bottom part
+    // SECOND HITBOX
+    const lowerHitbox = this.physics.add.image(tree.x, tree.y +40); // Create an invisible image for the lower hitbox
+    lowerHitbox.setSize(120, 130); // Adjust this size to cover the bottom part of the tree
+    lowerHitbox.body.setOffset(-50, -50 ); // Adjust the offset to align it with the bottom part
+    lowerHitbox.body.setImmovable(true);
+    lowerHitbox.body.setAllowGravity(false);
 
-    // // Register lower hitbox with the physics world before adjusting its body
-    // this.physics.add.existing(lowerHitbox); 
+    // Register lower hitbox with the physics world before adjusting its body
+    this.physics.add.existing(lowerHitbox); 
+    this.hazardTrees.add(lowerHitbox);
 
-    // // Set properties for the lower hitbox
-    // lowerHitbox.body.setImmovable(true);
-    // lowerHitbox.body.setAllowGravity(false);
-
-    // // Create a debug graphic for the second hitbox
-    // this.physics.world.createDebugGraphic()
-    //     .lineStyle(4, 0x00ff00) // Thicker green line for second hitbox
-    //     .strokeRect(lowerHitbox.x - lowerHitbox.body.width / 2, 
-    //                 lowerHitbox.y - lowerHitbox.body.height / 2, 
-    //                 lowerHitbox.body.width, lowerHitbox.body.height);
-
+    // Set properties for the lower hitbox
+    lowerHitbox.body.setImmovable(true);
+    lowerHitbox.body.setAllowGravity(false);
 });
 
 
@@ -496,7 +459,7 @@ this.hazards.create(1960, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
 this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody();
 
-this.hazards.create(2255, 1980, "hazard_left").setScale(0.7, 1).refreshBody();
+this.hazards.create(2255, 1965, "hazard_left").setScale(0.7, 1).refreshBody();
 
 this.hazards.create(3360, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
 this.hazards.create(3360, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
@@ -520,10 +483,6 @@ this.hazards.create(4990, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(5090, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(5190+10, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(5290+20, 2230, "hazard_up").setScale(1, 1).refreshBody();
-
-
-
-
 
 this.hazards.create(5555, 1400, "hazard_right").setScale(1, 1).refreshBody();
 this.hazards.create(5635, 1800, "hazard_left").setScale(1, 1).refreshBody();
@@ -604,15 +563,6 @@ this.hazards.create(12700, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
 this.hazards.create(12900, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
 this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
 
-    this.hazardSound = this.sound.add("hazardSound");
-    this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
-
-    // Door sounds
-    this.doorLockedSound = this.sound.add("doorLockedSound");
-    this.doorLockedSound.setVolume(0.3);
-
-    this.doorOpenedSound = this.sound.add("doorOpenedSound");
-    this.doorOpenedSound.setVolume(0.6);
 
     // doors (rooms 1 to 24)
     
@@ -669,10 +619,10 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     });
     
     // Create the flashing lights sprite
-    this.christmasLights = this.add.sprite(970, 2050, 'christmasLights').play('flash');
+    // this.christmasLights = this.add.sprite(970, 2050, 'christmasLights').play('flash');
     
     // Optional: Adjust scale and make it physics-enabled (if needed)
-    this.christmasLights.setScale(7); // Scale the sprite as per your requirement
+    // this.christmasLights.setScale(7); // Scale the sprite as per your requirement
     
 
     });
@@ -686,11 +636,12 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       this.platforms
     );
     this.player.setDepth(3);
+    this.player.setDashSound(this.dashSound); // Pass dash sound to player
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.6); // Set the zoom level
+    this.cameras.main.setZoom(0.8); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -848,60 +799,65 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       }
     });
 
-// Create an empty array to store lights for each room
-this.doorLights = [];
+    this.doorLights = [];
 
 this.doors.forEach((door) => {
-  if (
-    Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
-    Phaser.Input.Keyboard.JustDown(this.eKey) // Check for "E" key press
-  ) {
-    // Define current date and target date for the door
-    const month = 11; // December (0-based index)
+    const month = 11; // December
     const year = 2024;
     const currentDate = new Date();
-    const targetRoom = door.getData("targetRoom"); // Get the target room name
-
-    console.log('Current Date:', currentDate);
+    const targetRoom = door.getData("targetRoom");
 
     if (targetRoom) {
-      // Get the room number from the targetRoom (example "Room2" -> 2)
-      const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Get room number
-      let doorDate = new Date(year, month, roomNumber); // Door's opening date (room 1 -> December 1st, room 2 -> December 2nd, etc.)
+        const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Room number
+        let doorDate = new Date(year, month, roomNumber);
 
-      console.log('Door Date:', doorDate);
+        if (currentDate.getDate() === doorDate.getDate() && currentDate.getMonth() === doorDate.getMonth()) {
+            if (!this.doorLights[roomNumber]) {
+                console.log("Creating lights for room:", roomNumber);
 
-      // If the door is locked, show the message
-      if (currentDate < doorDate && !this.developerModeIsOn) {
-        let timeDifference = doorDate - currentDate;
-        let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Convert milliseconds to days
-        let doorMessageText = `No access yet!\nThis door can be opened\nin ${daysLeft} days.`;
-        
-        this.doorLockedSound.play();
-        this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
-      } else {
-        // When the door can be opened
-        this.doorOpenedSound.play();
-        this.scene.start(targetRoom, {
-          playerStartX: this.player.x,
-          playerStartY: this.player.y,
-        });
+                // Create sprite and play animation
+                this.doorLights[roomNumber] = this.add.sprite(door.x, door.y - 50, 'christmasLights');
+                this.doorLights[roomNumber].setScale(7); // Scale
 
-        // Create lights above the door only once
-        if (!this.doorLights[roomNumber]) {
-          console.log("Creating lights for room:", roomNumber);
-          
-          // Only create lights if not already created for this room
-          this.doorLights[roomNumber] = this.add.sprite(door.x, door.y - 50, 'christmasLights').play('flash');
-          this.doorLights[roomNumber].setScale(7); // Adjust scale of lights
-          
-          console.log('Lights created at:', door.x, door.y - 50);
+                // Play the animation
+                this.doorLights[roomNumber].play('flash');
+
+                // Debug: Log sprite and check if animation is playing
+                console.log("Created door light sprite", this.doorLights[roomNumber]);
+            }
+        } else {
+            // Remove lights if not today
+            if (this.doorLights[roomNumber]) {
+                this.doorLights[roomNumber].destroy();
+                this.doorLights[roomNumber] = null;
+            }
         }
-      }
 
-      this.saveGame(this.player.x, this.player.y);
+        // Handle player interaction with door
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
+            Phaser.Input.Keyboard.JustDown(this.eKey)) {
+
+            if (currentDate < doorDate && !this.developerModeIsOn) {
+                let timeDifference = doorDate - currentDate;
+                let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
+                let doorMessageText = `No access yet! Can be opened in ${daysLeft} days.`;
+                this.doorLockedSound.play();
+                this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
+            } else {
+                this.doorOpenedSound.play();
+        
+        const outsideMusic= document.getElementById("background-music");
+        outsideMusic.pause(); // Pause the music while in the cabin
+
+        this.scene.start(targetRoom, {
+                    playerStartX: this.player.x,
+                    playerStartY: this.player.y,
+                });
+            }
+
+            this.saveGame(this.player.x, this.player.y);
+        }
     }
-  }
 });
 
 
