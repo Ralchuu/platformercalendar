@@ -220,58 +220,26 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia
 
     // Alku - Luukku 1
-    this.platforms.create(270, 2245, "platform").setScale(1, 0.5).refreshBody();
+    this.platforms.create(275, 2245, "platform").setScale(1, 0.5).refreshBody();
     this.platforms.create(400, 2215, "platform").setScale(1, 1).refreshBody();
 
     this.platforms.create(650, 2215, "platform").setScale(1, 1).refreshBody();
     this.platforms.create(900, 2215, "platform").setScale(1, 1).refreshBody();
-    this.platforms
-      .create(1027, 2215, "platform")
-      .setScale(1, 1)
-      .setFlipX(true)
-      .refreshBody(); //ovi 1
+    this.platforms.create(1027, 2215, "platform").setScale(1, 1).setFlipX(true).refreshBody(); //ovi 1
 
     // luukku 1 - 2
-    this.platforms
-      .create(900 + 300, 2100, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1100 + 300, 2030, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1300 + 300, 1960, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1950, 1890, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1835, 1890, "platform")
-      .setScale(1, 0.2)
-      .setFlipX(true)
-      .refreshBody(); //ovi 2
+    this.platforms.create(900 + 300, 2100, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1100 + 300, 2030, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1300 + 300, 1960, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1950, 1890, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1835, 1890, "platform").setScale(1, 0.2).setFlipX(true).refreshBody(); //ovi 2
 
     //luukku 2 - 3
-    this.platforms
-      .create(1600, 1800, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1390, 1710, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
+    this.platforms.create(1600, 1800, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1390, 1710, "platform").setScale(1, 0.2).refreshBody();
 
-    this.platforms
-      .create(1180, 1620, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1065, 1620, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); //ovi 3
+    this.platforms.create(1180, 1620, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1065, 1620, "platform").setScale(1, 0.2).refreshBody(); //ovi 3
 
     //luukku 3 - 4
 
@@ -296,49 +264,22 @@ class MainGameScene extends Phaser.Scene {
 
     // luukku 5 - 6
     this.platforms.create(975, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms
-      .create(1100, 1260, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1275, 1190, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1450, 1120, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1450 + 150, 1350, "platform")
-      .setScale(1.5, 0.2)
-      .refreshBody(); // JOULUKUUSI TÄHÄN
-    this.platforms
-      .create(1450 + 250, 1120, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(1900, 1190, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); // ovi 6
+    this.platforms.create(1100, 1260, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1275, 1190, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1450, 1120, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1450 + 150, 1350, "platform").setScale(1.5, 0.2).refreshBody(); // JOULUKUUSI TÄHÄN
+    this.platforms.create(1450 + 250, 1120, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody(); // ovi 6
 
     // luukku 6 - 7
     // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
 
     // luukku 7 - 8
-    this.platforms
-      .create(2720, 1330, "platform")
-      .setScale(1, 0.2)
-      .refreshBody();
-    this.platforms
-      .create(2845, 1330, "platform")
-      .setScale(1, 0.2)
-      .refreshBody(); // ovi 8
+    this.platforms.create(2720, 1330, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.create(2845, 1330, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
 
     //luukku 8 - 9
-    this.platforms
-      .create(3100, 1800, "platform")
-      .setScale(3, 7.5)
-      .refreshBody();
+    this.platforms.create(3100, 1800, "platform").setScale(3, 7.5).refreshBody();
     //ovi 9 lattialle kohtaan x: 3620, y: 2240
 
     //OVI 9 - 10
@@ -348,10 +289,8 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
 
-    this.platforms
-      .create(5080, 1380, "platform").setScale(1.5, 0.2).refreshBody(); //joulukuusi tähän
+    this.platforms.create(5080, 1380, "platform").setScale(1.5, 0.2).refreshBody(); //joulukuusi tähän
     
-
     this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(5190 + 125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11
 
@@ -364,7 +303,6 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(7500+30, 2100, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(7655, 2100, "platform").setScale(1, 0.2).refreshBody();  //ovi 15
 
-   
     this.platforms.create(8325-280, 2110, "platform").setScale(1.4, 0.2).refreshBody(); 
 
     this.platforms.create(9000, 2200, "platform").setScale(0.5, 0.2).refreshBody(); //joulukuusi oikealle
@@ -397,7 +335,6 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(12800 + 100, 580, "platform").setScale(1, 0.2).refreshBody();
     this.platforms.create(13160 + 100, 610, "platform").setScale(2, 0.2).refreshBody();  //ovi 23
     this.platforms.create(13160 + 280, 610, "platform").setScale(1.5, 0.2).refreshBody(); 
-    
 
     this.platforms.create(13350, 1200, "platform").setScale(2.5, 0.2).refreshBody();
     this.platforms.create(13350, 1800, "platform").setScale(2, 0.2).refreshBody();
@@ -440,9 +377,9 @@ treeHazards.forEach(hazard => {
     tree.body.setSize(110, 700); // Adjust the width and height to match the visible part
     tree.body.setOffset(160, 30); // Adjust the offset to align the hitbox with the visible part
    
-    this.physics.world.createDebugGraphic()
-    .lineStyle(2, 0xff0000)
-    .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
+    // this.physics.world.createDebugGraphic()
+    // .lineStyle(2, 0xff0000)
+    // .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
 
       
     // SECOND HITBOX
@@ -507,10 +444,6 @@ this.hazards.create(4990, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(5090, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(5190+10, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(5290+20, 2230, "hazard_up").setScale(1, 1).refreshBody();
-
-
-
-
 
 this.hazards.create(5555, 1400, "hazard_right").setScale(1, 1).refreshBody();
 this.hazards.create(5635, 1800, "hazard_left").setScale(1, 1).refreshBody();
