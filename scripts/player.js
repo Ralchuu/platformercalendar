@@ -3,6 +3,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture);
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.body.setSize(30, 53);  // Adjusts the hitbox size
+this.body.setOffset(8, 1); // Offsets the hitbox to move it
 
     // Save reference to non-wall-jumpable platforms
     this.platforms = platforms;
@@ -40,6 +42,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.isDashing = false; // Whether the player is currently dashing
     this.dashTimer = 0; // Dash timer
     this.dashCooldownTimer = 0; // Cooldown timer
+    this.dashSound = null;
+  }
+
+  setDashSound(sound) {
+    this.dashSound = sound; // Assign the dash sound
   }
 
   update(cursors, wasd, spaceBar, shiftKey, delta) {
@@ -66,6 +73,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
       // Temporarily stop any movement to ensure dash consistency
       this.body.allowGravity = false; // Disable gravity during the dash
+
+      //Play sound
+      if (this.dashSound) {
+        this.dashSound.play(); // Play dash sound
+      }
+
     }
 
     // Dash behavior logic
