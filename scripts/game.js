@@ -36,8 +36,8 @@ class MainGameScene extends Phaser.Scene {
       shown.push(inst.shown);
     });
     let saveObject = {
-      x: x,
-      y: y - 40,
+      x: this.doors[11].x,
+      y: this.doors[11].y - 40,
       devMode: this.developerModeIsOn,
       showedMessages: shown,
     };
@@ -252,9 +252,6 @@ class MainGameScene extends Phaser.Scene {
       .refreshBody(); //vika (luukkku 24)
 
     // Platforms group
-    // X = HORIZONTAL, higher number = further right
-    // Y = VERTICAL, higher number = further down
-    //platform width approx 125, height 25 pixels
     this.platforms = this.physics.add.staticGroup();
     this.platforms.add(this.add.tileSprite(extendedWorldWidth/2, 2450, extendedWorldWidth, 350, "platform")); //lattia
 
@@ -280,61 +277,47 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.add(this.add.tileSprite(1130, 1620, 256, 25, "platform"));
 
     //luukku 3 - 4
-
-    this.platforms.create(815, 1620, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(600, 1550, "platform").setScale(1, 0.2).refreshBody(); //ovi 4
+    this.platforms.add(this.add.tileSprite(815, 1620, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(600, 1550, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(400, 1470, 128, 25, "platform"));
+    
+    this.platforms.add(this.add.tileSprite(140, 1400, 256, 25, "platform"));
 
     // luukku 4 - 5
-    // Platforms group
-    // X = HORIZONTAL, higher number = further right
-    // Y = VERTICAL, higher number = further down
-    //platform width approx 125, height 25
-    this.platforms.create(600, 1550, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(400, 1470, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(200, 1400, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(75, 1400, "platform").setScale(1, 0.2).refreshBody(); //OVI 4
+    this.platforms.add(this.add.tileSprite(400, 1330, 128, 25, "platform"));
 
-    this.platforms.create(400, 1330, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(600, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(725, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(850, 1260, "platform").setScale(1, 0.2).refreshBody(); //ovi 5
-    this.platforms.create(975, 1260, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.add(this.add.tileSprite(850, 1260, 640, 25, "platform"));
 
     // luukku 5 - 6
-    this.platforms.create(975, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1100, 1260, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1275, 1190, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1450, 1120, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1450 + 150, 1350, "platform").setScale(1.5, 0.2).refreshBody(); // JOULUKUUSI TÄHÄN
-    this.platforms.create(1450 + 250, 1120, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1900, 1190, "platform").setScale(1, 0.2).refreshBody(); // ovi 6
+    this.platforms.add(this.add.tileSprite(1275, 1190, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1450, 1120, 128, 25, "platform"));
 
-    // luukku 6 - 7
-    // OVI 7 _LATTIALLE_ KOHTAAN x: 2200, y: 2250 !!!!!!!
+    this.platforms.add(this.add.tileSprite(1600, 1350, 192, 25, "platform")); // kuusi
+
+    this.platforms.add(this.add.tileSprite(1700, 1120, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1900, 1190, 128, 25, "platform"));
 
     // luukku 7 - 8
-    this.platforms.create(2720, 1330, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(2845, 1330, "platform").setScale(1, 0.2).refreshBody(); // ovi 8
+    this.platforms.add(this.add.tileSprite(2784, 1333, 250, 25, "platform"));
 
     //luukku 8 - 9
-    this.platforms.create(3100, 1800, "platform").setScale(3, 7.5).refreshBody();
-    //ovi 9 lattialle kohtaan x: 3620, y: 2240
+    this.platforms.add(this.add.tileSprite(3100, 1800, 384, 960, "platform"));
 
-    //OVI 9 - 10
-    this.platforms.create(4300 - 7, 1335, "platform").setScale(1, 0.2).refreshBody(); //ovi 10
-    this.platforms.create(4425 - 7, 1335, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(4600, 1230 + 15, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(4775, 1180, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(4950, 1130, "platform").setScale(1, 0.2).refreshBody();
+    //luukku 10 - 11
+    this.platforms.add(this.add.tileSprite(4360, 1335, 256, 25, "platform"));
 
-    this.platforms.create(5080, 1380, "platform").setScale(1.5, 0.2).refreshBody(); //joulukuusi tähän
+    this.platforms.add(this.add.tileSprite(4600, 1245, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(4775, 1180, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(4950, 1130, 128, 25, "platform"));
+
+    this.platforms.add(this.add.tileSprite(5080, 1380, 192, 25, "platform")); // kuusi
+
+    this.platforms.add(this.add.tileSprite(5255, 1130, 256, 25, "platform"));
     
-    this.platforms.create(5190, 1130, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(5190 + 125, 1130, "platform").setScale(1, 0.2).refreshBody(); //ovi 11
-
-    this.platforms.create(5870, 1200 + 30, "platform").setScale(3, 5).refreshBody();
-    this.platforms.create(5980, 1648 + 30, "platform").setScale(1.3, 2).refreshBody();
-    this.platforms.create(5870, 1900 + 30, "platform").setScale(3, 3).refreshBody();
+    //luukku 11 - 12
+    this.platforms.add(this.add.tileSprite(5870, 1230, 384, 640, "platform"));
+    this.platforms.add(this.add.tileSprite(5998, 1678, 128, 256, "platform"));
+    this.platforms.add(this.add.tileSprite(5870, 1930, 384, 384, "platform"));
 
 //ovi 15  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     this.platforms.create(7150-100, 2100, "platform").setScale(1, 0.2).refreshBody();
