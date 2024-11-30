@@ -220,7 +220,7 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia
 
     // Alku - Luukku 1
-    this.platforms.create(300, 2245, "platform").setScale(1, 0.5).refreshBody();
+    this.platforms.create(270, 2245, "platform").setScale(1, 0.5).refreshBody();
     this.platforms.create(400, 2215, "platform").setScale(1, 1).refreshBody();
 
     this.platforms.create(650, 2215, "platform").setScale(1, 1).refreshBody();
