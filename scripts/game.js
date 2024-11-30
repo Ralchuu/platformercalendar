@@ -256,29 +256,28 @@ class MainGameScene extends Phaser.Scene {
     // Y = VERTICAL, higher number = further down
     //platform width approx 125, height 25 pixels
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(10, 2340, "platform").setScale(1000, 1).refreshBody(); //lattia
+    this.platforms.add(this.add.tileSprite(extendedWorldWidth/2, 2450, extendedWorldWidth, 350, "platform")); //lattia
 
     // Alku - Luukku 1
-    this.platforms.create(275, 2245, "platform").setScale(1, 0.5).refreshBody();
-    this.platforms.create(400, 2215, "platform").setScale(1, 1).refreshBody();
+    this.platforms.add(this.add.tileSprite(275, 2245, 128, 64, "platform"));
+    this.platforms.add(this.add.tileSprite(400, 2215, 128, 128, "platform"));
 
-    this.platforms.create(650, 2215, "platform").setScale(1, 1).refreshBody();
-    this.platforms.create(900, 2215, "platform").setScale(1, 1).refreshBody();
-    this.platforms.create(1027, 2215, "platform").setScale(1, 1).setFlipX(true).refreshBody(); //ovi 1
+    this.platforms.add(this.add.tileSprite(650, 2215, 128, 128, "platform"));
+
+    this.platforms.add(this.add.tileSprite(964, 2215, 256, 128, "platform"));
 
     // luukku 1 - 2
-    this.platforms.create(900 + 300, 2100, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1100 + 300, 2030, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1300 + 300, 1960, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1950, 1890, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1835, 1890, "platform").setScale(1, 0.2).setFlipX(true).refreshBody(); //ovi 2
+    this.platforms.add(this.add.tileSprite(1200, 2100, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1400, 2030, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1600, 1960, 128, 25, "platform"));
+
+    this.platforms.add(this.add.tileSprite(1900, 1890, 256, 25, "platform"));
 
     //luukku 2 - 3
-    this.platforms.create(1600, 1800, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1390, 1710, "platform").setScale(1, 0.2).refreshBody();
+    this.platforms.add(this.add.tileSprite(1600, 1800, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1390, 1710, 128, 25, "platform"));
 
-    this.platforms.create(1180, 1620, "platform").setScale(1, 0.2).refreshBody();
-    this.platforms.create(1065, 1620, "platform").setScale(1, 0.2).refreshBody(); //ovi 3
+    this.platforms.add(this.add.tileSprite(1130, 1620, 256, 25, "platform"));
 
     //luukku 3 - 4
 
@@ -641,7 +640,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     // Camera setup
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
-    this.cameras.main.setZoom(0.8); // Set the zoom level
+    this.cameras.main.setZoom(0.9); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
