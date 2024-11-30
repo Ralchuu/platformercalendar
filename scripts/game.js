@@ -423,16 +423,9 @@ treeHazards.forEach(hazard => {
         .setScale(hazard.scaleX, hazard.scaleY)
         .refreshBody();
         
-    // Make sure the tree stays in front of other objects
     tree.setDepth(1); 
-    
-    // Prevent gravity from affecting the tree
     tree.body.setAllowGravity(false);
-    
-    // Prevent the tree from moving 
     tree.body.setImmovable(true); 
-    
-    // Prevent any velocity changes
     tree.body.setVelocity(0, 0); 
     
     // Adjust the origin for pixel-perfect positioning
@@ -444,7 +437,6 @@ treeHazards.forEach(hazard => {
     tree.body.offset.x = Math.round(tree.body.offset.x);
     tree.body.offset.y = Math.round(tree.body.offset.y);
 
-
     tree.body.setSize(110, 700); // Adjust the width and height to match the visible part
     tree.body.setOffset(160, 30); // Adjust the offset to align the hitbox with the visible part
    
@@ -453,25 +445,20 @@ treeHazards.forEach(hazard => {
     .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
 
       
-    // // SECOND HITBOX
-    // const lowerHitbox = this.physics.add.image(tree.x, tree.y); // Create an invisible image for the lower hitbox
-    // lowerHitbox.setSize(100, 100); // Adjust this size to cover the bottom part of the tree
-    // lowerHitbox.body.setOffset(100, 550); // Adjust the offset to align it with the bottom part
+    // SECOND HITBOX
+    const lowerHitbox = this.physics.add.image(tree.x, tree.y +40); // Create an invisible image for the lower hitbox
+    lowerHitbox.setSize(120, 130); // Adjust this size to cover the bottom part of the tree
+    lowerHitbox.body.setOffset(-50, -50 ); // Adjust the offset to align it with the bottom part
+    lowerHitbox.body.setImmovable(true);
+    lowerHitbox.body.setAllowGravity(false);
 
-    // // Register lower hitbox with the physics world before adjusting its body
-    // this.physics.add.existing(lowerHitbox); 
+    // Register lower hitbox with the physics world before adjusting its body
+    this.physics.add.existing(lowerHitbox); 
+    this.hazardTrees.add(lowerHitbox);
 
-    // // Set properties for the lower hitbox
-    // lowerHitbox.body.setImmovable(true);
-    // lowerHitbox.body.setAllowGravity(false);
-
-    // // Create a debug graphic for the second hitbox
-    // this.physics.world.createDebugGraphic()
-    //     .lineStyle(4, 0x00ff00) // Thicker green line for second hitbox
-    //     .strokeRect(lowerHitbox.x - lowerHitbox.body.width / 2, 
-    //                 lowerHitbox.y - lowerHitbox.body.height / 2, 
-    //                 lowerHitbox.body.width, lowerHitbox.body.height);
-
+    // Set properties for the lower hitbox
+    lowerHitbox.body.setImmovable(true);
+    lowerHitbox.body.setAllowGravity(false);
 });
 
 
@@ -496,7 +483,7 @@ this.hazards.create(1960, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
 this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody();
 
-this.hazards.create(2255, 1980, "hazard_left").setScale(0.7, 1).refreshBody();
+this.hazards.create(2255, 1965, "hazard_left").setScale(0.7, 1).refreshBody();
 
 this.hazards.create(3360, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
 this.hazards.create(3360, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
