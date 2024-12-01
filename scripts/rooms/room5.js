@@ -101,6 +101,7 @@ class Room5 extends Phaser.Scene {
       Phaser.Math.Distance.Between(this.player.x, this.player.y, this.returnDoor.x, this.returnDoor.y) < 50 &&
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
+      this.cabinMusic.stop()
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }
