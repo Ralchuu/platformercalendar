@@ -32,6 +32,11 @@ class Room1 extends Phaser.Scene {
     this.doorClosingSound = this.sound.add("doorClosingSound");
     this.doorClosingSound.setVolume(0.45);
 
+    this.cabinMusic = this.sound.add("cabinMusic");
+    this.cabinMusic.setVolume(0.2);
+    this.cabinMusic.loop = true;
+    this.cabinMusic.play();
+
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
     
@@ -89,6 +94,7 @@ class Room1 extends Phaser.Scene {
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
       this.removeYouTubeVideo(); // Remove YouTube iframe
+      this.cabinMusic.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }
