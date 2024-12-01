@@ -25,7 +25,6 @@ import Room22 from "./rooms/room22.js";
 import Room23 from "./rooms/room23.js";
 import Room24 from "./rooms/room24.js";
 
-
 // Main game scene class
 class MainGameScene extends Phaser.Scene {
   constructor() {
@@ -50,7 +49,7 @@ class MainGameScene extends Phaser.Scene {
     this.ctrlKey = null;
   }
 
-// Save & load the game
+  // Save & load the game
   saveGame(x, y) {
     let shown = [];
     this.instructions.forEach((inst) => {
@@ -138,13 +137,12 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
     this.load.audio("dashSound", "assets/audio/dash_01.wav");
 
-
-// Preload
-this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
-  frameWidth: 16, // Frame width 
-  frameHeight: 16, // Frame height 
-  endFrame: 7 // Total frames (0 to 7), (will only use the first frame)
-});
+    // Preload
+    this.load.spritesheet("christmasLights", "assets/christmas-lights.png", {
+      frameWidth: 16, // Frame width
+      frameHeight: 16, // Frame height
+      endFrame: 7, // Total frames (0 to 7), (will only use the first frame)
+    });
   }
 
   // og world width 4096
@@ -154,13 +152,13 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     const bg = this.add.tileSprite(
       0, // X position
       230, // Y position
-      extendedWorldWidth, 
-      worldHeight, 
+      extendedWorldWidth,
+      worldHeight,
       "background" // Background texture
     );
     bg.setOrigin(0, 0); // Align the background at the top-left corner
 
-// Set the new world bounds
+    // Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
     const outsideMusic = document.getElementById("background-music");
@@ -173,7 +171,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
       }
     };
 
-// Add sounds
+    // Add sounds
 
     // Hazard hit sound
     this.hazardSound = this.sound.add("hazardSound");
@@ -197,7 +195,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
       fontSize: "20px",
-      fill: "#ffffff", 
+      fill: "#ffffff",
     });
 
     this.devModeText.setScrollFactor(0); // Ensure text stays fixed on screen
@@ -210,20 +208,14 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3);
 
+    // PLayer coordinate text for developer mode
+    this.playerCoordinateText = this.add.text(5, 60, "", {
+      font: "20px Arial",
+      fill: "#32141c",
+      align: "center",
+      backgroundColor: "#c99b70",
+    });
 
-// PLayer coordinate text for developer mode
-    this.playerCoordinateText = this.add.text(
-      5,
-      60,
-      "",
-      {
-        font: "20px Arial",
-        fill: "#32141c",
-        align: "center",
-        backgroundColor: "#c99b70",
-      }
-    );
-    
     this.playerCoordinateText.setScrollFactor(0);
     this.playerCoordinateText.setDepth(5);
     this.playerCoordinateText.setVisible(false); // Hidden until developer mode is switched on
@@ -285,7 +277,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     // luukku 7 - 8
     this.platforms.add(this.add.tileSprite(2784, 1333, 250, 25, "floor"));
 
-    //luukku 8 - 9 
+    //luukku 8 - 9
     this.platforms.add(this.add.tileSprite(3100, 1854, 384, 942, "platform"));
     this.platforms.add(this.add.tileSprite(3100, 1352, 384, 64, "floor"));
 
@@ -401,179 +393,323 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
 
     //luukku 23 - 24
     this.walls.add(this.add.tileSprite(13760, 1325, 320, 1920, "wall"));
-    
-// Array of tree hazard coordinates and scale
-const treeHazards = [
-    { x: 1590, y: 1195, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
-    { x: 5070, y: 1220, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
-    { x: 9300, y: 2130, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
-    { x: 10600, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
-    { x: 10850, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
-  ];  
 
-// Loop to create the tree hazards
-treeHazards.forEach(hazard => {
-    const tree = this.hazardTrees.create(hazard.x, hazard.y, hazard.texture)
+    // hazards group
+    this.hazardTrees = this.physics.add.group();
+
+    // Array of tree hazard coordinates and scale
+    const treeHazards = [
+      { x: 1590, y: 1195, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4 },
+      { x: 5070, y: 1220, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4 },
+      { x: 9300, y: 2130, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4 },
+      { x: 10600, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4 },
+      { x: 10850, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4 },
+    ];
+
+    // Loop to create the tree hazards
+    treeHazards.forEach((hazard) => {
+      const tree = this.hazardTrees
+        .create(hazard.x, hazard.y, hazard.texture)
         .setScale(hazard.scaleX, hazard.scaleY)
         .refreshBody();
-        
-    tree.setDepth(1); 
-    tree.body.setAllowGravity(false);
-    tree.body.setImmovable(true); 
-    tree.body.setVelocity(0, 0); 
 
-    tree.setOrigin(0.5, 0.5); // Center the origin
-    
-// Round the positions to avoid floating-point offsets
-    tree.x = Math.round(tree.x);
-    tree.y = Math.round(tree.y);
-    tree.body.offset.x = Math.round(tree.body.offset.x);
-    tree.body.offset.y = Math.round(tree.body.offset.y);
+      tree.setDepth(1);
+      tree.body.setAllowGravity(false);
+      tree.body.setImmovable(true);
+      tree.body.setVelocity(0, 0);
 
-    tree.body.setSize(110, 700); // Adjust width and height for the visible part
-    tree.body.setOffset(160, 30); // Adjust offset to align the hitbox with the visible part
-   
-//DEBUG TOOL WHICH SHOWS HITBOX OUTLINES
+      tree.setOrigin(0.5, 0.5); // Center the origin
 
-    // this.physics.world.createDebugGraphic()
-    // .lineStyle(2, 0xff0000)
-    // .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
+      // Round the positions to avoid floating-point offsets
+      tree.x = Math.round(tree.x);
+      tree.y = Math.round(tree.y);
+      tree.body.offset.x = Math.round(tree.body.offset.x);
+      tree.body.offset.y = Math.round(tree.body.offset.y);
 
-// SECOND HITBOX
-    const lowerHitbox = this.physics.add.image(tree.x, tree.y +40); // invisible image for the lower hitbox
-    lowerHitbox.setSize(120, 130); // bottom part of the tree
-    lowerHitbox.body.setOffset(-50, -50 ); // offset to align with the bottom part
-    lowerHitbox.body.setImmovable(true);
-    lowerHitbox.body.setAllowGravity(false);
+      tree.body.setSize(110, 700); // Adjust width and height for the visible part
+      tree.body.setOffset(160, 30); // Adjust offset to align the hitbox with the visible part
 
-    // Register lower hitbox with the physics world before adjusting its body
-    this.physics.add.existing(lowerHitbox); 
-    this.hazardTrees.add(lowerHitbox);
+      //DEBUG TOOL WHICH SHOWS HITBOX OUTLINES
 
-    // Set properties for the lower hitbox
-    lowerHitbox.body.setImmovable(true);
-    lowerHitbox.body.setAllowGravity(false);
-});
+      // this.physics.world.createDebugGraphic()
+      // .lineStyle(2, 0xff0000)
+      // .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
 
+      // SECOND HITBOX
+      const lowerHitbox = this.physics.add.image(tree.x, tree.y + 40); // invisible image for the lower hitbox
+      lowerHitbox.setSize(120, 130); // bottom part of the tree
+      lowerHitbox.body.setOffset(-50, -50); // offset to align with the bottom part
+      lowerHitbox.body.setImmovable(true);
+      lowerHitbox.body.setAllowGravity(false);
 
-    
+      // Register lower hitbox with the physics world before adjusting its body
+      this.physics.add.existing(lowerHitbox);
+      this.hazardTrees.add(lowerHitbox);
+
+      // Set properties for the lower hitbox
+      lowerHitbox.body.setImmovable(true);
+      lowerHitbox.body.setAllowGravity(false);
+    });
+
     this.hazards = this.physics.add.staticGroup();
-    
 
-    // Hazards group SPIKES 
+    // Hazards group SPIKES
 
-this.hazards.create(530-3, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
-this.hazards.create(775-2, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
+    this.hazards
+      .create(530 - 3, 2230, "hazard_up")
+      .setScale(1.25, 1)
+      .refreshBody();
+    this.hazards
+      .create(775 - 2, 2230, "hazard_up")
+      .setScale(1.25, 1)
+      .refreshBody();
 
-this.hazards.create(1150, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1250, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1350, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1450, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1555, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1660, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1760, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1860, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(1960, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1150, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1250, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1350, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1450, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1555, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1660, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1760, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1860, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1960, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
-this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody();
+    this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody();
 
-this.hazards.create(2255, 1965, "hazard_left").setScale(0.7, 1).refreshBody();
+    this.hazards
+      .create(2255, 1965, "hazard_left")
+      .setScale(0.7, 1)
+      .refreshBody();
 
-this.hazards.create(3365, 1400, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 1500, "hazard_right").setScale(1.5, 1).refreshBody();
-this.hazards.create(3365, 1600, "hazard_right").setScale(1.5, 1).refreshBody();
+    this.hazards
+      .create(3365, 1400, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3365, 1500, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3365, 1600, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
 
-this.hazards.create(3360+120, 1840+50, "hazard_left").setScale(1.5, 1).refreshBody();
-this.hazards.create(3360+120, 1940, "hazard_left").setScale(1.5, 1).refreshBody();
-this.hazards.create(3360+120, 2040, "hazard_left").setScale(1.5, 1).refreshBody();
+    this.hazards
+      .create(3360 + 120, 1840 + 50, "hazard_left")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3360 + 120, 1940, "hazard_left")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3360 + 120, 2040, "hazard_left")
+      .setScale(1.5, 1)
+      .refreshBody();
 
-this.hazards.create(3630, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
-this.hazards.create(3730, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
+    this.hazards.create(3630, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
+    this.hazards.create(3730, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
 
-this.hazards.create(4290, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(4390, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(4490, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(4590, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(4690, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(4790, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(4890, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(4990, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(5090, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(5190+10, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(5290+20, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4290, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4390, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4490, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4590, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4690, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4790, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4890, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4990, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(5090, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(5190 + 10, 2230, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(5290 + 20, 2230, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
 
-this.hazards.create(5558, 1400, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(5630, 1800, "hazard_left").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(5558, 1400, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards.create(5630, 1800, "hazard_left").setScale(1, 1).refreshBody();
 
-this.hazards.create(5550, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(5550, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
+    this.hazards.create(6920, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7020, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7120, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7220, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7320, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7420, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7520, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7620, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7720, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7820, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7920, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8020, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8120, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8220, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8320, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8420, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
-this.hazards.create(6920, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7020, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7120, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7220, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7320, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7420, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7520, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7620, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7720, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7820, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(7920, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(8020, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(8120, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(8220, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(8320, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(8420, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(8003, 1090, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(7995 + 123, 1090 + 330, "hazard_left")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(8003, 1090 + 660, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
 
-this.hazards.create(8003, 1090, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(7995+123, 1090+330, "hazard_left").setScale(1, 1).refreshBody();
-this.hazards.create(8003, 1090+660, "hazard_right").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(7995 + 1200, 385, "hazard_up")
+      .setScale(1.2, 1)
+      .refreshBody();
 
-this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody();
+    this.hazards
+      .create(10080, 1220, "hazard_left")
+      .setScale(0.5, 1)
+      .refreshBody();
 
-this.hazards.create(10080, 1220, "hazard_left").setScale(0.5, 1).refreshBody();
+    this.hazards
+      .create(13332, 675, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 775, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 875, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 975, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 1075, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
 
-this.hazards.create(13332, 675, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 775, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 875, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 975, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 1075, "hazard_right").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(13332, 1273, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 1375, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 1475, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 1575, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 1675, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
 
-this.hazards.create(13332, 1273, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 1375, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 1475, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 1575, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 1675, "hazard_right").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(13332, 1875, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13332, 1975, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
 
-this.hazards.create(13332, 1875, "hazard_right").setScale(1, 1).refreshBody();
-this.hazards.create(13332, 1975, "hazard_right").setScale(1, 1).refreshBody();
+    this.hazards.create(13552, 950, "hazard_left").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(13552, 1550, "hazard_left")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards.create(13550, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(13450, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
-this.hazards.create(13552, 950, "hazard_left").setScale(1, 1).refreshBody();
-this.hazards.create(13552, 1550, "hazard_left").setScale(1, 1).refreshBody();
-this.hazards.create(13550, 2230, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(13450, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(11750, 1925, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(11850, 1925, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(11950 + 5, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12050 + 10, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12150 + 15, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12250 + 20, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12350 + 25, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12450 + 30, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12550 + 35, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12650 + 40, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12750 + 45, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12850 + 50, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12950 + 55, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13050 + 60, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
 
-this.hazards.create(11750, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(11850, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(11950+5, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12050+10, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12150+15, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12250+20, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12350+25, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12450+30, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12550+35, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12650+40, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12750+45, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12850+50, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(12950+55, 1925, "hazard_up").setScale(1, 1).refreshBody();
-this.hazards.create(13050+60, 1925, "hazard_up").setScale(1, 1).refreshBody();
-
-this.hazards.create(12100, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
-this.hazards.create(12300, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
-this.hazards.create(12500, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
-this.hazards.create(12700, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
-this.hazards.create(12900, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
-this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
+    this.hazards
+      .create(12100, 2140 - 10, "hazard_down")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12300, 2245, "hazard_up")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12500, 2140 - 10, "hazard_down")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12700, 2245, "hazard_up")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12900, 2140 - 10, "hazard_down")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(13100, 2245, "hazard_up")
+      .setScale(1, 0.7)
+      .refreshBody();
 
     // Hazards group SPIKES
 
@@ -832,7 +968,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       .setScale(1, 0.7)
       .refreshBody();
 
-// doors (rooms 1 to 24)
+    // doors (rooms 1 to 24)
 
     this.doors = [
       this.createDoor(965, 2114, "Room1").setScale(0.3).setDepth(1),
@@ -893,7 +1029,6 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
 
       // Optional: Adjust scale and make it physics-enabled (if needed)
       // this.christmasLights.setScale(7); // Scale the sprite as per your requirement
-
     });
 
     // Create player at the starting position
@@ -990,7 +1125,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     this.loadGame();
   }
 
-//added door to the physics world
+  //added door to the physics world
 
   createDoor(x, y, targetRoom) {
     const door = this.physics.add.sprite(x, y, "door");
@@ -999,8 +1134,8 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     door.body.setEnable(false);
     door.setData("targetRoom", targetRoom); // Store the target room name
 
-// Create the door number text
-    const roomNumber = parseInt(targetRoom.replace('Room', '')); // take the room number from the targetRoom string (room1 -> 1)
+    // Create the door number text
+    const roomNumber = parseInt(targetRoom.replace("Room", "")); // take the room number from the targetRoom string (room1 -> 1)
     const doorText = this.add.text(x, y - 12, `${roomNumber}`, {
       font: "bold 30px 'Tempus Sans ITC'",
       fill: "#542723",
@@ -1020,7 +1155,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
   }
 
   update(time, delta) {
-// Update player movements
+    // Update player movements
     this.player.update(
       this.cursors,
       this.wasd,
@@ -1043,7 +1178,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       this.updateDevModeText(); // Update the displayed text
     }
 
-// Clearing the save file when ctrl+q is pressed
+    // Clearing the save file when ctrl+q is pressed
     if (
       Phaser.Input.Keyboard.JustDown(this.qKey) &&
       Phaser.Input.Keyboard.JustDown(this.ctrlKey)
@@ -1052,7 +1187,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       location.reload();
     }
 
-// Show instruction messages at set coordinates
+    // Show instruction messages at set coordinates
     this.instructions.forEach((inst) => {
       if (
         Phaser.Math.Distance.Between(
@@ -1068,86 +1203,99 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       }
     });
 
-// Create
-this.doorLights = [];
-this.createdLightsToday = {}; // Object to track lights created for each room
+    // Create
+    this.doorLights = [];
+    this.createdLightsToday = {}; // Object to track lights created for each room
 
-const currentDate = new Date();
-const currentDay = currentDate.getDate();
-const currentMonth = currentDate.getMonth();
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const currentMonth = currentDate.getMonth();
 
-// Ensure lights are only created once per day for each door
-if (!this.createdLightsToday[currentDay]) {
-    this.createdLightsToday[currentDay] = {}; // Initialize empty object for today
+    // Ensure lights are only created once per day for each door
+    if (!this.createdLightsToday[currentDay]) {
+      this.createdLightsToday[currentDay] = {}; // Initialize empty object for today
 
-    // Loop through each door
-    this.doors.forEach((door) => {
+      // Loop through each door
+      this.doors.forEach((door) => {
         const month = 11; // December
         const year = 2024;
         const targetRoom = door.getData("targetRoom");
 
         if (targetRoom) {
-            const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Room number
-            let doorDate = new Date(year, month, roomNumber);
+          const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Room number
+          let doorDate = new Date(year, month, roomNumber);
 
-            // Check if today's date matches the room's target date
-            if (currentDate.getDate() === doorDate.getDate() && currentDate.getMonth() === doorDate.getMonth()) {
-                if (!this.doorLights[roomNumber]) {
-                    
+          // Check if today's date matches the room's target date
+          if (
+            currentDate.getDate() === doorDate.getDate() &&
+            currentDate.getMonth() === doorDate.getMonth()
+          ) {
+            if (!this.doorLights[roomNumber]) {
+              // Create sprite for the still image (first frame from sprite sheet)
+              this.doorLights[roomNumber] = this.add.sprite(
+                door.x,
+                door.y - 50,
+                "christmasLights"
+              );
+              this.doorLights[roomNumber].setScale(7); // Scale the sprite
 
-                    // Create sprite for the still image (first frame from sprite sheet)
-                    this.doorLights[roomNumber] = this.add.sprite(door.x, door.y - 50, 'christmasLights');
-                    this.doorLights[roomNumber].setScale(7); // Scale the sprite
+              // Set the first frame (frame 0) as the still image
+              this.doorLights[roomNumber].setFrame(0);
 
-                    // Set the first frame (frame 0) as the still image
-                    this.doorLights[roomNumber].setFrame(0);
+              // Store the created light status for this room
+              this.createdLightsToday[currentDay][roomNumber] = true;
 
-                    // Store the created light status for this room
-                    this.createdLightsToday[currentDay][roomNumber] = true;
-
-                    // Debug: Log sprite creation
-                    
-                }
-            } else {
-                // Remove lights if not today
-                if (this.doorLights[roomNumber]) {
-                    this.doorLights[roomNumber].destroy();
-                    this.doorLights[roomNumber] = null;
-                }
+              // Debug: Log sprite creation
             }
+          } else {
+            // Remove lights if not today
+            if (this.doorLights[roomNumber]) {
+              this.doorLights[roomNumber].destroy();
+              this.doorLights[roomNumber] = null;
+            }
+          }
         }
-    });
-}
+      });
+    }
 
-// Handle player interaction with door
-this.doors.forEach((door) => {
-    const targetRoom = door.getData("targetRoom");
-    const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
-    if (Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
-        Phaser.Input.Keyboard.JustDown(this.eKey)) {
-
+    // Handle player interaction with door
+    this.doors.forEach((door) => {
+      const targetRoom = door.getData("targetRoom");
+      const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
+      if (
+        Phaser.Math.Distance.Between(
+          this.player.x,
+          this.player.y,
+          door.x,
+          door.y
+        ) < 50 &&
+        Phaser.Input.Keyboard.JustDown(this.eKey)
+      ) {
         // Handle locking and unlocking of doors based on date
-        if (currentDate < new Date(2024, 11, roomNumber) && !this.developerModeIsOn) {
-            let timeDifference = new Date(2024, 11, roomNumber) - currentDate;
-            let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
-            let doorMessageText = `No access yet! Can be\nopened in ${daysLeft} day(s).`;
-            this.doorLockedSound.play();
-            this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
+        if (
+          currentDate < new Date(2024, 11, roomNumber) &&
+          !this.developerModeIsOn
+        ) {
+          let timeDifference = new Date(2024, 11, roomNumber) - currentDate;
+          let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
+          let doorMessageText = `No access yet! Can be\nopened in ${daysLeft} day(s).`;
+          this.doorLockedSound.play();
+          this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
         } else {
-            this.doorOpenedSound.play();
-        
-            const outsideMusic = document.getElementById("background-music");
-            outsideMusic.pause(); // Pause the music while in the cabin
+          this.doorOpenedSound.play();
 
-            this.scene.start(targetRoom, {
-                playerStartX: this.player.x,
-                playerStartY: this.player.y,
-            });
+          const outsideMusic = document.getElementById("background-music");
+          outsideMusic.pause(); // Pause the music while in the cabin
+
+          this.scene.start(targetRoom, {
+            playerStartX: this.player.x,
+            playerStartY: this.player.y,
+          });
         }
 
         this.saveGame(this.player.x, this.player.y);
-    }
-});
+      }
+    });
   }
 }
 
@@ -1168,10 +1316,33 @@ const config = {
       debug: false,
     },
   },
-  scene: [MainGameScene, Room1, Room2, Room3, Room4, Room5,
-          Room6, Room7, Room8, Room9, Room10, Room11, Room12, 
-          Room13, Room14, Room15, Room16, Room17, Room18, 
-          Room19, Room20, Room21, Room22, Room23, Room24],
+  scene: [
+    MainGameScene,
+    Room1,
+    Room2,
+    Room3,
+    Room4,
+    Room5,
+    Room6,
+    Room7,
+    Room8,
+    Room9,
+    Room10,
+    Room11,
+    Room12,
+    Room13,
+    Room14,
+    Room15,
+    Room16,
+    Room17,
+    Room18,
+    Room19,
+    Room20,
+    Room21,
+    Room22,
+    Room23,
+    Room24,
+  ],
 };
 
 // Initialize the game
