@@ -58,7 +58,7 @@ class Room2 extends Phaser.Scene {
 
     this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);    
     this.add.image(572.4, 318,"frame").setScale(0.435, 0.40).setDepth(0.3);
-    this.add.image(562, 297, "kuusi").setScale(0.24, 0.17).setDepth(0.3);
+    this.add.image(562, 297, "kuusi").setScale(0.239, 0.172).setDepth(0.3);
 
     
 
