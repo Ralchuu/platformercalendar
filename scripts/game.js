@@ -635,7 +635,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
-    this.cameras.main.setZoom(0.6); // zoom level
+    this.cameras.main.setZoom(0.8); // zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
