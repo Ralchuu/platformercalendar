@@ -14,8 +14,11 @@ class Room5 extends Phaser.Scene {
     this.load.image("door", "assets/castledoors.png");
     this.load.image("cabin-wall", "assets/cabin-wall.png");    
     this.load.image("frame", "assets/frame.png");
+    this.load.image("car2", "assets/sisalto/car2.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
     this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
+    this.load.image("Ei", "assets/sisalto/OOOO.png");
+
   }
 
   create(data) {
@@ -57,11 +60,12 @@ class Room5 extends Phaser.Scene {
 
     this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);    
     this.add.image(572.4, 318,"frame").setScale(0.435, 0.40).setDepth(0.3);
-    this.add.image(562, 298,"xD").setScale(0.152, 0.080).setDepth(0.3);
-
+    this.add.image(562, 297.5,"car2").setScale(1, 0.775).setDepth(0.3);
+    this.marker = this.add.image(this.player.x - 10000, this.player.y, "Ei").setScale(0.1);
+    this.marker.setDepth(500);
 
     this.physics.add.collider(this.player, this.platforms);
-    
+
     // Setup cursor keys and WASD keys
     this.cursors = this.input.keyboard.createCursorKeys();
     this.wasd = {
@@ -71,37 +75,41 @@ class Room5 extends Phaser.Scene {
       right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
     };
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-
     this.shiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
-
     this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     // Zoom the camera
     this.cameras.main.setZoom(1.8); 
-
   }
 
   update(time, delta) {
     // Update player movement, dash, and jump input
     this.player.update(this.cursors, this.wasd, this.spaceBar, this.shiftKey, delta);
 
+    if (this.player.body.velocity.x < 0) {
+      this.player.setFlipX(true);
+      this.marker.setFlipX(true);
+  } else if (this.player.body.velocity.x > 0) {
+      this.player.setFlipX(false);
+      this.marker.setFlipX(false);
+  }
+
+    this.marker.setPosition(this.player.x, this.player.y - 15); 
+
     // Check if the player is near the door and presses 'E' to transition
     if (
       Phaser.Math.Distance.Between(this.player.x, this.player.y, this.returnDoor.x, this.returnDoor.y) < 50 &&
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
-      this.cabinMusic.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }
 
-// disable collision from below
+    // Disable collision from below
     this.platforms.getChildren().forEach(platform => {
       platform.body.checkCollision.down = false;
     });
   }
-
-
 }
 
 export default Room5;
