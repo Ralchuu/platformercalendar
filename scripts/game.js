@@ -534,6 +534,8 @@ this.hazards.create(7995, 1090+660, "hazard_right").setScale(1, 1).refreshBody()
 
 this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody();
 
+//10200, 1135,
+this.hazards.create(10080, 1220, "hazard_left").setScale(0.5, 1).refreshBody();
 
 //asdfghj
 
