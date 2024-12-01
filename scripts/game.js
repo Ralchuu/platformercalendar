@@ -140,6 +140,8 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
     this.load.audio("dashSound", "assets/audio/dash_01.wav");
 
+
+
 // Preload
 this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
   frameWidth: 16, // Frame width 
@@ -600,6 +602,8 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       this.createDoor(13260, 560, "Room23").setScale(0.3).setDepth(1),
       this.createDoor(11860, 2240, "Room24").setScale(0.3).setDepth(1),   
     ];
+
+  
 
     // Add cabins behind doors based on room number (odd/even)
     this.doors.forEach((door) => {
