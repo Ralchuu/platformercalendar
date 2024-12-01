@@ -13,7 +13,7 @@ class Room6 extends Phaser.Scene {
     this.load.image("cabin-wall", "assets/cabin-wall.png");
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
-    this.load.audio("cabinMusic", "assets/audio/finlandiahymni.mp3");
+    this.load.audio("finlandiahymni", "assets/audio/finlandiahymni.mp3");
   }
 
   create(data) {
@@ -30,10 +30,10 @@ class Room6 extends Phaser.Scene {
     this.doorClosingSound = this.sound.add("doorClosingSound");
     this.doorClosingSound.setVolume(0.45);
 
-    this.cabinMusic = this.sound.add("cabinMusic");
-    this.cabinMusic.setVolume(1.0);
-    this.cabinMusic.loop = true;
-    this.cabinMusic.play();
+    this.finlandiahymni = this.sound.add("finlandiahymni");
+    this.finlandiahymni.setVolume(1.0);
+    this.finlandiahymni.loop = true;
+    this.finlandiahymni.play();
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -86,7 +86,7 @@ class Room6 extends Phaser.Scene {
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
       this.removeYouTubeVideo(); // Remove YouTube iframe
-      this.cabinMusic.stop();
+      this.finlandiahymni.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene"); // Transition to another scene
     }
