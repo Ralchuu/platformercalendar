@@ -15,6 +15,7 @@ class Room23 extends Phaser.Scene {
     this.load.image("cabin-wall", "assets/cabin-wall.png");    
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
+    this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
   }
 
   create(data) {
@@ -30,6 +31,11 @@ class Room23 extends Phaser.Scene {
 
     this.doorClosingSound = this.sound.add("doorClosingSound");
     this.doorClosingSound.setVolume(0.45);
+
+    this.cabinMusic = this.sound.add("cabinMusic");
+    this.cabinMusic.setVolume(0.2);
+    this.cabinMusic.loop = true;
+    this.cabinMusic.play();
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -83,6 +89,7 @@ class Room23 extends Phaser.Scene {
       Phaser.Math.Distance.Between(this.player.x, this.player.y, this.returnDoor.x, this.returnDoor.y) < 50 &&
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
+      this.cabinMusic.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }
