@@ -30,12 +30,7 @@ class Room1 extends Phaser.Scene {
     bg.setDisplaySize(this.width * 2, this.height);
 
     this.doorClosingSound = this.sound.add("doorClosingSound");
-    this.doorClosingSound.setVolume(0.7);
-
-    this.cabinMusic = this.sound.add("cabinMusic");
-    this.cabinMusic.setVolume(0.2);
-    this.cabinMusic.loop = true;
-    this.cabinMusic.play();
+    this.doorClosingSound.setVolume(0.45);
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -48,6 +43,7 @@ class Room1 extends Phaser.Scene {
     this.platforms.create(810, 370, "platform").setScale(0.1, 10).refreshBody().setDepth(-1);
     this.platforms.create(785, 395, "platform").setScale(0.5, 0.5).refreshBody().setDepth(-1);
     this.platforms.create(500, 415, "platform").setScale(1000, 0.2).refreshBody().setDepth(-1);
+    this.platforms.create(545, 330, "platform").setScale(0.6, 0.01).refreshBody().setDepth(1);
 
     this.player = new Player(this, playerStartX, playerStartY, "player", this.platforms);
     this.player.setDepth(50);
