@@ -535,7 +535,8 @@ this.hazards.create(7995, 1090+660, "hazard_right").setScale(1, 1).refreshBody()
 this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody();
 
 
-//asdfghj
+//10200, 1135,
+this.hazards.create(10080, 1220, "hazard_left").setScale(0.5, 1).refreshBody();
 
 this.hazards.create(13330, 675, "hazard_right").setScale(1, 1).refreshBody();
 this.hazards.create(13330, 775, "hazard_right").setScale(1, 1).refreshBody();
@@ -650,7 +651,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
-    this.cameras.main.setZoom(0.8); // Set the zoom level
+    this.cameras.main.setZoom(0.3); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
