@@ -123,7 +123,7 @@ class MainGameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/test_bg_1.jpg");
+    this.load.image("background", "assets/background2.png");
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
@@ -153,7 +153,7 @@ class MainGameScene extends Phaser.Scene {
     // Create the background as a tiled sprite to cover the world
     const bg = this.add.tileSprite(
       0, // X position
-      0, // Y position
+      230, // Y position
       extendedWorldWidth, // Extended world width
       worldHeight, // Extended world height
       "background" // Background texture
