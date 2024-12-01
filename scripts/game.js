@@ -152,20 +152,21 @@ class MainGameScene extends Phaser.Scene {
     };
 
     // Add sounds
+
     // Hazard hit sound
     this.hazardSound = this.sound.add("hazardSound");
-    this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
+    this.hazardSound.setVolume(0.2); // Set volume (0.0 to 1.0)
 
     // Door sounds
     this.doorLockedSound = this.sound.add("doorLockedSound");
-    this.doorLockedSound.setVolume(0.3);
+    this.doorLockedSound.setVolume(0.5);
 
     this.doorOpenedSound = this.sound.add("doorOpenedSound");
-    this.doorOpenedSound.setVolume(0.6);
+    this.doorOpenedSound.setVolume(0.8);
 
     // Dash sound
     this.dashSound = this.sound.add("dashSound");
-    this.dashSound.setVolume(0.4);
+    this.dashSound.setVolume(0.6);
 
     // Listen for keyboard press and pointer interaction
     this.input.keyboard.on('keydown', startMusic);
