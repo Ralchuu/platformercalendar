@@ -447,9 +447,9 @@ treeHazards.forEach(hazard => {
     tree.body.setSize(110, 700); // Adjust the width and height to match the visible part
     tree.body.setOffset(160, 30); // Adjust the offset to align the hitbox with the visible part
    
-    // this.physics.world.createDebugGraphic()
-    // .lineStyle(2, 0xff0000)
-    // .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
+    this.physics.world.createDebugGraphic()
+    .lineStyle(2, 0xff0000)
+    .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
 
       
     // SECOND HITBOX
