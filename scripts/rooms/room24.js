@@ -13,7 +13,7 @@ class Room24 extends Phaser.Scene {
     this.load.image("cabin-wall", "assets/cabin-wall.png");
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
-    this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
+    this.load.audio("cabinMusic", "assets/audio/last_rickmas.mp3");
   }
 
   create(data) {
@@ -31,7 +31,7 @@ class Room24 extends Phaser.Scene {
     this.doorClosingSound.setVolume(0.45);
 
     this.cabinMusic = this.sound.add("cabinMusic");
-    this.cabinMusic.setVolume(0.2);
+    this.cabinMusic.setVolume(0.6);
     this.cabinMusic.loop = true;
     this.cabinMusic.play();
 
