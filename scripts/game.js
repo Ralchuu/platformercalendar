@@ -47,7 +47,6 @@ class MainGameScene extends Phaser.Scene {
     this.eKey = null;
     this.qKey = null;
     this.ctrlKey = null;
-    
   }
 
   // Save & load the game
@@ -95,14 +94,12 @@ class MainGameScene extends Phaser.Scene {
     } catch (error) {
       console.log("Failed to load game");
       this.player.setPosition(playerStartX, playerStartY);
-
     }
     // Continue music
     if (this.musicStarted) {
       const outsideMusic = document.getElementById("background-music");
-      outsideMusic.play()
+      outsideMusic.play();
     }
-    
   }
 
   showTextBox(x, y, message, timer) {
@@ -124,7 +121,8 @@ class MainGameScene extends Phaser.Scene {
   preload() {
     this.load.image("background", "assets/background.png");
     this.load.image("player", "assets/elf1.png");
-    this.load.image("platform", "assets/ground_test3.png");
+    this.load.image("platform", "assets/ground.png");
+    this.load.image("floor", "assets/floor.png");
     this.load.image("wall", "assets/wall.png");
     this.load.image("hazard_tree", "assets/treetest.png");
     this.load.image("hazard_down", "assets/hazard_down1.png");
@@ -167,9 +165,9 @@ class MainGameScene extends Phaser.Scene {
 
     const startMusic = () => {
       if (!this.musicStarted) {
-          this.musicStarted = true; // Mark the music as started
-          outsideMusic.play();
-          console.log('Music started');
+        this.musicStarted = true; // Mark the music as started
+        outsideMusic.play();
+        console.log("Music started");
       }
     };
 
@@ -191,8 +189,8 @@ class MainGameScene extends Phaser.Scene {
     this.dashSound.setVolume(0.6);
 
     // Listen for keyboard press and pointer interaction
-    this.input.keyboard.on('keydown', startMusic);
-    this.input.on('pointerdown', startMusic);
+    this.input.keyboard.on("keydown", startMusic);
+    this.input.on("pointerdown", startMusic);
 
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
@@ -222,52 +220,7 @@ class MainGameScene extends Phaser.Scene {
     this.playerCoordinateText.setDepth(5);
     this.playerCoordinateText.setVisible(false); // Hidden until developer mode is switched on
 
-// Walls group
-// X = HORIZONTAL, higher number = further right
-// Y = VERTICAL, higher number = further down
-    this.walls = this.physics.add.staticGroup();
-
-    this.walls.create(2080, 1800, "wall").setScale(4, 30).refreshBody();
-    this.walls.create(2350, 1530, "wall").setScale(4, 35).refreshBody();
-    this.walls.create(2600, 1800, "wall").setScale(4, 30).refreshBody();
-
-    this.walls.create(3630 + 50, 1700, "wall").setScale(8, 25).refreshBody();
-    this.walls.create(4050 + 50, 1800, "wall").setScale(8, 30).refreshBody();
-    this.walls.create(5445, 1710, "wall").setScale(4, 37).refreshBody();
-    
-    this.walls.create(6500, 1710, "wall").setScale(6, 30).refreshBody();
-    this.walls.create(6800, 1730, "wall").setScale(4, 34).refreshBody();
-
-    //OVI 15-16 SEINÄT
-    this.walls.create(7050, 1450, "wall").setScale(4, 34).refreshBody();  //!!
-    this.walls.create(7050+240, 1450+130, "wall").setScale(4, 34).refreshBody(); 
-
-    this.walls.create(7050+240+240+60, 1400-40, "wall").setScale(7, 34).refreshBody();
-
-    this.walls.create(7050+840, 1450+130, "wall").setScale(4, 34).refreshBody(); 
-    this.walls.create(7050+840+240+100, 1400, "wall").setScale(4, 34).refreshBody(); 
-
-    this.walls.create(9850, 1780, "wall").setScale(6, 27).refreshBody();
-    this.walls.create(10200, 1730, "wall").setScale(6, 35).refreshBody();
-
-    this.walls.create(9500, 830, "wall").setScale(4, 20).refreshBody();
-    this.walls.create(9200, 830, "wall").setScale(4, 25).refreshBody();
-
-    //luola
-    this.walls.create(10920, 1190, "wall").setScale(33, 15).refreshBody(); //tämän päälle kuusimetsä
-    this.walls.create(10700, 1715, "wall").setScale(7, 18).refreshBody();
-    this.walls.create(10500, 1810, "wall").setScale(6, 12).refreshBody();
-    this.walls.create(10805, 2080, "wall").setScale(25, 5).refreshBody();
-
-    this.walls.create(11450, 2065, "wall").setScale(8, 13).refreshBody();
-    this.walls.create(11255, 1800, "wall").setScale(20, 5).refreshBody();
-    this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
-    this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
-    this.walls.create(11635, 1560, "wall").setScale(4, 45).refreshBody();
-
-    this.walls.create(13160 + 600, 1320, "wall").setScale(10, 60).refreshBody(); //vika (luukkku 24)
-
-// Platforms group
+    // Platforms group
     this.platforms = this.physics.add.staticGroup();
     this.platforms.add(
       this.add.tileSprite(
@@ -275,121 +228,134 @@ class MainGameScene extends Phaser.Scene {
         2450,
         extendedWorldWidth,
         350,
-        "platform"
+        "floor"
       )
     ); //lattia
 
     // Alku - Luukku 1
-    this.platforms.add(this.add.tileSprite(275, 2245, 128, 64, "platform"));
-    this.platforms.add(this.add.tileSprite(400, 2215, 128, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(275, 2268, 128, 114, "floor"));
+    this.platforms.add(this.add.tileSprite(400, 2238, 128, 174, "floor"));
 
-    this.platforms.add(this.add.tileSprite(650, 2215, 128, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(650, 2238, 128, 174, "floor"));
 
-    this.platforms.add(this.add.tileSprite(964, 2215, 256, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(964, 2238, 256, 174, "floor"));
 
     // luukku 1 - 2
-    this.platforms.add(this.add.tileSprite(1200, 2100, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1400, 2030, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1600, 1960, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1200, 2100, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1400, 2030, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1600, 1960, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(1900, 1890, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1900, 1890, 256, 25, "floor"));
 
     //luukku 2 - 3
-    this.platforms.add(this.add.tileSprite(1600, 1800, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1390, 1710, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1600, 1800, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1390, 1710, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(1130, 1620, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1130, 1620, 256, 25, "floor"));
 
     //luukku 3 - 4
-    this.platforms.add(this.add.tileSprite(815, 1620, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(600, 1550, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(400, 1470, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(815, 1620, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(600, 1550, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(400, 1470, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(140, 1400, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(140, 1400, 256, 25, "floor"));
 
     // luukku 4 - 5
-    this.platforms.add(this.add.tileSprite(400, 1330, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(400, 1330, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(850, 1260, 640, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(850, 1260, 640, 25, "floor"));
 
     // luukku 5 - 6
-    this.platforms.add(this.add.tileSprite(1275, 1190, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1450, 1120, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1275, 1190, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1450, 1120, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(1600, 1350, 192, 25, "platform")); 
+    this.platforms.add(this.add.tileSprite(1600, 1350, 192, 25, "floor")); // kuusi
 
-    this.platforms.add(this.add.tileSprite(1700, 1120, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1900, 1190, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1700, 1120, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1900, 1190, 128, 25, "floor"));
 
     // luukku 7 - 8
-    this.platforms.add(this.add.tileSprite(2784, 1333, 250, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(2784, 1333, 250, 25, "floor"));
 
     //luukku 8 - 9
     this.platforms.add(this.add.tileSprite(3100, 1854, 384, 942, "platform"));
     this.platforms.add(this.add.tileSprite(3100, 1352, 384, 64, "floor"));
 
-
     //luukku 10 - 11
-    this.platforms.add(this.add.tileSprite(4360, 1335, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(4360, 1335, 256, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(4600, 1245, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(4775, 1180, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(4950, 1130, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(4600, 1245, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(4775, 1180, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(4950, 1130, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(5080, 1380, 192, 25, "platform")); 
+    this.platforms.add(this.add.tileSprite(5080, 1380, 192, 25, "floor")); // kuusi
 
-    this.platforms.add(this.add.tileSprite(5255, 1130, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(5255, 1130, 256, 25, "floor"));
 
     //luukku 11 - 12
-    this.platforms.add(this.add.tileSprite(5870, 1230, 384, 640, "platform"));
+    this.platforms.add(this.add.tileSprite(5870, 1262, 384, 576, "platform"));
+    this.platforms.add(this.add.tileSprite(5870, 942, 384, 64, "floor"));
     this.platforms.add(this.add.tileSprite(5998, 1678, 128, 256, "platform"));
-    this.platforms.add(this.add.tileSprite(5870, 1930, 384, 384, "platform"));
+    this.platforms.add(this.add.tileSprite(5870, 1966, 384, 320, "platform"));
+    this.platforms.add(this.add.tileSprite(5806, 1774, 256, 64, "floor"));
 
     //luukku 15 - 16
-    this.platforms.add(this.add.tileSprite(7050, 2100, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(7590, 2100, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(7050, 2100, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(7590, 2100, 256, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(8045, 2100, 180, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(8045, 2100, 180, 25, "floor"));
 
     //luukku 16 - 17
-    this.platforms.add(this.add.tileSprite(9000, 2200, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9100, 2110, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9200, 2020, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9400, 2020, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9500, 2110, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9600, 2200, 64, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(9000, 2200, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9100, 2110, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9200, 2020, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9400, 2020, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9500, 2110, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9600, 2200, 64, 25, "floor"));
 
     //luukku 17 - 18
-    this.platforms.add(this.add.tileSprite(9500, 1300, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9750, 650, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9900, 900, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(9500, 1300, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9750, 650, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9900, 900, 128, 25, "floor"));
 
     //luukku 21 - 22
-    this.platforms.add(this.add.tileSprite(11100, 880, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(11030, 790, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(10960, 700, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(10890, 610, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(10820, 520, 64, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(11100, 880, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(11030, 790, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(10960, 700, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(10890, 610, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(10820, 520, 64, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(10550, 430, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(10550, 435, 256, 30, "floor"));
 
     //luukku 22 - 23
-    this.platforms.add(this.add.tileSprite(11050, 430, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(11460, 460, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(11820, 490, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(12180, 520, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(12540, 550, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(11050, 430, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(11460, 460, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(11820, 490, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(12180, 520, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(12540, 550, 128, 25, "floor"));
     this.platforms.add(this.add.tileSprite(12900, 580, 128, 25, "platform"));
 
-    this.platforms.add(this.add.tileSprite(13336, 610, 360, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(13336, 610, 360, 25, "floor"));
 
     //luukku 23 - 24
-    this.platforms.add(this.add.tileSprite(13380, 1200, 192, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(13348, 1800, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(13380, 1200, 192, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(13348, 1800, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(13220, 1360, 128, 1472, "platform"));
+    this.platforms.add(this.add.tileSprite(13220, 1360, 128, 1472, "platform")); //!!
 
-    this.platforms.add(this.add.tileSprite(12420, 2032, 1472, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(12420, 2032, 1472, 128, "floor"));
+
+    // Walls group
+    this.walls = this.physics.add.staticGroup();
+
+    //luukut 6 - 8
+    this.walls.add(this.add.tileSprite(2080, 1800, 128, 960, "wall"));
+    this.walls.add(this.add.tileSprite(2350, 1530, 128, 1120, "wall"));
+    this.walls.add(this.add.tileSprite(2600, 1800, 128, 960, "wall"));
+
+    //luukut 8 - 10
+    this.walls.add(this.add.tileSprite(3680, 1700, 256, 800, "wall"));
+    this.walls.add(this.add.tileSprite(4100, 1800, 256, 960, "wall"));
 
     //luukut 11 - 14
     this.walls.add(this.add.tileSprite(5445, 1693, 128, 1184, "wall"));
@@ -745,13 +711,269 @@ class MainGameScene extends Phaser.Scene {
       .setScale(1, 0.7)
       .refreshBody();
 
+    // Hazards group SPIKES
+
+    this.hazards
+      .create(530 - 3, 2230, "hazard_up")
+      .setScale(1.25, 1)
+      .refreshBody();
+    this.hazards
+      .create(775 - 2, 2230, "hazard_up")
+      .setScale(1.25, 1)
+      .refreshBody();
+
+    this.hazards.create(1150, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1250, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1350, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1450, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1555, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1660, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1760, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1860, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(1960, 2230, "hazard_up").setScale(1, 1).refreshBody();
+
+    this.hazards.create(2180, 2230, "hazard_up").setScale(0.8, 1).refreshBody();
+
+    this.hazards
+      .create(2255, 1965, "hazard_left")
+      .setScale(0.7, 1)
+      .refreshBody();
+
+    this.hazards
+      .create(3360, 1400, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3360, 1500, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3360, 1600, "hazard_right")
+      .setScale(1.5, 1)
+      .refreshBody();
+
+    this.hazards
+      .create(3360 + 125, 1840 + 50, "hazard_left")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3360 + 125, 1940, "hazard_left")
+      .setScale(1.5, 1)
+      .refreshBody();
+    this.hazards
+      .create(3360 + 125, 2040, "hazard_left")
+      .setScale(1.5, 1)
+      .refreshBody();
+
+    this.hazards.create(3630, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
+    this.hazards.create(3730, 1255, "hazard_up").setScale(1.3, 1).refreshBody();
+
+    this.hazards.create(4290, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4390, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4490, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4590, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4690, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4790, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4890, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(4990, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(5090, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(5190 + 10, 2230, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(5290 + 20, 2230, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+
+    this.hazards
+      .create(5555, 1400, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards.create(5635, 1800, "hazard_left").setScale(1, 1).refreshBody();
+
+    this.hazards.create(5550, 2230, "hazard_up").setScale(1, 1).refreshBody();
+
+    this.hazards.create(6920, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7020, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7120, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7220, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7320, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7420, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7520, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7620, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7720, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7820, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(7920, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8020, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8120, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8220, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8320, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(8420, 2230, "hazard_up").setScale(1, 1).refreshBody();
+
+    //"!!!!!!!!!!!!"
+    this.hazards
+      .create(7995, 1090, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(7995 + 125, 1090 + 330, "hazard_left")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(7995, 1090 + 660, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+
+    this.hazards
+      .create(7995 + 1200, 385, "hazard_up")
+      .setScale(1.2, 1)
+      .refreshBody();
+
+    //asdfghj
+
+    this.hazards
+      .create(13330, 675, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 775, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 875, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 975, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 1075, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+
+    this.hazards
+      .create(13330, 1275, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 1375, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 1475, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 1575, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 1675, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+
+    this.hazards
+      .create(13330, 1875, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13330, 1975, "hazard_right")
+      .setScale(1, 1)
+      .refreshBody();
+
+    this.hazards.create(13555, 950, "hazard_left").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(13555, 1550, "hazard_left")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards.create(13550, 2230, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(13450, 2230, "hazard_up").setScale(1, 1).refreshBody();
+
+    this.hazards.create(11750, 1925, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards.create(11850, 1925, "hazard_up").setScale(1, 1).refreshBody();
+    this.hazards
+      .create(11950 + 5, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12050 + 10, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12150 + 15, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12250 + 20, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12350 + 25, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12450 + 30, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12550 + 35, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12650 + 40, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12750 + 45, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12850 + 50, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(12950 + 55, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+    this.hazards
+      .create(13050 + 60, 1925, "hazard_up")
+      .setScale(1, 1)
+      .refreshBody();
+
+    //11860, 2240
+    this.hazards
+      .create(12100, 2140 - 10, "hazard_down")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12300, 2245, "hazard_up")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12500, 2140 - 10, "hazard_down")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12700, 2245, "hazard_up")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(12900, 2140 - 10, "hazard_down")
+      .setScale(1, 0.7)
+      .refreshBody();
+    this.hazards
+      .create(13100, 2245, "hazard_up")
+      .setScale(1, 0.7)
+      .refreshBody();
 
     // doors (rooms 1 to 24)
 
     this.doors = [
       this.createDoor(965, 2114, "Room1").setScale(0.3).setDepth(1),
-      this.createDoor(1900, 1841, "Room2").setScale(0.3).setDepth(1),
-      this.createDoor(1130, 1571, "Room3").setScale(0.3).setDepth(1),
+      this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1),
+      this.createDoor(1130, 1570, "Room3").setScale(0.3).setDepth(1),
       this.createDoor(140, 1350, "Room4").setScale(0.3).setDepth(1),
       this.createDoor(850, 1210, "Room5").setScale(0.3).setDepth(1),
       this.createDoor(2080, 1290, "Room6").setScale(0.3).setDepth(1),
@@ -766,13 +988,13 @@ class MainGameScene extends Phaser.Scene {
       this.createDoor(7590, 2050, "Room15").setScale(0.3).setDepth(1),
       this.createDoor(8600, 2240, "Room16").setScale(0.3).setDepth(1),
       this.createDoor(9850, 1310, "Room17").setScale(0.3).setDepth(1),
-      this.createDoor(10200, 1133, "Room18").setScale(0.3).setDepth(1),
-      this.createDoor(10500, 1580, "Room19").setScale(0.3).setDepth(1),
-      this.createDoor(11255, 1683, "Room20").setScale(0.3).setDepth(1),
-      this.createDoor(11300, 913, "Room21").setScale(0.3).setDepth(1),
+      this.createDoor(10200, 1135, "Room18").setScale(0.3).setDepth(1),
+      this.createDoor(10500, 1590, "Room19").setScale(0.3).setDepth(1),
+      this.createDoor(11255, 1720, "Room20").setScale(0.3).setDepth(1),
+      this.createDoor(11300, 914, "Room21").setScale(0.3).setDepth(1),
       this.createDoor(10550, 380, "Room22").setScale(0.3).setDepth(1),
       this.createDoor(13260, 560, "Room23").setScale(0.3).setDepth(1),
-      this.createDoor(11860, 2240, "Room24").setScale(0.3).setDepth(1),   
+      this.createDoor(11860, 2240, "Room24").setScale(0.3).setDepth(1),
     ];
 
     // Add cabins behind doors based on room number (odd/even)
@@ -807,7 +1029,6 @@ class MainGameScene extends Phaser.Scene {
 
       // Optional: Adjust scale and make it physics-enabled (if needed)
       // this.christmasLights.setScale(7); // Scale the sprite as per your requirement
-
     });
 
     // Create player at the starting position
@@ -825,7 +1046,7 @@ class MainGameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
-    this.cameras.main.setZoom(0.8); // zoom level
+    this.cameras.main.setZoom(1); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
@@ -915,15 +1136,14 @@ class MainGameScene extends Phaser.Scene {
 
     // Create the door number text
     const roomNumber = parseInt(targetRoom.replace("Room", "")); // take the room number from the targetRoom string (room1 -> 1)
-
     const doorText = this.add.text(x, y - 12, `${roomNumber}`, {
-      font: "bold 30px 'Tempus Sans ITC'", 
+      font: "bold 30px 'Tempus Sans ITC'",
       fill: "#542723",
       align: "center",
     });
-    doorText.setShadow(2, 2, '', 2);
+    doorText.setShadow(2, 2, "", 2);
     doorText.setOrigin(0.5, 0.5); // Centers the text on the door sprite
-  
+
     doorText.setDepth(2);
     return door;
   }
@@ -950,7 +1170,7 @@ class MainGameScene extends Phaser.Scene {
       );
       this.playerCoordinateText.setVisible(true); // Show the text
     } else {
-      this.playerCoordinateText.setVisible(false)
+      this.playerCoordinateText.setVisible(false);
     }
 
     if (Phaser.Input.Keyboard.JustDown(this.bKey)) {
