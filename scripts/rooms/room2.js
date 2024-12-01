@@ -14,6 +14,7 @@ class Room2 extends Phaser.Scene {
     this.load.image("door", "assets/castledoors.png");
     this.load.image("cabin-wall", "assets/cabin-wall.png");    
     this.load.image("frame", "assets/frame.png");
+    this.load.image("kuusi", "assets/sisalto/JoulukuusiUpYourself.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
     this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
   }
@@ -57,6 +58,8 @@ class Room2 extends Phaser.Scene {
 
     this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);    
     this.add.image(572.4, 318,"frame").setScale(0.435, 0.40).setDepth(0.3);
+    this.add.image(562, 297, "kuusi").setScale(0.24, 0.17).setDepth(0.3);
+
     
 
     this.physics.add.collider(this.player, this.platforms);
