@@ -431,9 +431,9 @@ treeHazards.forEach(hazard => {
    
 //DEBUG TOOL WHICH SHOWS HITBOX OUTLINES
 
-    // this.physics.world.createDebugGraphic()
-    // .lineStyle(2, 0xff0000)
-    // .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
+    this.physics.world.createDebugGraphic()
+    .lineStyle(2, 0xff0000)
+    .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
 
 // SECOND HITBOX
     const lowerHitbox = this.physics.add.image(tree.x, tree.y +40); // invisible image for the lower hitbox
