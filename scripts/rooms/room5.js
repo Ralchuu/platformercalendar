@@ -57,7 +57,8 @@ class Room5 extends Phaser.Scene {
 
     this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);    
     this.add.image(572.4, 318,"frame").setScale(0.435, 0.40).setDepth(0.3);
-    
+    this.add.image(562, 298,"xD").setScale(0.152, 0.080).setDepth(0.3);
+
 
     this.physics.add.collider(this.player, this.platforms);
     
