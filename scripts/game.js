@@ -333,7 +333,7 @@ class MainGameScene extends Phaser.Scene {
     this.platforms.add(this.add.tileSprite(11820, 490, 128, 25, "floor"));
     this.platforms.add(this.add.tileSprite(12180, 520, 128, 25, "floor"));
     this.platforms.add(this.add.tileSprite(12540, 550, 128, 25, "floor"));
-    this.platforms.add(this.add.tileSprite(12900, 580, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(12900, 580, 128, 25, "floor"));
 
     this.platforms.add(this.add.tileSprite(13336, 610, 360, 25, "floor"));
 
