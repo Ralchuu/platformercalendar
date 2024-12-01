@@ -3,7 +3,6 @@ import Player from "../player.js";
 class Room1 extends Phaser.Scene {
   constructor() {
     super("Room1");
-    this.musicStarted = false;
   }
 
 
@@ -16,7 +15,6 @@ class Room1 extends Phaser.Scene {
     this.load.image("cabin-wall", "assets/cabin-wall.png");    
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
-    this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
   }
 
   create(data) {
@@ -49,7 +47,6 @@ class Room1 extends Phaser.Scene {
     this.platforms.create(810, 370, "platform").setScale(0.1, 10).refreshBody().setDepth(-1);
     this.platforms.create(785, 395, "platform").setScale(0.5, 0.5).refreshBody().setDepth(-1);
     this.platforms.create(500, 415, "platform").setScale(1000, 0.2).refreshBody().setDepth(-1);
-    this.platforms.create(545, 330, "platform").setScale(0.6, 0.01).refreshBody().setDepth(1);
 
     this.player = new Player(this, playerStartX, playerStartY, "player", this.platforms);
     this.player.setDepth(50);
@@ -82,25 +79,6 @@ class Room1 extends Phaser.Scene {
 
 
     this.addYouTubeVideo();
-
-    // Jos seuraava koodi käytössä, pelaaja ei jostain syystä voi liikkua. Ilman koodinpätkää toimii.
-/*
-    const videoIframe = document.getElementById('youtubeDiv');
-    const music = document.getElementById("background-music");
-    videoIframe.onload = () => {
-      if (music && music.isPlaying) {
-        music.pause();
-      }
-    };
-
-    // Listen for when the video finishes playing to resume the music
-    videoIframe.onended = () => {
-      if (music && ! music.isPlaying) {
-        music.play();
-      }
-    };
-
-*/
     
   }
 
@@ -114,7 +92,6 @@ class Room1 extends Phaser.Scene {
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
       this.removeYouTubeVideo(); // Remove YouTube iframe
-      this.cabinMusic.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }

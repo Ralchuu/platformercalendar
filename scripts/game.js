@@ -3,6 +3,28 @@ import Player from "./player.js";
 import Room1 from "./rooms/room1.js";
 import Room2 from "./rooms/room2.js";
 import Room3 from "./rooms/room3.js";
+import Room4 from "./rooms/room4.js";
+import Room5 from "./rooms/room5.js";
+import Room6 from "./rooms/room6.js";
+import Room7 from "./rooms/room7.js";
+import Room8 from "./rooms/room8.js";
+import Room9 from "./rooms/room9.js";
+import Room10 from "./rooms/room10.js";
+import Room11 from "./rooms/room11.js";
+import Room12 from "./rooms/room12.js";
+import Room13 from "./rooms/room13.js";
+import Room14 from "./rooms/room14.js";
+import Room15 from "./rooms/room15.js";
+import Room16 from "./rooms/room16.js";
+import Room17 from "./rooms/room17.js";
+import Room18 from "./rooms/room18.js";
+import Room19 from "./rooms/room19.js";
+import Room20 from "./rooms/room20.js";
+import Room21 from "./rooms/room21.js";
+import Room22 from "./rooms/room22.js";
+import Room23 from "./rooms/room23.js";
+import Room24 from "./rooms/room24.js";
+
 
 // Main game scene class
 class MainGameScene extends Phaser.Scene {
@@ -853,8 +875,6 @@ this.doors.forEach((door) => {
     }
 });
 
-
-
   }
 }
 
@@ -875,7 +895,10 @@ const config = {
       debug: false,
     },
   },
-  scene: [MainGameScene, Room1, Room2, Room3],
+  scene: [MainGameScene, Room1, Room2, Room3, Room4, Room5,
+          Room6, Room7, Room8, Room9, Room10, Room11, Room12, 
+          Room13, Room14, Room15, Room16, Room17, Room18, 
+          Room19, Room20, Room21, Room22, Room23, Room24],
 };
 
 // Initialize the game

@@ -1,11 +1,9 @@
 import Player from "../player.js";
 
-class Room2 extends Phaser.Scene {
+class Room24 extends Phaser.Scene {
   constructor() {
-    super("Room2");
+    super("Room24");
   }
-
-
 
   preload() {
     this.load.image("background", "assets/2testbackground.png");
@@ -96,4 +94,4 @@ class Room2 extends Phaser.Scene {
 
 }
 
-export default Room2;
+export default Room24;

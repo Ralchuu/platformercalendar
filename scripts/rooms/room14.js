@@ -1,8 +1,8 @@
 import Player from "../player.js";
 
-class Room2 extends Phaser.Scene {
+class Room14 extends Phaser.Scene {
   constructor() {
-    super("Room2");
+    super("Room14");
   }
 
 
@@ -96,4 +96,4 @@ class Room2 extends Phaser.Scene {
 
 }
 
-export default Room2;
+export default Room14;
