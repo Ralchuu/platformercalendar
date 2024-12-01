@@ -52,58 +52,53 @@
     <button class="popup-close-btn" id="popup-close-btn">Close</button>
   </div>
 
+  <div style="position: fixed; top: 10px; left: 10px; z-index: 100;">
+    <label for="volume-slider">Volume:</label>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.2">
+  </div>
+
   <script type="module" src="scripts/game.js"></script>
   <audio id="background-music" autoplay loop>
     <source src="assets/audio/Joulukalenteri_taustamusa01_MIXjaMASTER_1.1.wav" type="audio/wav">
   </audio>
+
+  
   
   <script>
     
     const audio = document.getElementById("background-music");
-    audio.volume = 0.15;
+    audio.volume = 0.2;
 
     const popupRoom = document.getElementById("popup-room");
     const closeBtn = document.getElementById("popup-close-btn");
+   
 
-    /*
-    function playBackgroundMusic() {
-      if (audio.paused) {  // Only play if it's not already playing
-        audio.play();
-      }
-    }
-    */
-  
     
-    // Event listener for arrow keys or WASD keys
-    /*window.addEventListener("keydown", (event) => {
-      const key = event.key.toLowerCase();
-      if (["arrowup", "arrowdown", "arrowleft", "arrowright", "w", "a", "s", "d"].includes(key)) {
-        playBackgroundMusic();
-      }
-
-      // Check for "O" key press to close the popup
-      if (key === "o") {
-        closePopup();
-      }
-    });
-    */
-
-    // Close the pop-up window when clicking the button
-    closeBtn.addEventListener("click", () => {
-      closePopup();
-    });
-
-    function closePopup() {
-      popupRoom.style.display = "none"; // Hide the pop-up window
-    }
-
-    // Event listener for opening the pop-up room (for example, using a key like "P" or a game interaction)
-    window.addEventListener("keydown", (event) => {
-      const key = event.key.toLowerCase();
-      if (key === "p") {  // Example: Press "P" to open the room
-        popupRoom.style.display = "block";  // Show the pop-up room
-      }
-    });
   </script>
+
+<script>
+  const volumeSlider = document.getElementById('volume-slider');
+
+  volumeSlider.addEventListener('input', () => {
+    const volume = volumeSlider.value;
+
+    const audio = document.getElementById('background-music');
+    if (audio) audio.volume = volume;
+
+    updateYouTubeVolume(volume);
+  });
+
+  function updateYouTubeVolume(volume) {
+    const iframe = document.querySelector('#youtube-video iframe');
+    if (iframe && iframe.contentWindow) {
+      const volumeMessage = JSON.stringify({
+        event: 'command',
+        func: 'setVolume',
+        args: [volume * 100], // YouTube volume is 0-100
+      });
+      iframe.contentWindow.postMessage(volumeMessage, '*');
+    }
+  }
+</script>
 </body>
 </html>
