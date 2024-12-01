@@ -16,6 +16,7 @@ class Room20 extends Phaser.Scene {
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
     this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
+    this.load.image("sisalto20", "assets/sisalto/wizard.png");
   }
 
   create(data) {
@@ -57,6 +58,7 @@ class Room20 extends Phaser.Scene {
 
     this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);    
     this.add.image(572.4, 318,"frame").setScale(0.435, 0.40).setDepth(0.3);
+    this.add.image(563, 297,"sisalto20").setScale(0.238, 0.175).setDepth(0.3);
     
 
     this.physics.add.collider(this.player, this.platforms);
