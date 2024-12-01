@@ -13,8 +13,9 @@ class Room3 extends Phaser.Scene {
     this.load.image("cabin-wall", "assets/cabin-wall.png");    
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
+    this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
     this.load.image("Ei", "assets/sisalto/OOOO.png");
-    this.load.image("car", "assets/sisalto/car.png");
+    this.load.image("car", "assets/sisalto/car.png"); // Picture
   }
 
   create(data) {
@@ -30,6 +31,11 @@ class Room3 extends Phaser.Scene {
 
     this.doorClosingSound = this.sound.add("doorClosingSound");
     this.doorClosingSound.setVolume(0.45);
+
+    this.cabinMusic = this.sound.add("cabinMusic");
+    this.cabinMusic.setVolume(0.2);
+    this.cabinMusic.loop = true;
+    this.cabinMusic.play();
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -50,7 +56,7 @@ class Room3 extends Phaser.Scene {
 
     this.add.image(511, 290,"cabin-wall").setScale(0.318).setDepth(0.3);    
     this.add.image(572.4, 318,"frame").setScale(0.435, 0.40).setDepth(0.3);
-    this.add.image(562.25, 297.47,"car").setScale(0.152, 0.0952).setDepth(0.3);
+    this.add.image(562.25, 297.47,"car").setScale(0.152, 0.0952).setDepth(0.3); // Add the picture
 
     this.marker = this.add.image(this.player.x - 10000, this.player.y, "Ei").setScale(0.1);
     this.marker.setDepth(500);
@@ -92,6 +98,7 @@ class Room3 extends Phaser.Scene {
       Phaser.Math.Distance.Between(this.player.x, this.player.y, this.returnDoor.x, this.returnDoor.y) < 50 &&
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
+      this.cabinMusic.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }

@@ -854,7 +854,7 @@ this.doors.forEach((door) => {
         if (currentDate < new Date(2024, 11, roomNumber) && !this.developerModeIsOn) {
             let timeDifference = new Date(2024, 11, roomNumber) - currentDate;
             let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
-            let doorMessageText = `No access yet! Can be opened in ${daysLeft} days.`;
+            let doorMessageText = `No access yet! Can be\nopened in ${daysLeft} day(s).`;
             this.doorLockedSound.play();
             this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
         } else {
