@@ -123,7 +123,7 @@ class MainGameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/background2.png");
+    this.load.image("background", "assets/background.png");
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
@@ -140,11 +140,13 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
     this.load.audio("dashSound", "assets/audio/dash_01.wav");
 
-    this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
-      frameWidth: 16, // Frame width
-      frameHeight: 16, // Frame height
-      endFrame: 7 // There are 8 frames (0 to 7)
-    });
+    // Preload
+this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
+  frameWidth: 16, // Frame width (same as before)
+  frameHeight: 16, // Frame height (same as before)
+  endFrame: 7 // Total frames (0 to 7), but we will only use the first frame
+});
+
   }
 
   // world width 4096
@@ -628,18 +630,9 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
           .setDepth(0); // Attach cabin2
       }
 
-      this.anims.create({
-        key: 'flash', // Animation name
-        frames: this.anims.generateFrameNumbers('christmasLights', { frames: [0, 2, 4, 6] }), // Use frames 1, 3, 5, and 7
-        frameRate: 5, // Adjust frame rate for desired flashing speed
-        repeat: -1 // Loop forever
-    });
+   
     
-    // Create the flashing lights sprite
-    // this.christmasLights = this.add.sprite(970, 2050, 'christmasLights').play('flash');
     
-    // Optional: Adjust scale and make it physics-enabled (if needed)
-    // this.christmasLights.setScale(7); // Scale the sprite as per your requirement
     });
 
     // Create player at the starting position
@@ -814,66 +807,89 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       }
     });
 
-    this.doorLights = [];
+// Create
+this.doorLights = [];
+this.createdLightsToday = {}; // Object to track lights created for each room
 
-this.doors.forEach((door) => {
-    const month = 11; // December
-    const year = 2024;
-    const currentDate = new Date();
-    const targetRoom = door.getData("targetRoom");
+const currentDate = new Date();
+const currentDay = currentDate.getDate();
+const currentMonth = currentDate.getMonth();
 
-    if (targetRoom) {
-        const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Room number
-        let doorDate = new Date(year, month, roomNumber);
+// Ensure lights are only created once per day for each door
+if (!this.createdLightsToday[currentDay]) {
+    this.createdLightsToday[currentDay] = {}; // Initialize empty object for today
 
-        if (currentDate.getDate() === doorDate.getDate() && currentDate.getMonth() === doorDate.getMonth()) {
-            if (!this.doorLights[roomNumber]) {
-                console.log("Creating lights for room:", roomNumber);
+    // Loop through each door
+    this.doors.forEach((door) => {
+        const month = 11; // December
+        const year = 2024;
+        const targetRoom = door.getData("targetRoom");
 
-                // Create sprite and play animation
-                this.doorLights[roomNumber] = this.add.sprite(door.x, door.y - 50, 'christmasLights');
-                this.doorLights[roomNumber].setScale(7); // Scale
+        if (targetRoom) {
+            const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Room number
+            let doorDate = new Date(year, month, roomNumber);
 
-                // Play the animation
-                this.doorLights[roomNumber].play('flash');
+            // Check if today's date matches the room's target date
+            if (currentDate.getDate() === doorDate.getDate() && currentDate.getMonth() === doorDate.getMonth()) {
+                if (!this.doorLights[roomNumber]) {
+                    
 
-                // Debug: Log sprite and check if animation is playing
-                console.log("Created door light sprite", this.doorLights[roomNumber]);
-            }
-        } else {
-            // Remove lights if not today
-            if (this.doorLights[roomNumber]) {
-                this.doorLights[roomNumber].destroy();
-                this.doorLights[roomNumber] = null;
-            }
-        }
+                    // Create sprite for the still image (first frame from sprite sheet)
+                    this.doorLights[roomNumber] = this.add.sprite(door.x, door.y - 50, 'christmasLights');
+                    this.doorLights[roomNumber].setScale(7); // Scale the sprite
 
-        // Handle player interaction with door
-        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
-            Phaser.Input.Keyboard.JustDown(this.eKey)) {
+                    // Set the first frame (frame 0) as the still image
+                    this.doorLights[roomNumber].setFrame(0);
 
-            if (currentDate < doorDate && !this.developerModeIsOn) {
-                let timeDifference = doorDate - currentDate;
-                let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
-                let doorMessageText = `No access yet! Can be\nopened in ${daysLeft} day(s).`;
-                this.doorLockedSound.play();
-                this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
+                    // Store the created light status for this room
+                    this.createdLightsToday[currentDay][roomNumber] = true;
+
+                    // Debug: Log sprite creation
+                    
+                }
             } else {
-                this.doorOpenedSound.play();
-        
-        const outsideMusic= document.getElementById("background-music");
-        outsideMusic.pause(); // Pause the music while in the cabin
-
-        this.scene.start(targetRoom, {
-                    playerStartX: this.player.x,
-                    playerStartY: this.player.y,
-                });
+                // Remove lights if not today
+                if (this.doorLights[roomNumber]) {
+                    this.doorLights[roomNumber].destroy();
+                    this.doorLights[roomNumber] = null;
+                }
             }
-
-            this.saveGame(this.player.x, this.player.y);
         }
+    });
+}
+
+// Handle player interaction with door
+this.doors.forEach((door) => {
+    const targetRoom = door.getData("targetRoom");
+    const roomNumber = parseInt(targetRoom.replace("Room", ""), 10);
+    if (Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
+        Phaser.Input.Keyboard.JustDown(this.eKey)) {
+
+        // Handle locking and unlocking of doors based on date
+        if (currentDate < new Date(2024, 11, roomNumber) && !this.developerModeIsOn) {
+            let timeDifference = new Date(2024, 11, roomNumber) - currentDate;
+            let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
+            let doorMessageText = `No access yet! Can be opened in ${daysLeft} days.`;
+            this.doorLockedSound.play();
+            this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
+        } else {
+            this.doorOpenedSound.play();
+        
+            const outsideMusic = document.getElementById("background-music");
+            outsideMusic.pause(); // Pause the music while in the cabin
+
+            this.scene.start(targetRoom, {
+                playerStartX: this.player.x,
+                playerStartY: this.player.y,
+            });
+        }
+
+        this.saveGame(this.player.x, this.player.y);
     }
 });
+
+
+
 
   }
 }
