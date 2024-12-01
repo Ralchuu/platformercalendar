@@ -30,10 +30,10 @@ class Room1 extends Phaser.Scene {
     bg.setDisplaySize(this.width * 2, this.height);
 
     this.doorClosingSound = this.sound.add("doorClosingSound");
-    this.doorClosingSound.setVolume(0.45);
+    this.doorClosingSound.setVolume(0.7);
 
     this.cabinMusic = this.sound.add("cabinMusic");
-    this.cabinMusic.setVolume(0.15);
+    this.cabinMusic.setVolume(0.3);
     this.cabinMusic.loop = true;
     this.cabinMusic.play();
 
