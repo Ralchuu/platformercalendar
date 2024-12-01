@@ -3,6 +3,7 @@ import Player from "../player.js";
 class Room1 extends Phaser.Scene {
   constructor() {
     super("Room1");
+    this.musicStarted = false;
   }
 
 
@@ -14,6 +15,7 @@ class Room1 extends Phaser.Scene {
     this.load.image("door", "assets/castledoors.png");
     this.load.image("cabin-wall", "assets/cabin-wall.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
+    this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
   }
 
   create(data) {
@@ -29,6 +31,11 @@ class Room1 extends Phaser.Scene {
 
     this.doorClosingSound = this.sound.add("doorClosingSound");
     this.doorClosingSound.setVolume(0.45);
+
+    this.cabinMusic = this.sound.add("cabinMusic");
+    this.cabinMusic.setVolume(0.15);
+    this.cabinMusic.loop = true;
+    this.cabinMusic.play();
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -103,6 +110,7 @@ class Room1 extends Phaser.Scene {
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
       this.removeYouTubeVideo(); // Remove YouTube iframe
+      this.cabinMusic.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }

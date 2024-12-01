@@ -150,6 +150,7 @@ class MainGameScene extends Phaser.Scene {
     };
 
     // Add sounds
+
     // Hazard hit sound
     this.hazardSound = this.sound.add("hazardSound");
     this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
