@@ -51,7 +51,7 @@ class MainGameScene extends Phaser.Scene {
     
   }
 
-  // Save & load the game
+// Save & load the game
   saveGame(x, y) {
     let shown = [];
     this.instructions.forEach((inst) => {
@@ -140,29 +140,28 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
     this.load.audio("dashSound", "assets/audio/dash_01.wav");
 
-    // Preload
+// Preload
 this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
-  frameWidth: 16, // Frame width (same as before)
-  frameHeight: 16, // Frame height (same as before)
-  endFrame: 7 // Total frames (0 to 7), but we will only use the first frame
+  frameWidth: 16, // Frame width 
+  frameHeight: 16, // Frame height 
+  endFrame: 7 // Total frames (0 to 7), (will only use the first frame)
 });
-
   }
 
-  // world width 4096
-  // world height 2304
+  // og world width 4096
+  // og world height 2304
   create() {
     // Create the background as a tiled sprite to cover the world
     const bg = this.add.tileSprite(
       0, // X position
       230, // Y position
-      extendedWorldWidth, // Extended world width
-      worldHeight, // Extended world height
+      extendedWorldWidth, 
+      worldHeight, 
       "background" // Background texture
     );
     bg.setOrigin(0, 0); // Align the background at the top-left corner
 
-    // Set the new world bounds
+// Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
     const outsideMusic = document.getElementById("background-music");
@@ -175,7 +174,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
       }
     };
 
-    // Add sounds
+// Add sounds
 
     // Hazard hit sound
     this.hazardSound = this.sound.add("hazardSound");
@@ -199,7 +198,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
       fontSize: "20px",
-      fill: "#ffffff", // White text
+      fill: "#ffffff", 
     });
 
     this.devModeText.setScrollFactor(0); // Ensure text stays fixed on screen
@@ -212,7 +211,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3);
 
-    // PLayer coordinate text for developer mode
+// PLayer coordinate text for developer mode
     this.playerCoordinateText = this.add.text(
       5,
       60,
@@ -229,9 +228,9 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     this.playerCoordinateText.setDepth(5);
     this.playerCoordinateText.setVisible(false); // Hidden until developer mode is switched on
 
-    // Walls group
-    // X = HORIZONTAL, higher number = further right
-    // Y = VERTICAL, higher number = further down
+// Walls group
+// X = HORIZONTAL, higher number = further right
+// Y = VERTICAL, higher number = further down
     this.walls = this.physics.add.staticGroup();
 
     this.walls.create(2080, 1800, "wall").setScale(4, 30).refreshBody();
@@ -272,12 +271,9 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     this.walls.create(11130, 1470, "wall").setScale(20, 3).refreshBody();
     this.walls.create(11635, 1560, "wall").setScale(4, 45).refreshBody();
 
-    this.walls
-      .create(13160 + 600, 1320, "wall")
-      .setScale(10, 60)
-      .refreshBody(); //vika (luukkku 24)
+    this.walls.create(13160 + 600, 1320, "wall").setScale(10, 60).refreshBody(); //vika (luukkku 24)
 
-    // Platforms group
+// Platforms group
     this.platforms = this.physics.add.staticGroup();
     this.platforms.add(
       this.add.tileSprite(
@@ -326,7 +322,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     this.platforms.add(this.add.tileSprite(1275, 1190, 128, 25, "platform"));
     this.platforms.add(this.add.tileSprite(1450, 1120, 128, 25, "platform"));
 
-    this.platforms.add(this.add.tileSprite(1600, 1350, 192, 25, "platform")); // kuusi
+    this.platforms.add(this.add.tileSprite(1600, 1350, 192, 25, "platform")); 
 
     this.platforms.add(this.add.tileSprite(1700, 1120, 128, 25, "platform"));
     this.platforms.add(this.add.tileSprite(1900, 1190, 128, 25, "platform"));
@@ -344,7 +340,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     this.platforms.add(this.add.tileSprite(4775, 1180, 128, 25, "platform"));
     this.platforms.add(this.add.tileSprite(4950, 1130, 128, 25, "platform"));
 
-    this.platforms.add(this.add.tileSprite(5080, 1380, 192, 25, "platform")); // kuusi
+    this.platforms.add(this.add.tileSprite(5080, 1380, 192, 25, "platform")); 
 
     this.platforms.add(this.add.tileSprite(5255, 1130, 256, 25, "platform"));
 
@@ -402,7 +398,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
 // hazards group
 this.hazardTrees = this.physics.add.group();
 
-// Array of tree hazard configurations
+// Array of tree hazard coordinates and scale
 const treeHazards = [
     { x: 1590, y: 1195, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
     { x: 5070, y: 1220, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
@@ -410,7 +406,6 @@ const treeHazards = [
     { x: 10600, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
     { x: 10850, y: 800, texture: "hazard_tree", scaleX: 0.4, scaleY: 0.4},
   ];  
-
 
 // Loop to create the tree hazards
 treeHazards.forEach(hazard => {
@@ -422,28 +417,28 @@ treeHazards.forEach(hazard => {
     tree.body.setAllowGravity(false);
     tree.body.setImmovable(true); 
     tree.body.setVelocity(0, 0); 
-    
-    // Adjust the origin for pixel-perfect positioning
+
     tree.setOrigin(0.5, 0.5); // Center the origin
     
-    // Round the positions to avoid floating-point offsets
+// Round the positions to avoid floating-point offsets
     tree.x = Math.round(tree.x);
     tree.y = Math.round(tree.y);
     tree.body.offset.x = Math.round(tree.body.offset.x);
     tree.body.offset.y = Math.round(tree.body.offset.y);
 
-    tree.body.setSize(110, 700); // Adjust the width and height to match the visible part
-    tree.body.setOffset(160, 30); // Adjust the offset to align the hitbox with the visible part
+    tree.body.setSize(110, 700); // Adjust width and height for the visible part
+    tree.body.setOffset(160, 30); // Adjust offset to align the hitbox with the visible part
    
+//DEBUG TOOL WHICH SHOWS HITBOX OUTLINES
+
     // this.physics.world.createDebugGraphic()
     // .lineStyle(2, 0xff0000)
     // .strokeRect(tree.x - tree.body.width / 2, tree.y - tree.body.height / 2, tree.body.width, tree.body.height);
 
-      
-    // SECOND HITBOX
-    const lowerHitbox = this.physics.add.image(tree.x, tree.y +40); // Create an invisible image for the lower hitbox
-    lowerHitbox.setSize(120, 130); // Adjust this size to cover the bottom part of the tree
-    lowerHitbox.body.setOffset(-50, -50 ); // Adjust the offset to align it with the bottom part
+// SECOND HITBOX
+    const lowerHitbox = this.physics.add.image(tree.x, tree.y +40); // invisible image for the lower hitbox
+    lowerHitbox.setSize(120, 130); // bottom part of the tree
+    lowerHitbox.body.setOffset(-50, -50 ); // offset to align with the bottom part
     lowerHitbox.body.setImmovable(true);
     lowerHitbox.body.setAllowGravity(false);
 
@@ -461,7 +456,7 @@ treeHazards.forEach(hazard => {
     this.hazards = this.physics.add.staticGroup();
     
 
-  // Hazards group SPIKES 
+    // Hazards group SPIKES 
 
 this.hazards.create(530-3, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
 this.hazards.create(775-2, 2230, "hazard_up").setScale(1.25, 1).refreshBody();
@@ -526,16 +521,12 @@ this.hazards.create(8220, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(8320, 2230, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(8420, 2230, "hazard_up").setScale(1, 1).refreshBody();
 
-
-//"!!!!!!!!!!!!"
 this.hazards.create(7995, 1090, "hazard_right").setScale(1, 1).refreshBody();
 this.hazards.create(7995+125, 1090+330, "hazard_left").setScale(1, 1).refreshBody();
 this.hazards.create(7995, 1090+660, "hazard_right").setScale(1, 1).refreshBody();
 
 this.hazards.create(7995+1200, 385, "hazard_up").setScale(1.2, 1).refreshBody();
 
-
-//10200, 1135,
 this.hazards.create(10080, 1220, "hazard_left").setScale(0.5, 1).refreshBody();
 
 this.hazards.create(13330, 675, "hazard_right").setScale(1, 1).refreshBody();
@@ -573,9 +564,6 @@ this.hazards.create(12850+50, 1925, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(12950+55, 1925, "hazard_up").setScale(1, 1).refreshBody();
 this.hazards.create(13050+60, 1925, "hazard_up").setScale(1, 1).refreshBody();
 
-
-
-//11860, 2240
 this.hazards.create(12100, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
 this.hazards.create(12300, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
 this.hazards.create(12500, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody();
@@ -584,7 +572,7 @@ this.hazards.create(12900, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody(
 this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
 
 
-    // doors (rooms 1 to 24)
+// doors (rooms 1 to 24)
 
     this.doors = [
       this.createDoor(965, 2114, "Room1").setScale(0.3).setDepth(1),
@@ -630,10 +618,6 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
           .setScale(1.4)
           .setDepth(0); // Attach cabin2
       }
-
-   
-    
-    
     });
 
     // Create player at the starting position
@@ -651,19 +635,19 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
-    this.cameras.main.setZoom(0.3); // Set the zoom level
+    this.cameras.main.setZoom(0.8); // zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
     this.physics.add.collider(this.player, this.platforms);
 
-    // Reset player on touching hazards
+    // Reset player on touching spike hazards
     this.physics.add.collider(this.player, this.hazards, () => {
       this.hazardSound.play();
       this.loadGame();
     });
 
-    // Reset player on touching hazards
+    // Reset player on touching tree hazards
     this.physics.add.collider(this.player, this.hazardTrees, () => {
       this.hazardSound.play();
       this.loadGame();
@@ -730,6 +714,8 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     this.loadGame();
   }
 
+//added door to the physics world
+
   createDoor(x, y, targetRoom) {
     const door = this.physics.add.sprite(x, y, "door");
     door.setImmovable(true);
@@ -737,7 +723,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     door.body.setEnable(false);
     door.setData("targetRoom", targetRoom); // Store the target room name
   
-    // Create the door number text
+// Create the door number text
     const roomNumber = parseInt(targetRoom.replace('Room', '')); // take the room number from the targetRoom string (room1 -> 1)
     const doorText = this.add.text(x, y - 12, `${roomNumber}`, {
       font: "bold 30px 'Tempus Sans ITC'", 
@@ -750,8 +736,6 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
     doorText.setDepth(2);
     return door;
   }
-  
-  
 
   updateDevModeText() {
     this.devModeText.setText(
@@ -760,7 +744,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
   }
 
   update(time, delta) {
-    // Update player movements
+// Update player movements
     this.player.update(
       this.cursors,
       this.wasd,
@@ -783,7 +767,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       this.updateDevModeText(); // Update the displayed text
     }
 
-    // Clearing the save file when ctrl+q is pressed
+// Clearing the save file when ctrl+q is pressed
     if (
       Phaser.Input.Keyboard.JustDown(this.qKey) &&
       Phaser.Input.Keyboard.JustDown(this.ctrlKey)
@@ -792,7 +776,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).refreshBody();
       location.reload();
     }
 
-    // Show instruction messages at set coordinates
+// Show instruction messages at set coordinates
     this.instructions.forEach((inst) => {
       if (
         Phaser.Math.Distance.Between(
@@ -888,10 +872,6 @@ this.doors.forEach((door) => {
         this.saveGame(this.player.x, this.player.y);
     }
 });
-
-
-
-
   }
 }
 
