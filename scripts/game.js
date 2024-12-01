@@ -35,8 +35,8 @@ class MainGameScene extends Phaser.Scene {
       shown.push(inst.shown);
     });
     let saveObject = {
-      x: this.doors[22].x,
-      y: this.doors[22].y - 40,
+      x: x,
+      y: y - 40,
       devMode: this.developerModeIsOn,
       showedMessages: shown,
     };
@@ -100,7 +100,8 @@ class MainGameScene extends Phaser.Scene {
   preload() {
     this.load.image("background", "assets/test_bg_1.jpg");
     this.load.image("player", "assets/elf1.png");
-    this.load.image("platform", "assets/ground_test3.png");
+    this.load.image("platform", "assets/ground.png");
+    this.load.image("floor", "assets/floor.png");
     this.load.image("wall", "assets/wall.png");
     this.load.image("hazard_tree", "assets/treetest.png");
     this.load.image("hazard_down", "assets/hazard_down1.png");
@@ -204,119 +205,122 @@ class MainGameScene extends Phaser.Scene {
         2450,
         extendedWorldWidth,
         350,
-        "platform"
+        "floor"
       )
     ); //lattia
 
     // Alku - Luukku 1
-    this.platforms.add(this.add.tileSprite(275, 2245, 128, 64, "platform"));
-    this.platforms.add(this.add.tileSprite(400, 2215, 128, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(275, 2268, 128, 114, "floor"));
+    this.platforms.add(this.add.tileSprite(400, 2238, 128, 174, "floor"));
 
-    this.platforms.add(this.add.tileSprite(650, 2215, 128, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(650, 2238, 128, 174, "floor"));
 
-    this.platforms.add(this.add.tileSprite(964, 2215, 256, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(964, 2238, 256, 174, "floor"));
 
     // luukku 1 - 2
-    this.platforms.add(this.add.tileSprite(1200, 2100, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1400, 2030, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1600, 1960, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1200, 2100, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1400, 2030, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1600, 1960, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(1900, 1890, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1900, 1890, 256, 25, "floor"));
 
     //luukku 2 - 3
-    this.platforms.add(this.add.tileSprite(1600, 1800, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1390, 1710, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1600, 1800, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1390, 1710, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(1130, 1620, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1130, 1620, 256, 25, "floor"));
 
     //luukku 3 - 4
-    this.platforms.add(this.add.tileSprite(815, 1620, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(600, 1550, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(400, 1470, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(815, 1620, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(600, 1550, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(400, 1470, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(140, 1400, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(140, 1400, 256, 25, "floor"));
 
     // luukku 4 - 5
-    this.platforms.add(this.add.tileSprite(400, 1330, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(400, 1330, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(850, 1260, 640, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(850, 1260, 640, 25, "floor"));
 
     // luukku 5 - 6
-    this.platforms.add(this.add.tileSprite(1275, 1190, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1450, 1120, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1275, 1190, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1450, 1120, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(1600, 1350, 192, 25, "platform")); // kuusi
+    this.platforms.add(this.add.tileSprite(1600, 1350, 192, 25, "floor")); // kuusi
 
-    this.platforms.add(this.add.tileSprite(1700, 1120, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(1900, 1190, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(1700, 1120, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(1900, 1190, 128, 25, "floor"));
 
     // luukku 7 - 8
-    this.platforms.add(this.add.tileSprite(2784, 1333, 250, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(2784, 1333, 250, 25, "floor"));
 
-    //luukku 8 - 9
-    this.platforms.add(this.add.tileSprite(3100, 1800, 384, 960, "platform"));
+    //luukku 8 - 9 
+    this.platforms.add(this.add.tileSprite(3100, 1854, 384, 942, "platform"));
+    this.platforms.add(this.add.tileSprite(3100, 1352, 384, 64, "floor"));
 
     //luukku 10 - 11
-    this.platforms.add(this.add.tileSprite(4360, 1335, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(4360, 1335, 256, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(4600, 1245, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(4775, 1180, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(4950, 1130, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(4600, 1245, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(4775, 1180, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(4950, 1130, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(5080, 1380, 192, 25, "platform")); // kuusi
+    this.platforms.add(this.add.tileSprite(5080, 1380, 192, 25, "floor")); // kuusi
 
-    this.platforms.add(this.add.tileSprite(5255, 1130, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(5255, 1130, 256, 25, "floor"));
 
     //luukku 11 - 12
-    this.platforms.add(this.add.tileSprite(5870, 1230, 384, 640, "platform"));
+    this.platforms.add(this.add.tileSprite(5870, 1262, 384, 576, "platform"));
+    this.platforms.add(this.add.tileSprite(5870, 942, 384, 64, "floor"));
     this.platforms.add(this.add.tileSprite(5998, 1678, 128, 256, "platform"));
-    this.platforms.add(this.add.tileSprite(5870, 1930, 384, 384, "platform"));
+    this.platforms.add(this.add.tileSprite(5870, 1966, 384, 320, "platform"));
+    this.platforms.add(this.add.tileSprite(5806, 1774, 256, 64, "floor"));
 
     //luukku 15 - 16
-    this.platforms.add(this.add.tileSprite(7050, 2100, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(7590, 2100, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(7050, 2100, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(7590, 2100, 256, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(8045, 2100, 180, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(8045, 2100, 180, 25, "floor"));
 
     //luukku 16 - 17
-    this.platforms.add(this.add.tileSprite(9000, 2200, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9100, 2110, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9200, 2020, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9400, 2020, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9500, 2110, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9600, 2200, 64, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(9000, 2200, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9100, 2110, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9200, 2020, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9400, 2020, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9500, 2110, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9600, 2200, 64, 25, "floor"));
 
     //luukku 17 - 18
-    this.platforms.add(this.add.tileSprite(9500, 1300, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9750, 650, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(9900, 900, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(9500, 1300, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9750, 650, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(9900, 900, 128, 25, "floor"));
 
     //luukku 21 - 22
-    this.platforms.add(this.add.tileSprite(11100, 880, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(11030, 790, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(10960, 700, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(10890, 610, 64, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(10820, 520, 64, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(11100, 880, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(11030, 790, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(10960, 700, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(10890, 610, 64, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(10820, 520, 64, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(10550, 430, 256, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(10550, 435, 256, 30, "floor"));
 
     //luukku 22 - 23
-    this.platforms.add(this.add.tileSprite(11050, 430, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(11460, 460, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(11820, 490, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(12180, 520, 128, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(12540, 550, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(11050, 430, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(11460, 460, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(11820, 490, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(12180, 520, 128, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(12540, 550, 128, 25, "floor"));
     this.platforms.add(this.add.tileSprite(12900, 580, 128, 25, "platform"));
 
-    this.platforms.add(this.add.tileSprite(13336, 610, 360, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(13336, 610, 360, 25, "floor"));
 
     //luukku 23 - 24
-    this.platforms.add(this.add.tileSprite(13380, 1200, 192, 25, "platform"));
-    this.platforms.add(this.add.tileSprite(13348, 1800, 128, 25, "platform"));
+    this.platforms.add(this.add.tileSprite(13380, 1200, 192, 25, "floor"));
+    this.platforms.add(this.add.tileSprite(13348, 1800, 128, 25, "floor"));
 
-    this.platforms.add(this.add.tileSprite(13220, 1360, 128, 1472, "platform"));
+    this.platforms.add(this.add.tileSprite(13220, 1360, 128, 1472, "platform")); //!!
 
-    this.platforms.add(this.add.tileSprite(12420, 2032, 1472, 128, "platform"));
+    this.platforms.add(this.add.tileSprite(12420, 2032, 1472, 128, "floor"));
 
     // Walls group
     this.walls = this.physics.add.staticGroup();
@@ -331,10 +335,10 @@ class MainGameScene extends Phaser.Scene {
     this.walls.add(this.add.tileSprite(4100, 1800, 256, 960, "wall"));
 
     //luukut 11 - 14
-    this.walls.add(this.add.tileSprite(5445, 1710, 128, 1184, "wall"));
+    this.walls.add(this.add.tileSprite(5445, 1693, 128, 1184, "wall"));
 
     this.walls.add(this.add.tileSprite(6500, 1710, 192, 960, "wall"));
-    this.walls.add(this.add.tileSprite(6800, 1730, 128, 1088, "wall"));
+    this.walls.add(this.add.tileSprite(6800, 1741, 128, 1088, "wall"));
 
     //luukut 14 - 16
     this.walls.add(this.add.tileSprite(7050, 1450, 128, 1088, "wall"));
@@ -347,7 +351,7 @@ class MainGameScene extends Phaser.Scene {
 
     //luukku 17 - 18
     this.walls.add(this.add.tileSprite(9850, 1780, 192, 864, "wall"));
-    this.walls.add(this.add.tileSprite(10200, 1730, 192, 1120, "wall"));
+    this.walls.add(this.add.tileSprite(10200, 1725, 192, 1120, "wall"));
 
     this.walls.add(this.add.tileSprite(9500, 830, 128, 640, "wall"));
     this.walls.add(this.add.tileSprite(9200, 830, 128, 800, "wall"));
@@ -361,11 +365,11 @@ class MainGameScene extends Phaser.Scene {
     this.walls.add(this.add.tileSprite(11122, 1494, 672, 128, "wall"));
     this.walls.add(this.add.tileSprite(11266, 1830, 640, 160, "wall"));
 
-    this.walls.add(this.add.tileSprite(11474, 2100, 224, 380, "wall"));
-    this.walls.add(this.add.tileSprite(11650, 1540, 128, 1500, "wall"));
+    this.walls.add(this.add.tileSprite(11474, 2095, 224, 380, "wall"));
+    this.walls.add(this.add.tileSprite(11650, 1535, 128, 1500, "wall"));
 
     //luukku 23 - 24
-    this.walls.add(this.add.tileSprite(13760, 1320, 320, 1920, "wall"));
+    this.walls.add(this.add.tileSprite(13760, 1325, 320, 1920, "wall"));
 
     // hazards group
     this.hazardTrees = this.physics.add.group();
@@ -687,7 +691,7 @@ class MainGameScene extends Phaser.Scene {
     this.doors = [
       this.createDoor(965, 2114, "Room1").setScale(0.3).setDepth(1),
       this.createDoor(1900, 1840, "Room2").setScale(0.3).setDepth(1),
-      this.createDoor(1130, 1575, "Room3").setScale(0.3).setDepth(1),
+      this.createDoor(1130, 1570, "Room3").setScale(0.3).setDepth(1),
       this.createDoor(140, 1350, "Room4").setScale(0.3).setDepth(1),
       this.createDoor(850, 1210, "Room5").setScale(0.3).setDepth(1),
       this.createDoor(2080, 1290, "Room6").setScale(0.3).setDepth(1),
@@ -760,7 +764,7 @@ class MainGameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
 
-    this.cameras.main.setZoom(0.2); // Set the zoom level
+    this.cameras.main.setZoom(1); // Set the zoom level
 
     // Colliders for the player
     this.physics.add.collider(this.player, this.walls);
