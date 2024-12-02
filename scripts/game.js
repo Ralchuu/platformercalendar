@@ -841,21 +841,12 @@ if (!this.createdLightsToday[currentDay]) {
                     // Set the first frame (frame 0) as the still image
                     this.doorLights[roomNumber].setFrame(0);
 
-<<<<<<< HEAD
                     // Store the created light status for this room
                     this.createdLightsToday[currentDay][roomNumber] = true;
 
                     // Debug: Log sprite creation
                     
                 }
-=======
-            if (currentDate < doorDate && !this.developerModeIsOn) {
-                let timeDifference = doorDate - currentDate;
-                let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
-                let doorMessageText = `No access yet! Can be\nopened in ${daysLeft} day(s).`;
-                this.doorLockedSound.play();
-                this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
->>>>>>> 69fe54b22b4e51c2e6a69e01be791b10bcfc678a
             } else {
                 // Remove lights if not today
                 if (this.doorLights[roomNumber]) {
@@ -897,12 +888,9 @@ this.doors.forEach((door) => {
     }
 });
 
-<<<<<<< HEAD
 
 
 
-=======
->>>>>>> 69fe54b22b4e51c2e6a69e01be791b10bcfc678a
   }
 }
 
