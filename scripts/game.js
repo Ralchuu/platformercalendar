@@ -3,6 +3,28 @@ import Player from "./player.js";
 import Room1 from "./rooms/room1.js";
 import Room2 from "./rooms/room2.js";
 import Room3 from "./rooms/room3.js";
+import Room4 from "./rooms/room4.js";
+import Room5 from "./rooms/room5.js";
+import Room6 from "./rooms/room6.js";
+import Room7 from "./rooms/room7.js";
+import Room8 from "./rooms/room8.js";
+import Room9 from "./rooms/room9.js";
+import Room10 from "./rooms/room10.js";
+import Room11 from "./rooms/room11.js";
+import Room12 from "./rooms/room12.js";
+import Room13 from "./rooms/room13.js";
+import Room14 from "./rooms/room14.js";
+import Room15 from "./rooms/room15.js";
+import Room16 from "./rooms/room16.js";
+import Room17 from "./rooms/room17.js";
+import Room18 from "./rooms/room18.js";
+import Room19 from "./rooms/room19.js";
+import Room20 from "./rooms/room20.js";
+import Room21 from "./rooms/room21.js";
+import Room22 from "./rooms/room22.js";
+import Room23 from "./rooms/room23.js";
+import Room24 from "./rooms/room24.js";
+
 
 // Main game scene class
 class MainGameScene extends Phaser.Scene {
@@ -101,7 +123,7 @@ class MainGameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "assets/test_bg_1.jpg");
+    this.load.image("background", "assets/background1.png");
     this.load.image("player", "assets/elf1.png");
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
@@ -133,7 +155,7 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     // Create the background as a tiled sprite to cover the world
     const bg = this.add.tileSprite(
       0, // X position
-      0, // Y position
+      230, // Y position
       extendedWorldWidth, // Extended world width
       worldHeight, // Extended world height
       "background" // Background texture
@@ -154,20 +176,21 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
     };
 
     // Add sounds
+
     // Hazard hit sound
     this.hazardSound = this.sound.add("hazardSound");
-    this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
+    this.hazardSound.setVolume(0.13); // Set volume (0.0 to 1.0)
 
     // Door sounds
     this.doorLockedSound = this.sound.add("doorLockedSound");
-    this.doorLockedSound.setVolume(0.3);
+    this.doorLockedSound.setVolume(0.5);
 
     this.doorOpenedSound = this.sound.add("doorOpenedSound");
-    this.doorOpenedSound.setVolume(0.6);
+    this.doorOpenedSound.setVolume(0.8);
 
     // Dash sound
     this.dashSound = this.sound.add("dashSound");
-    this.dashSound.setVolume(0.4);
+    this.dashSound.setVolume(0.6);
 
     // Listen for keyboard press and pointer interaction
     this.input.keyboard.on('keydown', startMusic);
@@ -818,12 +841,21 @@ if (!this.createdLightsToday[currentDay]) {
                     // Set the first frame (frame 0) as the still image
                     this.doorLights[roomNumber].setFrame(0);
 
+<<<<<<< HEAD
                     // Store the created light status for this room
                     this.createdLightsToday[currentDay][roomNumber] = true;
 
                     // Debug: Log sprite creation
                     
                 }
+=======
+            if (currentDate < doorDate && !this.developerModeIsOn) {
+                let timeDifference = doorDate - currentDate;
+                let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
+                let doorMessageText = `No access yet! Can be\nopened in ${daysLeft} day(s).`;
+                this.doorLockedSound.play();
+                this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
+>>>>>>> 69fe54b22b4e51c2e6a69e01be791b10bcfc678a
             } else {
                 // Remove lights if not today
                 if (this.doorLights[roomNumber]) {
@@ -865,9 +897,12 @@ this.doors.forEach((door) => {
     }
 });
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 69fe54b22b4e51c2e6a69e01be791b10bcfc678a
   }
 }
 
@@ -888,7 +923,10 @@ const config = {
       debug: false,
     },
   },
-  scene: [MainGameScene, Room1, Room2, Room3],
+  scene: [MainGameScene, Room1, Room2, Room3, Room4, Room5,
+          Room6, Room7, Room8, Room9, Room10, Room11, Room12, 
+          Room13, Room14, Room15, Room16, Room17, Room18, 
+          Room19, Room20, Room21, Room22, Room23, Room24],
 };
 
 // Initialize the game

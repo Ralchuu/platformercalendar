@@ -15,6 +15,7 @@ class Room1 extends Phaser.Scene {
     this.load.image("cabin-wall", "assets/cabin-wall.png");    
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
+    this.load.audio("cabinMusic", "assets/audio/Joulukalenteri_mokkimusa01_MIXjaMASTER_1.0.wav");
   }
 
   create(data) {
@@ -30,6 +31,11 @@ class Room1 extends Phaser.Scene {
 
     this.doorClosingSound = this.sound.add("doorClosingSound");
     this.doorClosingSound.setVolume(0.45);
+
+    this.cabinMusic = this.sound.add("cabinMusic");
+    this.cabinMusic.setVolume(0.2);
+    this.cabinMusic.loop = true;
+    this.cabinMusic.play();
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -75,25 +81,6 @@ class Room1 extends Phaser.Scene {
 
 
     this.addYouTubeVideo();
-
-    // Jos seuraava koodi käytössä, pelaaja ei jostain syystä voi liikkua. Ilman koodinpätkää toimii.
-/*
-    const videoIframe = document.getElementById('youtubeDiv');
-    const music = document.getElementById("background-music");
-    videoIframe.onload = () => {
-      if (music && music.isPlaying) {
-        music.pause();
-      }
-    };
-
-    // Listen for when the video finishes playing to resume the music
-    videoIframe.onended = () => {
-      if (music && ! music.isPlaying) {
-        music.play();
-      }
-    };
-
-*/
     
   }
 
@@ -107,6 +94,7 @@ class Room1 extends Phaser.Scene {
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
       this.removeYouTubeVideo(); // Remove YouTube iframe
+      this.cabinMusic.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene");  // Transition to another scene
     }
