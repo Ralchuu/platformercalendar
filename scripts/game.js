@@ -1115,9 +1115,9 @@ class MainGameScene extends Phaser.Scene {
         shown: false,
         message: "Try to bounce off the walls\nto climb higher",
       },
-      {
-        x: this.doors[16].x - 100,
-        y: this.doors[16].y - 30,
+      { 
+        x: this.doors[14].x + 480,
+        y: this.doors[14].y ,
         shown: false,
         message: "Press [shift] to dash\nwhile walking or jumping",
       },
