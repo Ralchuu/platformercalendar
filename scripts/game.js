@@ -124,7 +124,11 @@ class MainGameScene extends Phaser.Scene {
 
   preload() {
     this.load.image("background", "assets/background1.png");
-    this.load.image("player", "assets/elf1.png");
+    this.load.spritesheet('player_idle', 'assets/elf.png', {
+      frameWidth: 64, // Width of each frame
+      frameHeight: 64, // Height of each frame
+    });
+    
     this.load.image("platform", "assets/ground_test3.png");
     this.load.image("wall", "assets/wall.png");
     this.load.image("hazard_tree", "assets/treetest.png");
@@ -152,6 +156,14 @@ this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
   // world width 4096
   // world height 2304
   create() {
+
+    // Create the idle animation
+this.anims.create({
+  key: 'idle',
+  frames: this.anims.generateFrameNumbers('player_idle', { start: 0, end: 3 }),
+  frameRate: 8,
+  repeat: -1,
+});
     // Create the background as a tiled sprite to cover the world
     const bg = this.add.tileSprite(
       0, // X position
