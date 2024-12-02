@@ -13,7 +13,7 @@ class Room24 extends Phaser.Scene {
     this.load.image("cabin-wall", "assets/cabin-wall.png");
     this.load.image("frame", "assets/frame.png");
     this.load.audio("doorClosingSound", "assets/audio/ovenSulkeminen_01.wav");
-    this.load.audio("cabinMusic", "assets/audio/last_rickmas.mp3");
+    this.load.audio("lastRickmas", "assets/audio/last_rickmas.mp3");
   }
 
   create(data) {
@@ -30,10 +30,10 @@ class Room24 extends Phaser.Scene {
     this.doorClosingSound = this.sound.add("doorClosingSound");
     this.doorClosingSound.setVolume(0.45);
 
-    this.cabinMusic = this.sound.add("cabinMusic");
-    this.cabinMusic.setVolume(0.6);
-    this.cabinMusic.loop = true;
-    this.cabinMusic.play();
+    this.lastRickmas = this.sound.add("lastRickmas");
+    this.lastRickmas.setVolume(0.6);
+    this.lastRickmas.loop = true;
+    this.lastRickmas.play();
 
     this.walls = this.physics.add.staticGroup();
     this.walls.create(120, 1980, "wall").setScale(0.5, 10).refreshBody();
@@ -86,7 +86,7 @@ class Room24 extends Phaser.Scene {
       Phaser.Input.Keyboard.JustDown(this.eKey)
     ) {
       this.removeYouTubeVideo(); // Remove YouTube iframe
-      this.cabinMusic.stop();
+      this.lastRickmas.stop();
       this.doorClosingSound.play();
       this.scene.start("MainGameScene"); // Transition to another scene
     }
@@ -135,12 +135,12 @@ class Room24 extends Phaser.Scene {
   onYouTubeStateChange(event) {
     const YT = window.YT;
     if (event.data === YT.PlayerState.PLAYING) {
-      if (this.cabinMusic.isPlaying) {
-        this.cabinMusic.pause();
+      if (this.lastRickmas.isPlaying) {
+        this.lastRickmas.pause();
       }
     } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-      if (!this.cabinMusic.isPlaying) {
-        this.cabinMusic.resume();
+      if (!this.lastRickmas.isPlaying) {
+        this.lastRickmas.resume();
       }
     }
   }
