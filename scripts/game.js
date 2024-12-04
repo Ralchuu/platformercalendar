@@ -606,10 +606,10 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
     });
     
     // Create the flashing lights sprite
-    this.christmasLights = this.add.sprite(970, 2050, 'christmasLights').play('flash');
+    // this.christmasLights = this.add.sprite(970, 2050, 'christmasLights').play('flash');
     
     // Optional: Adjust scale and make it physics-enabled (if needed)
-    this.christmasLights.setScale(7); // Scale the sprite as per your requirement
+    // this.christmasLights.setScale(7); // Scale the sprite as per your requirement
     
 
     });
@@ -779,60 +779,61 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
       }
     });
 
-// Create an empty array to store lights for each room
-this.doorLights = [];
+    this.doorLights = [];
 
 this.doors.forEach((door) => {
-  if (
-    Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
-    Phaser.Input.Keyboard.JustDown(this.eKey) // Check for "E" key press
-  ) {
-    // Define current date and target date for the door
-    const month = 11; // December (0-based index)
+    const month = 11; // December
     const year = 2024;
     const currentDate = new Date();
-    const targetRoom = door.getData("targetRoom"); // Get the target room name
-
-    console.log('Current Date:', currentDate);
+    const targetRoom = door.getData("targetRoom");
 
     if (targetRoom) {
-      // Get the room number from the targetRoom (example "Room2" -> 2)
-      const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Get room number
-      let doorDate = new Date(year, month, roomNumber); // Door's opening date (room 1 -> December 1st, room 2 -> December 2nd, etc.)
+        const roomNumber = parseInt(targetRoom.replace("Room", ""), 10); // Room number
+        let doorDate = new Date(year, month, roomNumber);
 
-      console.log('Door Date:', doorDate);
+        if (currentDate.getDate() === doorDate.getDate() && currentDate.getMonth() === doorDate.getMonth()) {
+            if (!this.doorLights[roomNumber]) {
+                console.log("Creating lights for room:", roomNumber);
 
-      // If the door is locked, show the message
-      if (currentDate < doorDate && !this.developerModeIsOn) {
-        let timeDifference = doorDate - currentDate;
-        let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Convert milliseconds to days
-        let doorMessageText = `No access yet!\nThis door can be opened\nin ${daysLeft} days.`;
-        
-        this.doorLockedSound.play();
-        this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
-      } else {
-        // When the door can be opened
-        this.doorOpenedSound.play();
-        this.scene.start(targetRoom, {
-          playerStartX: this.player.x,
-          playerStartY: this.player.y,
-        });
+                // Create sprite and play animation
+                this.doorLights[roomNumber] = this.add.sprite(door.x, door.y - 50, 'christmasLights');
+                this.doorLights[roomNumber].setScale(7); // Scale
 
-        // Create lights above the door only once
-        if (!this.doorLights[roomNumber]) {
-          console.log("Creating lights for room:", roomNumber);
-          
-          // Only create lights if not already created for this room
-          this.doorLights[roomNumber] = this.add.sprite(door.x, door.y - 50, 'christmasLights').play('flash');
-          this.doorLights[roomNumber].setScale(7); // Adjust scale of lights
-          
-          console.log('Lights created at:', door.x, door.y - 50);
+                // Play the animation
+                this.doorLights[roomNumber].play('flash');
+
+                // Debug: Log sprite and check if animation is playing
+                console.log("Created door light sprite", this.doorLights[roomNumber]);
+            }
+        } else {
+            // Remove lights if not today
+            if (this.doorLights[roomNumber]) {
+                this.doorLights[roomNumber].destroy();
+                this.doorLights[roomNumber] = null;
+            }
         }
-      }
 
-      this.saveGame(this.player.x, this.player.y);
+        // Handle player interaction with door
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, door.x, door.y) < 50 &&
+            Phaser.Input.Keyboard.JustDown(this.eKey)) {
+
+            if (currentDate < doorDate && !this.developerModeIsOn) {
+                let timeDifference = doorDate - currentDate;
+                let daysLeft = Math.ceil(timeDifference / (24 * 60 * 60 * 1000)); // Days remaining
+                let doorMessageText = `No access yet! Can be opened in ${daysLeft} days.`;
+                this.doorLockedSound.play();
+                this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
+            } else {
+                this.doorOpenedSound.play();
+                this.scene.start(targetRoom, {
+                    playerStartX: this.player.x,
+                    playerStartY: this.player.y,
+                });
+            }
+
+            this.saveGame(this.player.x, this.player.y);
+        }
     }
-  }
 });
 
 
