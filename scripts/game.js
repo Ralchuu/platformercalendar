@@ -10,6 +10,7 @@ class MainGameScene extends Phaser.Scene {
     super("MainGameScene");
 
     this.developerModeIsOn = false;
+    this.musicStarted = false;
 
     // Declare game objects and state variables
     this.walls = null;
@@ -24,6 +25,7 @@ class MainGameScene extends Phaser.Scene {
     this.eKey = null;
     this.qKey = null;
     this.ctrlKey = null;
+    
   }
 
   // Save & load the game
@@ -72,6 +74,12 @@ class MainGameScene extends Phaser.Scene {
       console.log("Failed to load game");
       this.player.setPosition(playerStartX, playerStartY);
     }
+    // Continue music
+    if (this.musicStarted) {
+      const outsideMusic = document.getElementById("background-music");
+      outsideMusic.play()
+    }
+    
   }
 
   showTextBox(x, y, message, timer) {
@@ -106,6 +114,7 @@ class MainGameScene extends Phaser.Scene {
     this.load.audio("hazardSound", "assets/audio/spikeSplatter_01.wav");
     this.load.audio("doorLockedSound", "assets/audio/oviLukossa_01.wav");
     this.load.audio("doorOpenedSound", "assets/audio/ovenAvaus_01.wav");
+    this.load.audio("dashSound", "assets/audio/dash_01.wav");
     this.load.spritesheet('christmasLights', 'assets/christmas-lights.png', {
       frameWidth: 16, // Frame width
       frameHeight: 16, // Frame height
@@ -117,7 +126,6 @@ class MainGameScene extends Phaser.Scene {
   // world width 4096
   // world height 2304
   create() {
-
     // Create the background as a tiled sprite to cover the world
     const bg = this.add.tileSprite(
       0, // X position
@@ -130,6 +138,36 @@ class MainGameScene extends Phaser.Scene {
 
     // Set the new world bounds
     this.physics.world.setBounds(0, 0, extendedWorldWidth, extendedWorldHeight);
+
+    const outsideMusic = document.getElementById("background-music");
+
+    const startMusic = () => {
+      if (!this.musicStarted) {
+          this.musicStarted = true; // Mark the music as started
+          outsideMusic.play();
+          console.log('Music started');
+      }
+    };
+
+    // Add sounds
+    // Hazard hit sound
+    this.hazardSound = this.sound.add("hazardSound");
+    this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
+
+    // Door sounds
+    this.doorLockedSound = this.sound.add("doorLockedSound");
+    this.doorLockedSound.setVolume(0.3);
+
+    this.doorOpenedSound = this.sound.add("doorOpenedSound");
+    this.doorOpenedSound.setVolume(0.6);
+
+    // Dash sound
+    this.dashSound = this.sound.add("dashSound");
+    this.dashSound.setVolume(0.4);
+
+    // Listen for keyboard press and pointer interaction
+    this.input.keyboard.on('keydown', startMusic);
+    this.input.on('pointerdown', startMusic);
 
     // Add text to display developer mode status
     this.devModeText = this.add.text(10, 10, "Dev Mode (B): OFF", {
@@ -146,6 +184,7 @@ class MainGameScene extends Phaser.Scene {
     const devModeBg = this.add.rectangle(60, 20, 330, 30, 0x000000, 0.3); // Black background with 50% opacity
     devModeBg.setScrollFactor(0); // Ensure the background stays fixed on screen
     devModeBg.setDepth(3);
+
 
     // PLayer coordinate text for developer mode
     this.playerCoordinateText = this.add.text(
@@ -541,15 +580,6 @@ this.hazards.create(12700, 2245, "hazard_up").setScale(1, 0.7).refreshBody().set
 this.hazards.create(12900, 2140-10, "hazard_down").setScale(1, 0.7).refreshBody().setSize(75, 15);
 this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).refreshBody();
 
-    this.hazardSound = this.sound.add("hazardSound");
-    this.hazardSound.setVolume(0.1); // Set volume (0.0 to 1.0)
-
-    // Door sounds
-    this.doorLockedSound = this.sound.add("doorLockedSound");
-    this.doorLockedSound.setVolume(0.3);
-
-    this.doorOpenedSound = this.sound.add("doorOpenedSound");
-    this.doorOpenedSound.setVolume(0.6);
 
     // doors (rooms 1 to 24)
     
@@ -623,6 +653,7 @@ this.hazards.create(13100, 2245, "hazard_up").setScale(1, 0.7).setSize(15, 15).r
       this.platforms
     );
     this.player.setDepth(3);
+    this.player.setDashSound(this.dashSound); // Pass dash sound to player
 
     // Camera setup
     this.cameras.main.startFollow(this.player);
@@ -825,7 +856,11 @@ this.doors.forEach((door) => {
                 this.showTextBox(door.x - 100, door.y - 200, doorMessageText, 4000);
             } else {
                 this.doorOpenedSound.play();
-                this.scene.start(targetRoom, {
+        
+        const outsideMusic= document.getElementById("background-music");
+        outsideMusic.pause(); // Pause the music while in the cabin
+
+        this.scene.start(targetRoom, {
                     playerStartX: this.player.x,
                     playerStartY: this.player.y,
                 });
